@@ -12,7 +12,6 @@ import Firebase
 
 class SignUpViewController: UIViewController {
 
-   
     @IBOutlet weak var firstNameTextField: UITextField!
     
     @IBOutlet weak var lastNameTextField: UITextField!
@@ -25,16 +24,19 @@ class SignUpViewController: UIViewController {
     
     @IBOutlet weak var errorLabel: UILabel!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         setUpElements()
+        print("elements are set up")
+        //validateFields()
     }
     
     func setUpElements() {
         
-        //hide error label
+        //Hide error label
         errorLabel.alpha = 0
         
         //style elements
@@ -43,19 +45,8 @@ class SignUpViewController: UIViewController {
         Utilities.styleTextField(emailTextField)
         Utilities.styleTextField(passwordTextField)
         Utilities.styleFilledButton(signUpButton)
-      
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
     //Check the fields and validate that the data is correct. If everything is correct, this method returns nil. Otherwise, it returns an error message as a string.
     func validateFields() -> String? {
         
@@ -64,22 +55,23 @@ class SignUpViewController: UIViewController {
             lastNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
             emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == ""  ||
             passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-            
+            print("Good job")
             return "Please fill in all fields."
         }
         
         //Check if the password is secure
         let cleanedPassword = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-        
+        print("cleaned password")
         //returns true if password is good based on utilities function
         if Utilities.isPasswordValid(cleanedPassword) == false {
             //Password isn't secure enough
-            return "Please make sure your password contains at least 8 characters, contains a special character, and a number."
+            return "Password needs: 8 characters, a special character, and a number."
             
         }
         
         return nil
     }
+ 
     
     @IBAction func signUpTapped(_ sender: Any) {
         print("signup tapped")
@@ -87,9 +79,9 @@ class SignUpViewController: UIViewController {
         let error = validateFields()
         
         if error != nil {
-            
             // there's something wrong with the fields, show error message
             showError(error!)
+            print("error - invalidated field")
         }
         else {
             //Create cleaned versions of the data
@@ -104,6 +96,7 @@ class SignUpViewController: UIViewController {
                 if err != nil {
                     //there was an error
                     self.showError(err?.localizedDescription ?? "error creating user")
+                    print("error creating USER")
                 }
                 else {
                     //user was created successfully, store in database
@@ -116,17 +109,16 @@ class SignUpViewController: UIViewController {
                         if error != nil {
                             //Show error message
                             self.showError("error saving user data")
+                            print("error saving user data")
                         }
                     }
                 }
             }
             //Transition to home screen
             self.transitionToHome()
-            
         }
-
     }
-    
+
     func showError(_ message:String) {
     
         errorLabel.text = message
@@ -146,3 +138,4 @@ class SignUpViewController: UIViewController {
     }
     
 }
+
