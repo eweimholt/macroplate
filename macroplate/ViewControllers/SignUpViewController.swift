@@ -82,7 +82,7 @@ class SignUpViewController: UIViewController {
     }
     
     @IBAction func signUpTapped(_ sender: Any) {
-        
+        print("signup tapped")
         //Validate the fields
         let error = validateFields()
         
@@ -92,9 +92,14 @@ class SignUpViewController: UIViewController {
             showError(error!)
         }
         else {
+            //Create cleaned versions of the data
+            let firstName = firstNameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+            let lastName = lastNameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+            let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+            let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             
             //Create the User
-            Auth.auth().createUser(withEmail: "", password: "") { (result, err) in
+            Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
                 //check for errors
                 if err != nil {
                     //there was an error
@@ -103,9 +108,20 @@ class SignUpViewController: UIViewController {
                 else {
                     //user was created successfully, store in database
                     
+                    //initialize an instance of Cloud Firestore:
+                    let db = Firestore.firestore()
+                    
+                    db.collection("users").addDocument(data: ["firstname":firstName,"lastname":lastName, "uid": result!.user.uid]) { (error) in
+                        
+                        if error != nil {
+                            //Show error message
+                            self.showError("error saving user data")
+                        }
+                    }
                 }
             }
             //Transition to home screen
+            self.transitionToHome()
             
         }
 
@@ -115,6 +131,17 @@ class SignUpViewController: UIViewController {
     
         errorLabel.text = message
         errorLabel.alpha = 1
+        
+    }
+    
+    func transitionToHome() {
+        
+        //explained at 1:11:00 on https://www.youtube.com/watch?v=1HN7usMROt8&t=94s
+        let homeViewController = storyboard?.instantiateViewController(identifier: Constants.Storyboard.homeViewController) as? HomeViewController
+        
+        //swap out root view controller for the home one, once the signup is successful
+        view.window?.rootViewController = homeViewController
+        view.window?.makeKeyAndVisible()
         
     }
     

@@ -126,7 +126,7 @@
         <!--Home View Controller-->
         <scene sceneID="ClS-9x-BMS">
             <objects>
-                <viewController id="zES-yA-odS" customClass="HomeViewController" customModule="macroplate" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeVC" id="zES-yA-odS" customClass="HomeViewController" customModule="macroplate" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lxW-lo-Rey">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
