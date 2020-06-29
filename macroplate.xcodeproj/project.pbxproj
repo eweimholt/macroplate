@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		013425F024A94127000CA6D2 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 013425EF24A94127000CA6D2 /* HealthKit.framework */; };
 		0138088A248C6C46003A9ECF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01380889248C6C46003A9ECF /* HomeViewController.swift */; };
 		0138088B248C6C46003A9ECF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01380889248C6C46003A9ECF /* HomeViewController.swift */; };
 		0138088C248C6C46003A9ECF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01380889248C6C46003A9ECF /* HomeViewController.swift */; };
@@ -16,6 +17,12 @@
 		01380892248C6C6C003A9ECF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01380891248C6C6C003A9ECF /* LoginViewController.swift */; };
 		01380893248C6C6C003A9ECF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01380891248C6C6C003A9ECF /* LoginViewController.swift */; };
 		01380894248C6C6C003A9ECF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01380891248C6C6C003A9ECF /* LoginViewController.swift */; };
+		0194EE922495222A00152EE0 /* customalbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0194EE912495222A00152EE0 /* customalbum.swift */; };
+		0194EE932495222A00152EE0 /* customalbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0194EE912495222A00152EE0 /* customalbum.swift */; };
+		0194EE942495222A00152EE0 /* customalbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0194EE912495222A00152EE0 /* customalbum.swift */; };
+		01BD88CA249A6CA400DCB806 /* ImageViewController copy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BD88C9249A6CA400DCB806 /* ImageViewController copy.swift */; };
+		01BD88CB249A6CA400DCB806 /* ImageViewController copy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BD88C9249A6CA400DCB806 /* ImageViewController copy.swift */; };
+		01BD88CC249A6CA400DCB806 /* ImageViewController copy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BD88C9249A6CA400DCB806 /* ImageViewController copy.swift */; };
 		01C30CF8248C703500CD40F6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C30CF7248C703500CD40F6 /* Utilities.swift */; };
 		01C30CF9248C703500CD40F6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C30CF7248C703500CD40F6 /* Utilities.swift */; };
 		01C30CFA248C703500CD40F6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C30CF7248C703500CD40F6 /* Utilities.swift */; };
@@ -56,9 +63,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		013425EE24A94127000CA6D2 /* macroplate.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macroplate.entitlements; sourceTree = "<group>"; };
+		013425EF24A94127000CA6D2 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		01380889248C6C46003A9ECF /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		0138088D248C6C5D003A9ECF /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		01380891248C6C6C003A9ECF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		0194EE912495222A00152EE0 /* customalbum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customalbum.swift; sourceTree = "<group>"; };
+		01BD88C9249A6CA400DCB806 /* ImageViewController copy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ImageViewController copy.swift"; sourceTree = "<group>"; };
 		01C30CF7248C703500CD40F6 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		01F55F96248C843F00104DAB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		01FE2A49248C699E005D5750 /* macroplate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = macroplate.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,6 +104,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F6CBD2F4E8866EE5426B27D8 /* Pods_macroplate.framework in Frameworks */,
+				013425F024A94127000CA6D2 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +130,7 @@
 		01380895248C6C72003A9ECF /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				01BD88C9249A6CA400DCB806 /* ImageViewController copy.swift */,
 				01380889248C6C46003A9ECF /* HomeViewController.swift */,
 				0138088D248C6C5D003A9ECF /* SignUpViewController.swift */,
 				01380891248C6C6C003A9ECF /* LoginViewController.swift */,
@@ -160,6 +173,8 @@
 		01FE2A4B248C699E005D5750 /* macroplate */ = {
 			isa = PBXGroup;
 			children = (
+				013425EE24A94127000CA6D2 /* macroplate.entitlements */,
+				0194EE912495222A00152EE0 /* customalbum.swift */,
 				01FE2A4C248C699E005D5750 /* AppDelegate.swift */,
 				01FE2A4E248C699E005D5750 /* SceneDelegate.swift */,
 				01C30CFB248C703A00CD40F6 /* Helpers */,
@@ -207,6 +222,7 @@
 		FC423EC58E8B396EDA3DE880 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				013425EF24A94127000CA6D2 /* HealthKit.framework */,
 				D29576AF6F0A262C3730D5D5 /* Pods_macroplate.framework */,
 				22B9E8A15607F08A41A54DED /* Pods_macroplate_macroplateUITests.framework */,
 				C658F026DFF565AF835E262A /* Pods_macroplateTests.framework */,
@@ -457,6 +473,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				01380892248C6C6C003A9ECF /* LoginViewController.swift in Sources */,
+				0194EE922495222A00152EE0 /* customalbum.swift in Sources */,
+				01BD88CA249A6CA400DCB806 /* ImageViewController copy.swift in Sources */,
 				01FE2A51248C699E005D5750 /* ViewController.swift in Sources */,
 				01C30CF8248C703500CD40F6 /* Utilities.swift in Sources */,
 				01FE2A4D248C699E005D5750 /* AppDelegate.swift in Sources */,
@@ -476,6 +494,8 @@
 				01FE2A64248C699F005D5750 /* macroplateTests.swift in Sources */,
 				01C30CF9248C703500CD40F6 /* Utilities.swift in Sources */,
 				0138088B248C6C46003A9ECF /* HomeViewController.swift in Sources */,
+				0194EE932495222A00152EE0 /* customalbum.swift in Sources */,
+				01BD88CB249A6CA400DCB806 /* ImageViewController copy.swift in Sources */,
 				01F55F98248C843F00104DAB /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -489,6 +509,8 @@
 				01FE2A6F248C699F005D5750 /* macroplateUITests.swift in Sources */,
 				01C30CFA248C703500CD40F6 /* Utilities.swift in Sources */,
 				0138088C248C6C46003A9ECF /* HomeViewController.swift in Sources */,
+				0194EE942495222A00152EE0 /* customalbum.swift in Sources */,
+				01BD88CC249A6CA400DCB806 /* ImageViewController copy.swift in Sources */,
 				01F55F99248C843F00104DAB /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -647,6 +669,7 @@
 			baseConfigurationReference = F475E2B296230FCE243441E9 /* Pods-macroplate.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = macroplate/macroplate.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = BT9643U669;
 				INFOPLIST_FILE = macroplate/Info.plist;
@@ -666,6 +689,7 @@
 			baseConfigurationReference = 330D06C81FEF543C69D9D200 /* Pods-macroplate.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = macroplate/macroplate.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = BT9643U669;
 				INFOPLIST_FILE = macroplate/Info.plist;

@@ -60,5 +60,15 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>let&apos;s save your photo</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>let&apos;s save to an album</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>let&apos;s use your health data</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>let&apos;s update your health data</string>
+	<key>NSCameraUsageDescription</key>
+	<string>let&apos;s take a photo!</string>
 </dict>
 </plist>

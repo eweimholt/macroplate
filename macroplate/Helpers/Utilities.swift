@@ -34,6 +34,21 @@ class Utilities {
         
     }
     
+    static func styleLabel(_ label:UILabel) {
+
+        // Create the background
+        let background = CALayer()
+        background.frame = CGRect(x: 0, y: label.frame.height - 2, width: label.frame.width - 175, height: 2)
+        background.backgroundColor = primaryUIColor.cgColor
+        // Add the line to the text field
+        label.layer.addSublayer(background)
+        /*label.backgroundColor = primaryUIColor
+        label.layer.borderWidth = 2
+        label.layer.borderColor = UIColor.black.cgColor
+        label.layer.cornerRadius = 10.0*/
+        
+    }
+    
     static func styleFilledButton(_ button:UIButton) {
         
         // Filled rounded corner style
@@ -51,6 +66,7 @@ class Utilities {
         button.layer.borderColor = UIColor.black.cgColor
         button.layer.cornerRadius = 25.0
         button.tintColor = UIColor.black
+        
     }
     
     
