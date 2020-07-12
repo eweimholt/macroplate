@@ -74,7 +74,7 @@ class SignUpViewController: UIViewController {
  
     
     @IBAction func signUpTapped(_ sender: Any) {
-        print("signup tapped")
+        
         //Validate the fields
         let error = validateFields()
         
@@ -104,14 +104,38 @@ class SignUpViewController: UIViewController {
                     //initialize an instance of Cloud Firestore:
                     let db = Firestore.firestore()
                     
-                    db.collection("users").addDocument(data: ["firstname":firstName,"lastname":lastName, "uid": result!.user.uid]) { (error) in
+                    let newUser = db.collection("users").document()
+                    
+                    newUser.setData([
+                            "firstname":firstName,
+                            "lastname":lastName,
+                            "email":email,
+                            "uid": result!.user.uid,
+                            "did": newUser.documentID
+                            ]) { (error) in
                         
                         if error != nil {
                             //Show error message
                             self.showError("error saving user data")
-                            print("error saving user data")
+                            //print("error saving user data")
                         }
                     }
+
+                    
+                    /*               db.collection("users").addDocument(data: [
+                                 "firstname":firstName,
+                                 "lastname":lastName,
+                                 "email":email,
+                                 "uid": result!.user.uid
+                                 "did":
+                                 ]) { (error) in
+                             
+                             if error != nil {
+                                 //Show error message
+                                 self.showError("error saving user data")
+                                 print("error saving user data")
+                             }
+                         }*/
                 }
             }
             //Transition to home screen

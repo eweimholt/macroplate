@@ -69,6 +69,7 @@ class Utilities {
         
     }
     
+
     
     //uses a regular expression to check the security of the user password
     static func isPasswordValid(_ password : String) -> Bool {

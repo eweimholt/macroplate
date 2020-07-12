@@ -8,6 +8,8 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseFirestore
+import Firebase
 
 class LoginViewController: UIViewController {
 
@@ -23,6 +25,12 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        //TODO Set up Firebase
+        /*self.storage = Storage.storage()
+        self.auth = Auth.auth()
+        self.database = Firestore.firestore()*/
+        
+        
         // Do any additional setup after loading the view.
         setUpElements()
     }

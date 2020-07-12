@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "memoji.png",
       "idiom" : "universal",
       "scale" : "1x"
     },

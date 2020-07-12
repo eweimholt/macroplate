@@ -138,6 +138,21 @@
             </objects>
             <point key="canvasLocation" x="1787" y="492"/>
         </scene>
+        <!--User View Controller-->
+        <scene sceneID="72L-dM-hpO">
+            <objects>
+                <viewController storyboardIdentifier="ProfileVC" id="b7i-nh-e2W" customClass="UserViewController" customModule="macroplate" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="F4b-cG-wr7">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="RCi-9q-7T2"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ils-ra-CbT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2511.594202898551" y="767.41071428571422"/>
+        </scene>
         <!--Home View Controller-->
         <scene sceneID="ClS-9x-BMS">
             <objects>
@@ -145,52 +160,9 @@
                     <view key="view" contentMode="scaleToFill" id="lxW-lo-Rey">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Cw-UA-Kw4">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
-                            </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EQZ-Nw-OFo" userLabel="flipCameraButton">
-                                <rect key="frame" x="15" y="94" width="50" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="3mb-Xp-PXk"/>
-                                    <constraint firstAttribute="height" constant="40" id="47e-VJ-Yxj"/>
-                                    <constraint firstAttribute="width" secondItem="EQZ-Nw-OFo" secondAttribute="height" multiplier="5:4" id="8cM-iM-qUE"/>
-                                </constraints>
-                                <state key="normal" title="Button" image="cameraflip_64c4bc"/>
-                                <connections>
-                                    <action selector="rotateCamera:" destination="zES-yA-odS" eventType="touchUpInside" id="Vak-fs-t3c"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qn0-w5-AHi" userLabel="cameraButton">
-                                <rect key="frame" x="177" y="742" width="60" height="60"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="8Sc-F6-MFA"/>
-                                    <constraint firstAttribute="width" secondItem="Qn0-w5-AHi" secondAttribute="height" multiplier="1:1" id="U5v-Z1-O9H"/>
-                                    <constraint firstAttribute="width" constant="60" id="pYI-Qy-th8"/>
-                                </constraints>
-                                <state key="normal" title="Button" image="circle_64c4bc"/>
-                                <connections>
-                                    <action selector="imageCapture:" destination="zES-yA-odS" eventType="touchUpInside" id="DAs-Ni-vWm"/>
-                                </connections>
-                            </button>
-                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="EQZ-Nw-OFo" firstAttribute="top" secondItem="eOJ-1v-cJF" secondAttribute="top" constant="50" id="9ZL-7C-ePW"/>
-                            <constraint firstItem="eOJ-1v-cJF" firstAttribute="bottom" secondItem="Qn0-w5-AHi" secondAttribute="bottom" constant="60" id="GLT-sH-pch"/>
-                            <constraint firstAttribute="bottom" secondItem="0Cw-UA-Kw4" secondAttribute="bottom" id="MFb-jg-bXn"/>
-                            <constraint firstItem="EQZ-Nw-OFo" firstAttribute="leading" secondItem="eOJ-1v-cJF" secondAttribute="leading" constant="15" id="OwQ-w4-ngS"/>
-                            <constraint firstItem="0Cw-UA-Kw4" firstAttribute="leading" secondItem="eOJ-1v-cJF" secondAttribute="leading" id="Rnc-fz-WNB"/>
-                            <constraint firstItem="0Cw-UA-Kw4" firstAttribute="trailing" secondItem="eOJ-1v-cJF" secondAttribute="trailing" id="fDn-6c-Rd5"/>
-                            <constraint firstItem="Qn0-w5-AHi" firstAttribute="centerX" secondItem="lxW-lo-Rey" secondAttribute="centerX" id="mD6-zG-I1P"/>
-                            <constraint firstItem="0Cw-UA-Kw4" firstAttribute="top" secondItem="lxW-lo-Rey" secondAttribute="top" id="pb2-qA-6ps"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="eOJ-1v-cJF"/>
                     </view>
-                    <connections>
-                        <outlet property="cameraView" destination="0Cw-UA-Kw4" id="WW8-m7-QAq"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cre-wK-Jfs" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -208,37 +180,70 @@
                                 <rect key="frame" x="20" y="64" width="374" height="778"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="OYq-F0-Foe" userLabel="macroSV">
-                                        <rect key="frame" x="20" y="0.0" width="334" height="114.5"/>
+                                        <rect key="frame" x="20" y="0.0" width="334" height="115"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Meal: Beef Tacos" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ct-1u-dYD">
-                                                <rect key="frame" x="0.0" y="0.0" width="334" height="26"/>
-                                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="22"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Summary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ct-1u-dYD">
+                                                <rect key="frame" x="0.0" y="0.0" width="334" height="26.5"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="22"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Carbs: 22%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tZf-Si-sQp">
-                                                <rect key="frame" x="0.0" y="33" width="334" height="22.5"/>
-                                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="19"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Protein: 16%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9kn-tc-LGY" userLabel="PROTEIN">
-                                                <rect key="frame" x="0.0" y="62.5" width="334" height="22.5"/>
-                                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="19"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fat: 8%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="00U-Z8-zhz">
-                                                <rect key="frame" x="0.0" y="92" width="334" height="22.5"/>
-                                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="19"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="vHw-BE-7ZH" userLabel="carbsSV">
+                                                <rect key="frame" x="0.0" y="33.5" width="334" height="22.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Carbs: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tZf-Si-sQp">
+                                                        <rect key="frame" x="0.0" y="0.0" width="246" height="22.5"/>
+                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="19"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="21" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ly9-3f-QiE" userLabel="carbValue">
+                                                        <rect key="frame" x="246" y="0.0" width="88" height="22.5"/>
+                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="19"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="PJe-6c-E6X" userLabel="proteinSV">
+                                                <rect key="frame" x="0.0" y="63" width="334" height="22.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Protein:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3i7-fS-wUj">
+                                                        <rect key="frame" x="0.0" y="0.0" width="249" height="22.5"/>
+                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="19"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="14" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dPj-Xe-5kb" userLabel="proteinAmount">
+                                                        <rect key="frame" x="249" y="0.0" width="85" height="22.5"/>
+                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="19"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="gMj-oS-cZX" userLabel="fatSV">
+                                                <rect key="frame" x="0.0" y="92.5" width="334" height="22.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fat:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uiu-P7-IMg">
+                                                        <rect key="frame" x="0.0" y="0.0" width="246.5" height="22.5"/>
+                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="19"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="6" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2O1-Dz-RgO" userLabel="fatAmount">
+                                                        <rect key="frame" x="246.5" y="0.0" width="87.5" height="22.5"/>
+                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="19"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </stackView>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="f2F-IW-dHs" userLabel="myImageView">
-                                        <rect key="frame" x="10" y="155" width="354" height="500"/>
+                                        <rect key="frame" x="10" y="155.5" width="354" height="500"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="f2F-IW-dHs" secondAttribute="height" multiplier="177:250" id="Go6-1M-Iwd"/>
                                             <constraint firstAttribute="height" constant="500" id="OiW-JJ-Tjk"/>
@@ -262,29 +267,23 @@
                                     <constraint firstItem="OYq-F0-Foe" firstAttribute="leading" secondItem="ox5-5U-9Hp" secondAttribute="leading" constant="20" id="Oqm-yP-50Q"/>
                                 </constraints>
                             </stackView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="piechart" translatesAutoresizingMaskIntoConstraints="NO" id="uok-QN-61H">
-                                <rect key="frame" x="284" y="74" width="100" height="100"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="Rgy-HI-aZD"/>
-                                    <constraint firstAttribute="width" constant="100" id="hSt-eY-WHU"/>
-                                </constraints>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="LPb-eX-lak" firstAttribute="trailing" secondItem="ox5-5U-9Hp" secondAttribute="trailing" constant="20" id="0Cg-bU-r6w"/>
                             <constraint firstItem="ox5-5U-9Hp" firstAttribute="top" secondItem="LPb-eX-lak" secondAttribute="top" constant="20" id="I27-nt-zLR"/>
                             <constraint firstItem="ox5-5U-9Hp" firstAttribute="leading" secondItem="LPb-eX-lak" secondAttribute="leading" constant="20" id="KBe-Ng-bVr"/>
-                            <constraint firstItem="LPb-eX-lak" firstAttribute="trailing" secondItem="uok-QN-61H" secondAttribute="trailing" constant="30" id="MwC-hy-jru"/>
-                            <constraint firstItem="uok-QN-61H" firstAttribute="top" secondItem="LPb-eX-lak" secondAttribute="top" constant="30" id="pnD-PE-rXm"/>
                             <constraint firstItem="LPb-eX-lak" firstAttribute="bottom" secondItem="ox5-5U-9Hp" secondAttribute="bottom" constant="20" id="trd-En-mwR"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="LPb-eX-lak"/>
                     </view>
                     <navigationItem key="navigationItem" id="gqD-wa-aGV"/>
                     <connections>
+                        <outlet property="carbAmount" destination="Ly9-3f-QiE" id="Tre-lp-Mnt"/>
+                        <outlet property="fatAmount" destination="2O1-Dz-RgO" id="cy6-A5-ZEc"/>
                         <outlet property="mealLabel" destination="8ct-1u-dYD" id="Lxa-rQ-Gve"/>
                         <outlet property="myImageView" destination="f2F-IW-dHs" id="QoU-HH-HnQ"/>
+                        <outlet property="proteinAmount" destination="dPj-Xe-5kb" id="JGp-ok-H9i"/>
                         <outlet property="syncHealthButton" destination="cWw-DU-ahP" id="IhB-Ah-8uO"/>
                     </connections>
                 </viewController>
@@ -325,7 +324,7 @@
                                             <constraint firstAttribute="height" constant="50" id="1X3-6p-svw"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" textContentType="email"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8Z0-uU-QZ9">
                                         <rect key="frame" x="0.0" y="210" width="334" height="50"/>
@@ -333,7 +332,7 @@
                                             <constraint firstAttribute="height" constant="50" id="JaI-Si-kx1"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OgE-dS-50d">
                                         <rect key="frame" x="0.0" y="280" width="334" height="50"/>
@@ -396,9 +395,6 @@
     </scenes>
     <resources>
         <image name="appleHealth2" width="685" height="92"/>
-        <image name="cameraflip_64c4bc" width="200" height="151.5"/>
-        <image name="circle_64c4bc" width="200" height="200"/>
         <image name="flowastelogo" width="780" height="279"/>
-        <image name="piechart" width="112.5" height="112.5"/>
     </resources>
 </document>
