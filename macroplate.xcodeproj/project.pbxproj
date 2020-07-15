@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01011F2824BB80620077534B /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01011F2724BB80620077534B /* FeedViewController.swift */; };
+		01011F2924BB80620077534B /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01011F2724BB80620077534B /* FeedViewController.swift */; };
+		01011F2A24BB80620077534B /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01011F2724BB80620077534B /* FeedViewController.swift */; };
+		01011F2C24BB81810077534B /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01011F2B24BB81810077534B /* ConfirmationViewController.swift */; };
+		01011F2D24BB81810077534B /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01011F2B24BB81810077534B /* ConfirmationViewController.swift */; };
+		01011F2E24BB81810077534B /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01011F2B24BB81810077534B /* ConfirmationViewController.swift */; };
 		013425F024A94127000CA6D2 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 013425EF24A94127000CA6D2 /* HealthKit.framework */; };
 		0138088A248C6C46003A9ECF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01380889248C6C46003A9ECF /* HomeViewController.swift */; };
 		0138088B248C6C46003A9ECF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01380889248C6C46003A9ECF /* HomeViewController.swift */; };
@@ -72,6 +78,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		01011F2724BB80620077534B /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
+		01011F2B24BB81810077534B /* ConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationViewController.swift; sourceTree = "<group>"; };
 		013425EE24A94127000CA6D2 /* macroplate.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macroplate.entitlements; sourceTree = "<group>"; };
 		013425EF24A94127000CA6D2 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		01380889248C6C46003A9ECF /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -84,7 +92,7 @@
 		01BD88C9249A6CA400DCB806 /* ImageViewController copy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ImageViewController copy.swift"; sourceTree = "<group>"; };
 		01C30CF7248C703500CD40F6 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		01F55F96248C843F00104DAB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		01FE2A49248C699E005D5750 /* macroplate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = macroplate.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		01FE2A49248C699E005D5750 /* PlateMate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlateMate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		01FE2A4C248C699E005D5750 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		01FE2A4E248C699E005D5750 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		01FE2A50248C699E005D5750 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -148,6 +156,8 @@
 				01380891248C6C6C003A9ECF /* LoginViewController.swift */,
 				01FE2A50248C699E005D5750 /* ViewController.swift */,
 				015041CE24B28497005F4B15 /* UserViewController.swift */,
+				01011F2724BB80620077534B /* FeedViewController.swift */,
+				01011F2B24BB81810077534B /* ConfirmationViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -176,7 +186,7 @@
 		01FE2A4A248C699E005D5750 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				01FE2A49248C699E005D5750 /* macroplate.app */,
+				01FE2A49248C699E005D5750 /* PlateMate.app */,
 				01FE2A5F248C699F005D5750 /* macroplateTests.xctest */,
 				01FE2A6A248C699F005D5750 /* macroplateUITests.xctest */,
 			);
@@ -264,7 +274,7 @@
 			);
 			name = macroplate;
 			productName = macroplate;
-			productReference = 01FE2A49248C699E005D5750 /* macroplate.app */;
+			productReference = 01FE2A49248C699E005D5750 /* PlateMate.app */;
 			productType = "com.apple.product-type.application";
 		};
 		01FE2A5E248C699F005D5750 /* macroplateTests */ = {
@@ -493,8 +503,10 @@
 				015041CF24B28497005F4B15 /* UserViewController.swift in Sources */,
 				015041D324B28D37005F4B15 /* standardButton.swift in Sources */,
 				01FE2A51248C699E005D5750 /* ViewController.swift in Sources */,
+				01011F2824BB80620077534B /* FeedViewController.swift in Sources */,
 				01C30CF8248C703500CD40F6 /* Utilities.swift in Sources */,
 				01FE2A4D248C699E005D5750 /* AppDelegate.swift in Sources */,
+				01011F2C24BB81810077534B /* ConfirmationViewController.swift in Sources */,
 				01FE2A4F248C699E005D5750 /* SceneDelegate.swift in Sources */,
 				0138088A248C6C46003A9ECF /* HomeViewController.swift in Sources */,
 				015041D724B4CC5D005F4B15 /* UserButton.swift in Sources */,
@@ -517,6 +529,8 @@
 				0194EE932495222A00152EE0 /* customalbum.swift in Sources */,
 				01BD88CB249A6CA400DCB806 /* ImageViewController copy.swift in Sources */,
 				01F55F98248C843F00104DAB /* Constants.swift in Sources */,
+				01011F2924BB80620077534B /* FeedViewController.swift in Sources */,
+				01011F2D24BB81810077534B /* ConfirmationViewController.swift in Sources */,
 				015041D824B4CC5D005F4B15 /* UserButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -535,6 +549,8 @@
 				0194EE942495222A00152EE0 /* customalbum.swift in Sources */,
 				01BD88CC249A6CA400DCB806 /* ImageViewController copy.swift in Sources */,
 				01F55F99248C843F00104DAB /* Constants.swift in Sources */,
+				01011F2A24BB80620077534B /* FeedViewController.swift in Sources */,
+				01011F2E24BB81810077534B /* ConfirmationViewController.swift in Sources */,
 				015041D924B4CC5D005F4B15 /* UserButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -702,7 +718,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.eliseweimholt.macroplate;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = PlateMate;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -722,7 +738,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.eliseweimholt.macroplate;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = PlateMate;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

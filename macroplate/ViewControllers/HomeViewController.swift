@@ -18,64 +18,111 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     var backCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
     var capturePhotoOutput: AVCapturePhotoOutput?
     
-    let cameraView = UIView()
+    let picker = UIImagePickerController()
     
-    //look up closures/ anon functions
-        
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .black
-        //view.backgroundColor = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
-        cameraView.translatesAutoresizingMaskIntoConstraints = true
+    let cameraView : UIView = {
+        let camView = UIView()
+        camView.translatesAutoresizingMaskIntoConstraints = true
         //cameraView.clipsToBounds = true
         //cameraView.layer.cornerRadius = 10
-        view.addSubview(cameraView)
-
-        
-        // initialize symbols
+        return camView
+    }()
+   
+    // initialize symbols
+    
+    //ultralight, thin, light, regular, medium, semibold, bold, heavy, black
+    let circleImage : UIImage = {
         let config = UIImage.SymbolConfiguration(pointSize: 5, weight: .regular, scale: .large)
-        //ultralight, thin, light, regular, medium, semibold, bold, heavy, black
-        let circleImage = UIImage(systemName: "circle", withConfiguration: config)?.withTintColor(UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1), renderingMode: .alwaysOriginal)
-        let flipImage = UIImage(systemName: "camera.rotate", withConfiguration: config)?.withTintColor(UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1), renderingMode: .alwaysOriginal)
-        let personImage = UIImage(systemName: "person", withConfiguration: config)?.withTintColor(UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1), renderingMode: .alwaysOriginal)
-       
-        // create camera Button object
-        let cameraButton = UIButton(frame: CGRect(x: 100, y: 100, width: 70, height: 70))
+        let cImage = UIImage(systemName: "circle", withConfiguration: config)?.withTintColor(UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1), renderingMode: .alwaysOriginal)
+        return cImage!
+    }()
+    
+    let flipImage : UIImage = {
+        let config = UIImage.SymbolConfiguration(pointSize: 5, weight: .regular, scale: .large)
+        let fImage = UIImage(systemName: "camera.rotate", withConfiguration: config)?.withTintColor(UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1), renderingMode: .alwaysOriginal)
+        return fImage!
+    }()
+    
+    let personImage : UIImage = {
+        let config = UIImage.SymbolConfiguration(pointSize: 5, weight: .regular, scale: .large)
+        let pImage = UIImage(systemName: "person", withConfiguration: config)?.withTintColor(UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1), renderingMode: .alwaysOriginal)
+        return pImage!
+    }()
+    
+    let uploadImage : UIImage = {
+        let config = UIImage.SymbolConfiguration(pointSize: 5, weight: .regular, scale: .large)
+        let uImage = UIImage(systemName: "square.and.arrow.up", withConfiguration: config)?.withTintColor(UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1), renderingMode: .alwaysOriginal)
+        return uImage!
+    }()
+    
+    let galleryImage : UIImage = {
+        let config = UIImage.SymbolConfiguration(pointSize: 5, weight: .regular, scale: .large)
+        let pImage = UIImage(systemName: "photo.on.rectangle", withConfiguration: config)?.withTintColor(UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1), renderingMode: .alwaysOriginal)
+        return pImage!
+    }()
+    
+    //initialize buttons
+    let cameraButton : UIButton = {
+       let cButton = UIButton(frame: CGRect(x: 100, y: 100, width: 70, height: 70))
+        cButton.translatesAutoresizingMaskIntoConstraints = false
+       return cButton
+    }()
+    
+    let flipButton : UIButton = {
+        let fButton = UIButton(frame: CGRect(x: 100, y: 100, width: 70, height: 70))
+        fButton.translatesAutoresizingMaskIntoConstraints = false
+        return fButton
+    }()
+    
+    let userButton : UIButton = {
+        let uButton = UIButton(frame: CGRect(x: 100, y: 100, width: 70, height: 70))
+        uButton.translatesAutoresizingMaskIntoConstraints = false
+        return uButton
+    }()
+    
+    let galleryButton : UIButton = {
+        let uButton = UIButton(frame: CGRect(x: 100, y: 100, width: 70, height: 70))
+        uButton.translatesAutoresizingMaskIntoConstraints = false
+        return uButton
+    }()
+    
+    let uploadButton : UIButton = {
+        let uButton = UIButton(frame: CGRect(x: 100, y: 100, width: 35, height: 40))
+        uButton.translatesAutoresizingMaskIntoConstraints = false
+        return uButton
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        picker.delegate = self //image picker will now listen to delegates. has method called when user is done selecting image
+        
+        
+        
+        //add elements to view
+        self.view.addSubview(cameraView)
+
         cameraButton.setBackgroundImage(circleImage, for: .normal)
         cameraButton.addTarget(self, action: #selector(imageCapture), for: .touchUpInside)
         self.view.addSubview(cameraButton)
-        
-        cameraButton.translatesAutoresizingMaskIntoConstraints = false
-        cameraButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        cameraButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100).isActive = true
-        cameraButton.widthAnchor.constraint(equalToConstant: 70).isActive = true
-        cameraButton.heightAnchor.constraint(equalToConstant: 70).isActive = true
-        
-        //create camera flip object
-        let flipButton = UIButton(frame: CGRect(x: 100, y: 100, width: 70, height: 70))
+   
         flipButton.setBackgroundImage(flipImage, for: .normal)
         flipButton.addTarget(self, action: #selector(rotateCamera), for: .touchUpInside)
         self.view.addSubview(flipButton)
         
-        flipButton.translatesAutoresizingMaskIntoConstraints = false
-        flipButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        flipButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
-        flipButton.widthAnchor.constraint(equalToConstant: 55).isActive = true
-        flipButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
-        
-        //create user Button object
-        let userButton = UIButton(frame: CGRect(x: 100, y: 100, width: 70, height: 70))
         userButton.setBackgroundImage(personImage, for: .normal)
         userButton.addTarget(self, action: #selector(userTapped), for: .touchUpInside)
         self.view.addSubview(userButton)
         
-        userButton.translatesAutoresizingMaskIntoConstraints = false
-        userButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        userButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -107).isActive = true
-        userButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        userButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        galleryButton.setBackgroundImage(galleryImage, for: .normal)
+        galleryButton.addTarget(self, action: #selector(galleryTapped), for: .touchUpInside)
+        self.view.addSubview(galleryButton)
         
-        //clean up code with closures later : setupLayout() https://www.youtube.com/watch?v=9RydRg0ZKaI
+        uploadButton.setBackgroundImage(uploadImage, for: .normal)
+        uploadButton.addTarget(self, action: #selector(uploadTapped), for: .touchUpInside)
+        uploadButton.setTitle("Upload", for: .normal)
+        self.view.addSubview(uploadButton)
+        
+        setUpLayout()
         
         if #available(iOS 10.2, *) {
             let captureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
@@ -105,6 +152,39 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
     }
     
+    private func setUpLayout() {
+        
+        view.backgroundColor = .black
+           //view.backgroundColor = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
+           
+        cameraButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        cameraButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -130).isActive = true
+        cameraButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        cameraButton.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        
+        
+        flipButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        flipButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
+        flipButton.widthAnchor.constraint(equalToConstant: 55).isActive = true
+        flipButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        
+        
+        userButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        userButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -115).isActive = true
+        userButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        userButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        galleryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        galleryButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -115).isActive = true
+        galleryButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        galleryButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        uploadButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        uploadButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -85).isActive = true
+        uploadButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        uploadButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+    }
+    
     
     @IBAction func imageCapture(_ sender: Any) {
         
@@ -126,6 +206,39 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
     }
     
+    @IBAction func galleryTapped(_sender: Any) {
+        
+        //present to ProfileVC
+        let feedVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "FeedVC") as! UserViewController
+        DispatchQueue.main.async {
+            self.present(feedVC, animated: true, completion: nil)
+        }
+        
+    }
+    
+    @IBAction func uploadTapped(_sender: Any) {
+        print("upload tapped")
+        //picker.allowsEditing = true
+        picker.sourceType = .photoLibrary
+        
+        present(picker, animated: true, completion: nil)
+        
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            print("picker selected image!")
+            presentToImageVC(image)
+            
+        } // no editing allowed
+            // for edited image: info[UIImagePickerController.InfoKey.editedImage]
+        self.dismiss(animated: true, completion: nil)
+        
+        
+        
+        
+        
+    }
     
     func switchToFrontCamera() {
         if frontCamera?.isConnected == true {
@@ -185,11 +298,16 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             }
         }
     }
-    
-    
+        
+    func presentToImageVC(_ image : UIImage) {
+        let photoVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "PhotoVC") as! ImageViewController
+        photoVC.takenPhoto = image
+        DispatchQueue.main.async {
+            self.present(photoVC, animated: true, completion: nil)
+        }
+    }
     
 }
-
 
 extension HomeViewController: AVCapturePhotoCaptureDelegate {
     
@@ -209,13 +327,7 @@ extension HomeViewController: AVCapturePhotoCaptureDelegate {
             let customAlbum = CustomPhotoAlbum()
             customAlbum.save(image: image)
             print("image captured, presenting image VC")
-            //present to ImageVC from Brian Advent https://www.youtube.com/watch?v=Zv4cJf5qdu0&t=1511s
-            let photoVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "PhotoVC") as! ImageViewController
-            photoVC.takenPhoto = image
-            DispatchQueue.main.async {
-                self.present(photoVC, animated: true, completion: nil)
-            }
-            
+            presentToImageVC(image)
         }
         
     }

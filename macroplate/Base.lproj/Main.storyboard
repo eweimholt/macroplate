@@ -41,7 +41,7 @@
                                 </subviews>
                             </stackView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="flowastelogo" translatesAutoresizingMaskIntoConstraints="NO" id="nbz-HZ-vND">
-                                <rect key="frame" x="40" y="84" width="334" height="279"/>
+                                <rect key="frame" x="40" y="128" width="334" height="279"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -74,7 +74,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="N3g-2K-bdR">
-                                <rect key="frame" x="40" y="84" width="334" height="310"/>
+                                <rect key="frame" x="40" y="128" width="334" height="310"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JpA-7M-EOb">
                                         <rect key="frame" x="0.0" y="0.0" width="334" height="50"/>
@@ -175,121 +175,44 @@
                     <view key="view" contentMode="scaleToFill" id="7qZ-Bq-jWv">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ox5-5U-9Hp">
-                                <rect key="frame" x="20" y="64" width="374" height="778"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="OYq-F0-Foe" userLabel="macroSV">
-                                        <rect key="frame" x="20" y="0.0" width="334" height="115"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Summary" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ct-1u-dYD">
-                                                <rect key="frame" x="0.0" y="0.0" width="334" height="26.5"/>
-                                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="22"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="vHw-BE-7ZH" userLabel="carbsSV">
-                                                <rect key="frame" x="0.0" y="33.5" width="334" height="22.5"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Carbs: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tZf-Si-sQp">
-                                                        <rect key="frame" x="0.0" y="0.0" width="246" height="22.5"/>
-                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="19"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="21" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ly9-3f-QiE" userLabel="carbValue">
-                                                        <rect key="frame" x="246" y="0.0" width="88" height="22.5"/>
-                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="19"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                            </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="PJe-6c-E6X" userLabel="proteinSV">
-                                                <rect key="frame" x="0.0" y="63" width="334" height="22.5"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Protein:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3i7-fS-wUj">
-                                                        <rect key="frame" x="0.0" y="0.0" width="249" height="22.5"/>
-                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="19"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="14" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dPj-Xe-5kb" userLabel="proteinAmount">
-                                                        <rect key="frame" x="249" y="0.0" width="85" height="22.5"/>
-                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="19"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                            </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="gMj-oS-cZX" userLabel="fatSV">
-                                                <rect key="frame" x="0.0" y="92.5" width="334" height="22.5"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fat:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uiu-P7-IMg">
-                                                        <rect key="frame" x="0.0" y="0.0" width="246.5" height="22.5"/>
-                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="19"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="6" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2O1-Dz-RgO" userLabel="fatAmount">
-                                                        <rect key="frame" x="246.5" y="0.0" width="87.5" height="22.5"/>
-                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="19"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                            </stackView>
-                                        </subviews>
-                                        <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </stackView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="f2F-IW-dHs" userLabel="myImageView">
-                                        <rect key="frame" x="10" y="155.5" width="354" height="500"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="f2F-IW-dHs" secondAttribute="height" multiplier="177:250" id="Go6-1M-Iwd"/>
-                                            <constraint firstAttribute="height" constant="500" id="OiW-JJ-Tjk"/>
-                                        </constraints>
-                                    </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cWw-DU-ahP">
-                                        <rect key="frame" x="0.0" y="728" width="374" height="50"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="XrU-GA-PUb"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
-                                        <state key="normal" title="Sync to Apple Health" backgroundImage="appleHealth2"/>
-                                        <connections>
-                                            <action selector="healthSyncTapped:" destination="Dd8-Bv-oxa" eventType="touchUpInside" id="glb-d8-tRo"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="cWw-DU-ahP" firstAttribute="centerX" secondItem="ox5-5U-9Hp" secondAttribute="centerX" id="91v-cX-tEM"/>
-                                    <constraint firstItem="f2F-IW-dHs" firstAttribute="centerX" secondItem="ox5-5U-9Hp" secondAttribute="centerX" id="DAt-Gc-5aq"/>
-                                    <constraint firstItem="OYq-F0-Foe" firstAttribute="leading" secondItem="ox5-5U-9Hp" secondAttribute="leading" constant="20" id="Oqm-yP-50Q"/>
-                                </constraints>
-                            </stackView>
-                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="LPb-eX-lak" firstAttribute="trailing" secondItem="ox5-5U-9Hp" secondAttribute="trailing" constant="20" id="0Cg-bU-r6w"/>
-                            <constraint firstItem="ox5-5U-9Hp" firstAttribute="top" secondItem="LPb-eX-lak" secondAttribute="top" constant="20" id="I27-nt-zLR"/>
-                            <constraint firstItem="ox5-5U-9Hp" firstAttribute="leading" secondItem="LPb-eX-lak" secondAttribute="leading" constant="20" id="KBe-Ng-bVr"/>
-                            <constraint firstItem="LPb-eX-lak" firstAttribute="bottom" secondItem="ox5-5U-9Hp" secondAttribute="bottom" constant="20" id="trd-En-mwR"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="LPb-eX-lak"/>
                     </view>
                     <navigationItem key="navigationItem" id="gqD-wa-aGV"/>
-                    <connections>
-                        <outlet property="carbAmount" destination="Ly9-3f-QiE" id="Tre-lp-Mnt"/>
-                        <outlet property="fatAmount" destination="2O1-Dz-RgO" id="cy6-A5-ZEc"/>
-                        <outlet property="mealLabel" destination="8ct-1u-dYD" id="Lxa-rQ-Gve"/>
-                        <outlet property="myImageView" destination="f2F-IW-dHs" id="QoU-HH-HnQ"/>
-                        <outlet property="proteinAmount" destination="dPj-Xe-5kb" id="JGp-ok-H9i"/>
-                        <outlet property="syncHealthButton" destination="cWw-DU-ahP" id="IhB-Ah-8uO"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SDn-t4-J9Q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3304.347826086957" y="80.357142857142847"/>
+        </scene>
+        <!--Feed View Controller-->
+        <scene sceneID="dn4-Zw-jhG">
+            <objects>
+                <viewController storyboardIdentifier="FeedVC" id="5U7-Ay-IQP" customClass="FeedViewController" customModule="macroplate" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="P3W-DJ-OI0">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="MqD-6D-ILz"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="c7f-s9-tSc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4043" y="80"/>
+        </scene>
+        <!--Confirmation View Controller-->
+        <scene sceneID="CnM-ab-YMn">
+            <objects>
+                <viewController storyboardIdentifier="ConfirmVC" id="rJc-dM-Nlj" customClass="ConfirmationViewController" customModule="macroplate" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="uZY-ck-fgG">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="JN4-IM-zvS"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HlQ-l9-WLL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4792.753623188406" y="77.678571428571431"/>
         </scene>
         <!--Sign Up View Controller-->
         <scene sceneID="98D-jD-ZTZ">
@@ -300,7 +223,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="onA-Ei-bgA">
-                                <rect key="frame" x="40" y="84" width="334" height="370.5"/>
+                                <rect key="frame" x="40" y="128" width="334" height="370.5"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dNv-xe-y8c">
                                         <rect key="frame" x="0.0" y="0.0" width="334" height="50"/>
@@ -378,9 +301,10 @@
         <!--Navigation Controller-->
         <scene sceneID="GyD-WU-WAj">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="fBC-6G-B9U" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" hidesBarsWhenKeyboardAppears="YES" id="fBC-6G-B9U" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="hj4-Ks-dXM">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -394,7 +318,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="appleHealth2" width="685" height="92"/>
         <image name="flowastelogo" width="780" height="279"/>
     </resources>
 </document>
