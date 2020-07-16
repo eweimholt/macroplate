@@ -94,6 +94,7 @@ class UserViewController: UIViewController {
         
         
         let name = UserButton()
+        
         name.setTitle("Elise Weimholt", for: .normal)
         self.view.addSubview(name)
         

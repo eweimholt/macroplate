@@ -9,6 +9,10 @@
 
 import UIKit
 import AVFoundation
+import FirebaseFirestore
+import FirebaseStorage
+import FirebaseDatabase
+import FirebaseAuth
 
 class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -17,8 +21,8 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     var frontCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)
     var backCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
     var capturePhotoOutput: AVCapturePhotoOutput?
-    
     let picker = UIImagePickerController()
+ 
     
     let cameraView : UIView = {
         let camView = UIView()
@@ -95,8 +99,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     override func viewDidLoad() {
         super.viewDidLoad()
         picker.delegate = self //image picker will now listen to delegates. has method called when user is done selecting image
-        
-        
+
         
         //add elements to view
         self.view.addSubview(cameraView)
@@ -119,7 +122,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         uploadButton.setBackgroundImage(uploadImage, for: .normal)
         uploadButton.addTarget(self, action: #selector(uploadTapped), for: .touchUpInside)
-        uploadButton.setTitle("Upload", for: .normal)
+        //uploadButton.setTitle("Upload", for: .normal)
         self.view.addSubview(uploadButton)
         
         setUpLayout()
@@ -158,7 +161,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
            //view.backgroundColor = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
            
         cameraButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        cameraButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -130).isActive = true
+        cameraButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100).isActive = true
         cameraButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
         cameraButton.heightAnchor.constraint(equalToConstant: 80).isActive = true
         
@@ -179,10 +182,10 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         galleryButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
         galleryButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-        uploadButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        uploadButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -85).isActive = true
-        uploadButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        uploadButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        uploadButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 80).isActive = true
+        uploadButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -125).isActive = true
+        uploadButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        uploadButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
     }
     
     
@@ -207,17 +210,10 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     @IBAction func galleryTapped(_sender: Any) {
-        
-        //present to ProfileVC
-        let feedVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "FeedVC") as! UserViewController
-        DispatchQueue.main.async {
-            self.present(feedVC, animated: true, completion: nil)
-        }
-        
+        transitionToFeed()
     }
     
     @IBAction func uploadTapped(_sender: Any) {
-        print("upload tapped")
         //picker.allowsEditing = true
         picker.sourceType = .photoLibrary
         
@@ -233,11 +229,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         } // no editing allowed
             // for edited image: info[UIImagePickerController.InfoKey.editedImage]
         self.dismiss(animated: true, completion: nil)
-        
-        
-        
-        
-        
+            
     }
     
     func switchToFrontCamera() {
@@ -307,7 +299,18 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         }
     }
     
+    func transitionToFeed() {
+
+       let feedVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "FeedVC") as! FeedViewController
+        DispatchQueue.main.async {
+            self.present(feedVC, animated: true, completion: nil)
+        }
+        
+    }
+    
 }
+
+
 
 extension HomeViewController: AVCapturePhotoCaptureDelegate {
     
@@ -335,22 +338,3 @@ extension HomeViewController: AVCapturePhotoCaptureDelegate {
 }
 
 
-/*//following two methods from //https://www.hackingwithswift.com/read/10/4/importing-photos-with-uiimagepickercontroller 6.6.1010
- func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
- print("inside  imagePickerController")
- guard let image = info[.editedImage] as? UIImage else { return }
- 
- let imageName = UUID().uuidString
- let imagePath = getDocumentsDirectory().appendingPathComponent(imageName)
- 
- if let jpegData = image.jpegData(compressionQuality: 0.8) {
- try? jpegData.write(to: imagePath)
- }
- 
- dismiss(animated: true)
- }
- 
- func getDocumentsDirectory() -> URL {
- let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
- return paths[0]
- }*/

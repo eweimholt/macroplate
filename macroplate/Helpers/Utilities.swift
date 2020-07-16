@@ -34,6 +34,7 @@ class Utilities {
         
     }
     
+    
     static func styleLabel(_ label:UILabel) {
 
         // Create the background

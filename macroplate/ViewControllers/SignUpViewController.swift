@@ -101,6 +101,11 @@ class SignUpViewController: UIViewController {
                 else {
                     //user was created successfully, store in database
                     
+                    //update user namefield 37:00 at https://www.youtube.com/watch?v=AsSZulMc7sk
+                    let changeRequest = Auth.auth().currentUser!.createProfileChangeRequest()
+                    changeRequest.displayName = self.firstNameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+                    changeRequest.commitChanges(completion: nil)
+                    
                     //initialize an instance of Cloud Firestore:
                     let db = Firestore.firestore()
                     
@@ -117,7 +122,6 @@ class SignUpViewController: UIViewController {
                         if error != nil {
                             //Show error message
                             self.showError("error saving user data")
-                            //print("error saving user data")
                         }
                     }
 

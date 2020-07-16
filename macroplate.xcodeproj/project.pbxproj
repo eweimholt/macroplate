@@ -13,6 +13,7 @@
 		01011F2C24BB81810077534B /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01011F2B24BB81810077534B /* ConfirmationViewController.swift */; };
 		01011F2D24BB81810077534B /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01011F2B24BB81810077534B /* ConfirmationViewController.swift */; };
 		01011F2E24BB81810077534B /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01011F2B24BB81810077534B /* ConfirmationViewController.swift */; };
+		011AEAA524C01F50008F7084 /* TapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011AEAA424C01F50008F7084 /* TapViewController.swift */; };
 		013425F024A94127000CA6D2 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 013425EF24A94127000CA6D2 /* HealthKit.framework */; };
 		0138088A248C6C46003A9ECF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01380889248C6C46003A9ECF /* HomeViewController.swift */; };
 		0138088B248C6C46003A9ECF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01380889248C6C46003A9ECF /* HomeViewController.swift */; };
@@ -32,6 +33,7 @@
 		015041D724B4CC5D005F4B15 /* UserButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015041D624B4CC5D005F4B15 /* UserButton.swift */; };
 		015041D824B4CC5D005F4B15 /* UserButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015041D624B4CC5D005F4B15 /* UserButton.swift */; };
 		015041D924B4CC5D005F4B15 /* UserButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015041D624B4CC5D005F4B15 /* UserButton.swift */; };
+		01812DE624C0A38A00F92531 /* FakeFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01812DE524C0A38A00F92531 /* FakeFeedViewController.swift */; };
 		0194EE922495222A00152EE0 /* customalbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0194EE912495222A00152EE0 /* customalbum.swift */; };
 		0194EE932495222A00152EE0 /* customalbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0194EE912495222A00152EE0 /* customalbum.swift */; };
 		0194EE942495222A00152EE0 /* customalbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0194EE912495222A00152EE0 /* customalbum.swift */; };
@@ -80,6 +82,7 @@
 /* Begin PBXFileReference section */
 		01011F2724BB80620077534B /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		01011F2B24BB81810077534B /* ConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationViewController.swift; sourceTree = "<group>"; };
+		011AEAA424C01F50008F7084 /* TapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapViewController.swift; sourceTree = "<group>"; };
 		013425EE24A94127000CA6D2 /* macroplate.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macroplate.entitlements; sourceTree = "<group>"; };
 		013425EF24A94127000CA6D2 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		01380889248C6C46003A9ECF /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -88,6 +91,7 @@
 		015041CE24B28497005F4B15 /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		015041D224B28D37005F4B15 /* standardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = standardButton.swift; sourceTree = "<group>"; };
 		015041D624B4CC5D005F4B15 /* UserButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserButton.swift; sourceTree = "<group>"; };
+		01812DE524C0A38A00F92531 /* FakeFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeFeedViewController.swift; sourceTree = "<group>"; };
 		0194EE912495222A00152EE0 /* customalbum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customalbum.swift; sourceTree = "<group>"; };
 		01BD88C9249A6CA400DCB806 /* ImageViewController copy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ImageViewController copy.swift"; sourceTree = "<group>"; };
 		01C30CF7248C703500CD40F6 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
@@ -157,7 +161,9 @@
 				01FE2A50248C699E005D5750 /* ViewController.swift */,
 				015041CE24B28497005F4B15 /* UserViewController.swift */,
 				01011F2724BB80620077534B /* FeedViewController.swift */,
+				01812DE524C0A38A00F92531 /* FakeFeedViewController.swift */,
 				01011F2B24BB81810077534B /* ConfirmationViewController.swift */,
+				011AEAA424C01F50008F7084 /* TapViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -503,6 +509,8 @@
 				015041CF24B28497005F4B15 /* UserViewController.swift in Sources */,
 				015041D324B28D37005F4B15 /* standardButton.swift in Sources */,
 				01FE2A51248C699E005D5750 /* ViewController.swift in Sources */,
+				01812DE624C0A38A00F92531 /* FakeFeedViewController.swift in Sources */,
+				011AEAA524C01F50008F7084 /* TapViewController.swift in Sources */,
 				01011F2824BB80620077534B /* FeedViewController.swift in Sources */,
 				01C30CF8248C703500CD40F6 /* Utilities.swift in Sources */,
 				01FE2A4D248C699E005D5750 /* AppDelegate.swift in Sources */,
