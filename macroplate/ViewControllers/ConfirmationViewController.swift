@@ -11,9 +11,7 @@ import Photos
 import AVFoundation
 
 class ConfirmationViewController: UIViewController {
-    
-   
-    
+ 
     let confirmLabel : UILabel = {
         let label = UILabel()
         label.text = "Photo Submitted"
@@ -83,8 +81,6 @@ class ConfirmationViewController: UIViewController {
         
         mailButton.setBackgroundImage(mailImage, for: .normal)
         view.addSubview(mailButton)
-        
-        //view.addSubview(backImageView)
 
         // Do any additional setup after loading the view.
         setUpLayout()
@@ -116,10 +112,10 @@ class ConfirmationViewController: UIViewController {
         doneButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
   
         
-        backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15).isActive = true
+        /*backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15).isActive = true
         backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
         backButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
-        backButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        backButton.heightAnchor.constraint(equalToConstant: 60).isActive = true*/
         
 
   

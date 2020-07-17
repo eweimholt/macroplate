@@ -9,14 +9,11 @@
 import UIKit
 
 class FeedViewController: UIViewController {
-    
-    
-    var characters = ["Link", "Zelda", "Ganondorf", "Midna"]
-    
+
     let mealLabel : UILabel = {
         let label = UILabel()
         label.text = "Your Meals"
-        label.font = UIFont.systemFont(ofSize: 36)
+        label.font = UIFont.systemFont(ofSize: 40)
         label.textColor = .black
         //label.layer.masksToBounds = true
         //label.layer.cornerRadius = 30
@@ -43,28 +40,42 @@ class FeedViewController: UIViewController {
     }()
     
     let tapButton : UIButton = {
-        let cButton = UIButton(frame: CGRect(x: 100, y: 100, width: 70, height: 70))
-        cButton.setTitle("tap", for: .normal)
-        cButton.setTitleColor(.black, for: .normal) // You can change the TitleColor
+        let cButton = UIButton(frame: CGRect(x: 100, y: 100, width: 200, height: 100))
+        cButton.setTitle("Tap to open!", for: .normal)
+        cButton.setTitleColor(.white, for: .normal) // You can change the TitleColor
         cButton.translatesAutoresizingMaskIntoConstraints = false
         return cButton
     }()
     
-    //let tableView = UITableView() 
+    let waitButton : UIButton = {
+        let cButton = UIButton(frame: CGRect(x: 100, y: 100, width: 200, height: 100))
+        cButton.setTitle("Training in progress", for: .normal)
+        cButton.setTitleColor(.white, for: .normal) // You can change the TitleColor
+        cButton.translatesAutoresizingMaskIntoConstraints = false
+        return cButton
+    }()
+    
+    
+    var imageView : UIImageView = {
+     var iView = UIImageView(frame: CGRect(x: 20, y: 140, width: 110, height: 110))
+     iView.translatesAutoresizingMaskIntoConstraints = true
+     return iView
+     }()
+    
+    var feedImage:UIImage?
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        /*//tableView.delegate = .self
-        //tableView.dataSource = .self
-        view.addSubview(tableView)
-        tableView.translatesAutoresizingMaskIntoConstraints = false*/
-        
         let backgroundImage = UIImage(named: "meals1")
         let backImageView = UIImageView(frame: CGRect(x: 7, y: 130, width: 400, height: 650))
         backImageView.image = backgroundImage
         view.addSubview(backImageView)
+        
+        let plateImage = UIImage(named: "plate")
+        imageView.image = plateImage
+        view.addSubview(imageView)
         
         backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
         view.addSubview(backButton)
@@ -72,14 +83,20 @@ class FeedViewController: UIViewController {
         view.addSubview(doneButton)
         tapButton.addTarget(self, action: #selector(goToTap), for: .touchUpInside)
         view.addSubview(tapButton)
-        //view.addSubview(mealLabel)
-        
 
+        view.addSubview(waitButton)
+        
+        view.addSubview(mealLabel)
+        
+        
         
         // Do any additional setup after loading the view.
         setUpLayout()
         
-        //tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        /*if let availableImage = feedImage {
+            imageView.image = availableImage
+        }*/
+
     }
     
     private func setUpLayout() {
@@ -93,23 +110,21 @@ class FeedViewController: UIViewController {
         doneButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
         doneButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
-        tapButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 330).isActive = true
-        tapButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 250).isActive = true
-        tapButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
+        tapButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 290).isActive = true
+        tapButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 140).isActive = true
+        tapButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
         tapButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
-        /*mealLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        mealLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
+        waitButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 160).isActive = true
+        waitButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 150).isActive = true
+        waitButton.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        waitButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        
+        mealLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -100).isActive = true
+        mealLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
         mealLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        mealLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true*/
-        
-        
-        /*NSLayoutConstraint.activate([
-        tableView.topAnchor.constraint(equalTo: view.topAnchor),
-        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-        tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
-        tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
-        ])*/
+        mealLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+
     }
 
     
@@ -124,10 +139,7 @@ class FeedViewController: UIViewController {
     @IBAction func goToTap(_ sender: Any) {
         transitionToTap()
     }
-    
 
-    
-    
     func transitionToConfirmation() {
         
         let confirmationViewController = storyboard?.instantiateViewController(identifier: Constants.Storyboard.confirmationViewController) as? ConfirmationViewController
@@ -160,25 +172,3 @@ class FeedViewController: UIViewController {
     }
     
 }
-
-
-/*
-extension ViewController : UITableViewDataSource {
-    
-    
-    
-    
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let characters = ["Link", "Zelda", "Ganondorf", "Midna"]
-        return characters.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let characters = ["Link", "Zelda", "Ganondorf", "Midna"]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = characters[indexPath.row]
-        return cell
-    }
- 
-}*/

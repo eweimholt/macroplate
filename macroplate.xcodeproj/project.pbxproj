@@ -37,9 +37,9 @@
 		0194EE922495222A00152EE0 /* customalbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0194EE912495222A00152EE0 /* customalbum.swift */; };
 		0194EE932495222A00152EE0 /* customalbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0194EE912495222A00152EE0 /* customalbum.swift */; };
 		0194EE942495222A00152EE0 /* customalbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0194EE912495222A00152EE0 /* customalbum.swift */; };
-		01BD88CA249A6CA400DCB806 /* ImageViewController copy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BD88C9249A6CA400DCB806 /* ImageViewController copy.swift */; };
-		01BD88CB249A6CA400DCB806 /* ImageViewController copy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BD88C9249A6CA400DCB806 /* ImageViewController copy.swift */; };
-		01BD88CC249A6CA400DCB806 /* ImageViewController copy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BD88C9249A6CA400DCB806 /* ImageViewController copy.swift */; };
+		01983B4B24C0BDD900882883 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01983B4A24C0BDD900882883 /* ImageViewController.swift */; };
+		01983B4C24C0BDD900882883 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01983B4A24C0BDD900882883 /* ImageViewController.swift */; };
+		01983B4D24C0BDD900882883 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01983B4A24C0BDD900882883 /* ImageViewController.swift */; };
 		01C30CF8248C703500CD40F6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C30CF7248C703500CD40F6 /* Utilities.swift */; };
 		01C30CF9248C703500CD40F6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C30CF7248C703500CD40F6 /* Utilities.swift */; };
 		01C30CFA248C703500CD40F6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C30CF7248C703500CD40F6 /* Utilities.swift */; };
@@ -93,7 +93,7 @@
 		015041D624B4CC5D005F4B15 /* UserButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserButton.swift; sourceTree = "<group>"; };
 		01812DE524C0A38A00F92531 /* FakeFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeFeedViewController.swift; sourceTree = "<group>"; };
 		0194EE912495222A00152EE0 /* customalbum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customalbum.swift; sourceTree = "<group>"; };
-		01BD88C9249A6CA400DCB806 /* ImageViewController copy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ImageViewController copy.swift"; sourceTree = "<group>"; };
+		01983B4A24C0BDD900882883 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ImageViewController.swift; path = ../ImageViewController.swift; sourceTree = "<group>"; };
 		01C30CF7248C703500CD40F6 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		01F55F96248C843F00104DAB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		01FE2A49248C699E005D5750 /* PlateMate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlateMate.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,7 +154,7 @@
 		01380895248C6C72003A9ECF /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				01BD88C9249A6CA400DCB806 /* ImageViewController copy.swift */,
+				01983B4A24C0BDD900882883 /* ImageViewController.swift */,
 				01380889248C6C46003A9ECF /* HomeViewController.swift */,
 				0138088D248C6C5D003A9ECF /* SignUpViewController.swift */,
 				01380891248C6C6C003A9ECF /* LoginViewController.swift */,
@@ -505,7 +505,6 @@
 			files = (
 				01380892248C6C6C003A9ECF /* LoginViewController.swift in Sources */,
 				0194EE922495222A00152EE0 /* customalbum.swift in Sources */,
-				01BD88CA249A6CA400DCB806 /* ImageViewController copy.swift in Sources */,
 				015041CF24B28497005F4B15 /* UserViewController.swift in Sources */,
 				015041D324B28D37005F4B15 /* standardButton.swift in Sources */,
 				01FE2A51248C699E005D5750 /* ViewController.swift in Sources */,
@@ -513,6 +512,7 @@
 				011AEAA524C01F50008F7084 /* TapViewController.swift in Sources */,
 				01011F2824BB80620077534B /* FeedViewController.swift in Sources */,
 				01C30CF8248C703500CD40F6 /* Utilities.swift in Sources */,
+				01983B4B24C0BDD900882883 /* ImageViewController.swift in Sources */,
 				01FE2A4D248C699E005D5750 /* AppDelegate.swift in Sources */,
 				01011F2C24BB81810077534B /* ConfirmationViewController.swift in Sources */,
 				01FE2A4F248C699E005D5750 /* SceneDelegate.swift in Sources */,
@@ -535,8 +535,8 @@
 				01C30CF9248C703500CD40F6 /* Utilities.swift in Sources */,
 				0138088B248C6C46003A9ECF /* HomeViewController.swift in Sources */,
 				0194EE932495222A00152EE0 /* customalbum.swift in Sources */,
-				01BD88CB249A6CA400DCB806 /* ImageViewController copy.swift in Sources */,
 				01F55F98248C843F00104DAB /* Constants.swift in Sources */,
+				01983B4C24C0BDD900882883 /* ImageViewController.swift in Sources */,
 				01011F2924BB80620077534B /* FeedViewController.swift in Sources */,
 				01011F2D24BB81810077534B /* ConfirmationViewController.swift in Sources */,
 				015041D824B4CC5D005F4B15 /* UserButton.swift in Sources */,
@@ -555,8 +555,8 @@
 				01C30CFA248C703500CD40F6 /* Utilities.swift in Sources */,
 				0138088C248C6C46003A9ECF /* HomeViewController.swift in Sources */,
 				0194EE942495222A00152EE0 /* customalbum.swift in Sources */,
-				01BD88CC249A6CA400DCB806 /* ImageViewController copy.swift in Sources */,
 				01F55F99248C843F00104DAB /* Constants.swift in Sources */,
+				01983B4D24C0BDD900882883 /* ImageViewController.swift in Sources */,
 				01011F2A24BB80620077534B /* FeedViewController.swift in Sources */,
 				01011F2E24BB81810077534B /* ConfirmationViewController.swift in Sources */,
 				015041D924B4CC5D005F4B15 /* UserButton.swift in Sources */,

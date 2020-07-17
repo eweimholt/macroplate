@@ -160,15 +160,6 @@
                     <view key="view" contentMode="scaleToFill" id="HP5-9C-sp7">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="TAP" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b2R-IH-yau">
-                                <rect key="frame" x="138" y="527" width="31" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="HLU-wI-onc"/>
                     </view>
@@ -208,20 +199,19 @@
             <point key="canvasLocation" x="2526.0869565217395" y="77.678571428571431"/>
         </scene>
         <!--Image View Controller-->
-        <scene sceneID="1i4-3K-prM">
+        <scene sceneID="bJp-Hl-Joy">
             <objects>
-                <viewController storyboardIdentifier="PhotoVC" id="Dd8-Bv-oxa" customClass="ImageViewController" customModule="PlateMate" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="7qZ-Bq-jWv">
+                <viewController storyboardIdentifier="ImageVC" id="yXi-RX-JtA" customClass="ImageViewController" customModule="PlateMate" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="mlf-UO-IF5">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <viewLayoutGuide key="safeArea" id="LPb-eX-lak"/>
+                        <viewLayoutGuide key="safeArea" id="VLD-ki-mea"/>
                     </view>
-                    <navigationItem key="navigationItem" id="gqD-wa-aGV"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="SDn-t4-J9Q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fqI-Li-brK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3304.347826086957" y="80.357142857142847"/>
+            <point key="canvasLocation" x="3384" y="-926"/>
         </scene>
         <!--Feed View Controller-->
         <scene sceneID="dn4-Zw-jhG">

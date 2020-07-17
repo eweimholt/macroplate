@@ -14,7 +14,7 @@ struct Constants {
         
         static let homeViewController = "HomeVC"
         static let feedViewController = "FeedVC"
-        static let imageViewController = "PhotoVC"
+        static let imageViewController = "ImageVC"
         static let confirmationViewController = "ConfirmVC"
         
     }

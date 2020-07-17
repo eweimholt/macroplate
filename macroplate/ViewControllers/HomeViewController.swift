@@ -292,10 +292,15 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
         
     func presentToImageVC(_ image : UIImage) {
-        let photoVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "PhotoVC") as! ImageViewController
-        photoVC.takenPhoto = image
+        let imageVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: Constants.Storyboard.imageViewController) as! ImageViewController
+        imageVC.takenPhoto = image
+        
+        let feedVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: Constants.Storyboard.feedViewController) as! FeedViewController
+        feedVC.feedImage = image
+        
+        
         DispatchQueue.main.async {
-            self.present(photoVC, animated: true, completion: nil)
+            self.present(imageVC, animated: true, completion: nil)
         }
     }
     
