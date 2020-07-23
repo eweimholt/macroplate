@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import macroplate
+@testable import PlateMate
 
 class macroplateTests: XCTestCase {
 

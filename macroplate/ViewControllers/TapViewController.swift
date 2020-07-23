@@ -38,10 +38,44 @@ class TapViewController: UIViewController {
     }()
     
     let healthButton : UIButton = {
-        let button = UIButton(frame: CGRect(x: 55, y: 700, width: 300, height: 50))
+        let button = UIButton(frame: CGRect(x: 55, y: 720, width: 300, height: 50))
         button.setTitle("View in Apple Health", for: .normal)
         button.backgroundColor = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
         return button
+    }()
+    
+    let tapMessage : UILabel = {
+        let label = UILabel()
+        var text = """
+        Total Calories: 765
+        Carbs: 17 g
+        Protein: 8 g
+        Fat: 6 g
+        """
+        label.text = text
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.textColor = UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .left
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 4
+        return label
+    }()
+    
+    let mealMessage : UILabel = {
+        let label = UILabel()
+        var text = """
+          Identified: Salad
+          (chicken, tomato, radish)
+          """
+        label.text = text
+        label.font = UIFont.boldSystemFont(ofSize: 24)
+        label.textColor = UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 2
+        return label
     }()
 
     override func viewDidLoad() {
@@ -53,17 +87,22 @@ class TapViewController: UIViewController {
         doneButton.addTarget(self, action: #selector(goToFakeFeed), for: .touchUpInside)
         view.addSubview(doneButton)
         
+        view.addSubview(tapMessage)
+        view.addSubview(mealMessage)
+        
         healthButton.addTarget(self, action: #selector(healthButtonTapped), for: .touchUpInside)
         self.view.addSubview(healthButton)
         Utilities.styleFilledButton(healthButton)
 
         
         let plateImage = UIImage(named: "plate")
-        let plateImageView = UIImageView(frame: CGRect(x: 15, y: 85, width: 385, height: 385))
+        let plateImageView = UIImageView(frame: CGRect(x: 28, y: 110, width: 360, height: 360))
         plateImageView.image = plateImage
+        plateImageView.layer.masksToBounds = true
+        plateImageView.layer.cornerRadius = 40
         view.addSubview(plateImageView)
         
-        let chartImage = UIImage(named: "piechart")
+       /* let chartImage = UIImage(named: "piechart")
         let chartImageView = UIImageView(frame: CGRect(x: 250, y: 500, width: 90, height: 90))
         chartImageView.image = chartImage
         view.addSubview(chartImageView)
@@ -72,7 +111,7 @@ class TapViewController: UIViewController {
         chartImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         chartImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 125).isActive = true
         chartImageView.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        chartImageView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        chartImageView.heightAnchor.constraint(equalToConstant: 150).isActive = true*/
         
         
         setUpLayout()
@@ -89,6 +128,17 @@ class TapViewController: UIViewController {
         doneButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
         doneButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
         doneButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        
+
+        tapMessage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        tapMessage.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 175).isActive = true
+        tapMessage.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        tapMessage.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        
+        mealMessage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        mealMessage.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 70).isActive = true
+        mealMessage.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        mealMessage.heightAnchor.constraint(equalToConstant: 150).isActive = true
         
 
         
