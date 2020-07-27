@@ -21,7 +21,7 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
     
     
     //Firebase setup
-    //var userStorage = StorageReference()
+    var userStorage = StorageReference()
     //var ref = DatabaseReference()
     
     
@@ -57,9 +57,9 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
         self.hideKeyboardWhenTappedAround()
         
         //Set up storage reference
-        //let storage = Storage.storage().reference(forURL: "gs://flowaste-595b7.appspot.com/")
+        let storage = Storage.storage().reference(forURL: "gs://flowaste-595b7.appspot.com/")
         
-        //userStorage = storage.child("users")
+        userStorage = storage.child("users")
         
         inputField = UITextField(frame: CGRect(x: 55, y: 90, width: 300, height: 50))
         inputField.placeholder = "ex. chicken, rice, broccoli"
@@ -67,7 +67,7 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
         self.view.addSubview(inputField)
         self.inputField.delegate = self
         
-
+        
         
         self.view.addSubview(myImageView)
         
@@ -101,50 +101,60 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
         messageLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
     }
-
+    
     @IBAction func sendButtonTapped(_ sender: Any) {
+        //get the timestamp of when image is sent
+        let date = Date()
         
-        /*if let user = Auth.auth().currentUser {
-         
-         let db = Firestore.firestore()
-         
-         let imageRef = self.userStorage.child("\(user.uid).jpg")
-         
-         let data = self.myImageView.image!.jpegData(compressionQuality: 0.01) //compressed with 0.5 value, small
-         
-         //let key = db.collection("posts").documentID stopped at 14:45 epi 3
-         
-         let uploadTask = imageRef.putData(data!, metadata: nil) { (metadata, err) in
-         if err != nil {
-         print(err?.localizedDescription ?? nil!)
-         }
-         //we have successfully uploaded the photo!
-         
-         imageRef.downloadURL { (url, er) in
-         if er != nil {
-         print(er?.localizedDescription ?? nil!)
-         }
-         print("url")
-         
-         if let url = url {
-         let userInfo: [String : Any] = ["uid": user.uid,
-         "urlToImage" : url.absoluteString,
-         "name" : user.displayName ?? nil]
-         //assign user to Firebase
-         
-         db.collection("userDATA").document().setData(userInfo)
-         //self.ref.child("usersINSTAGRAM").child("useruid").setValue(userInfo) //will check if users exists, if not it will create it
-         
-         }
-         
-         }
-         
-         }
-         uploadTask.resume()
-         }
-         else{
-         print("no user logged in")
-         }*/
+        if let user = Auth.auth().currentUser {
+            
+            let db = Firestore.firestore()
+            
+            //let storage = Storage.storage().reference(forURL: "gs://flowaste-595b7.appspot.com")
+                 
+            let ref = db.collection("uploads")
+            let docId = ref.document().documentID
+            
+            let imageRef = self.userStorage.child("\(docId).jpg")
+            
+            let data = self.myImageView.image!.jpegData(compressionQuality: 0.0) //0.0 is smallest possible compression
+            
+            let uploadTask = imageRef.putData(data!, metadata: nil) { (metadata, err) in
+                if err != nil {
+                    print(err?.localizedDescription ?? nil!)
+                }
+                //we have successfully uploaded the photo!
+                
+                //get a download link of the image of where the code will look for it
+                imageRef.downloadURL { (url, er) in
+                    if er != nil {
+                        print(er?.localizedDescription ?? nil!)
+                    }
+                    
+                    let feed = ["uid": user.uid,
+                                "urlToImage" : url!.absoluteString,
+                                "name" : user.displayName ?? nil!,
+                                "date" : date,
+                                "key" : docId,
+                                "userTextInput" : self.inputField.text!] as [String : Any]
+
+                    db.collection("uploads").document(docId).setData(feed) { err in
+                        if let err = err {
+                            print("Error adding document: \(err)")
+                        } else {
+                            print("Document added with ID: \(docId)")
+                        }
+                    }
+
+                    
+                }
+                
+            }
+            uploadTask.resume()
+        }
+        else{
+            print("no user logged in")
+        }
         
         //transitionToHome()
         transitionToConfirmation()
@@ -191,4 +201,4 @@ extension ImageViewController {
         view.endEditing(true)
     }
 }
- 
+

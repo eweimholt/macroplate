@@ -25,9 +25,8 @@ class UserButton: UIButton {
     
     func setupButton()  {
         setTitleColor(.white, for: .normal)
-        setTitle("Button", for: .normal)
         backgroundColor     = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
-        titleLabel?.font    = UIFont(name: "AvenirNext-Regular", size: 18)
+        titleLabel?.font    = UIFont(name: "AvenirNext-Bold", size: 20)
         layer.cornerRadius  = 20
         layer.borderWidth   = 0.0
         layer.borderColor   = CGColor.init(srgbRed: 0, green: 0, blue: 0, alpha: 1)

@@ -9,9 +9,10 @@
 import UIKit
 import FirebaseAuth
 import Firebase
+import FirebaseFirestore
 
 class SignUpViewController: UIViewController {
-
+    
     @IBOutlet weak var firstNameTextField: UITextField!
     
     @IBOutlet weak var lastNameTextField: UITextField!
@@ -30,7 +31,6 @@ class SignUpViewController: UIViewController {
         
         // Do any additional setup after loading the view.
         setUpElements()
-        print("elements are set up")
         //validateFields()
     }
     
@@ -46,7 +46,7 @@ class SignUpViewController: UIViewController {
         Utilities.styleTextField(passwordTextField)
         Utilities.styleFilledButton(signUpButton)
     }
-
+    
     //Check the fields and validate that the data is correct. If everything is correct, this method returns nil. Otherwise, it returns an error message as a string.
     func validateFields() -> String? {
         
@@ -55,13 +55,11 @@ class SignUpViewController: UIViewController {
             lastNameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" ||
             emailTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == ""  ||
             passwordTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-            print("Good job")
             return "Please fill in all fields."
         }
         
         //Check if the password is secure
         let cleanedPassword = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-        print("cleaned password")
         //returns true if password is good based on utilities function
         if Utilities.isPasswordValid(cleanedPassword) == false {
             //Password isn't secure enough
@@ -71,7 +69,7 @@ class SignUpViewController: UIViewController {
         
         return nil
     }
- 
+    
     
     @IBAction func signUpTapped(_ sender: Any) {
         
@@ -109,46 +107,45 @@ class SignUpViewController: UIViewController {
                     //initialize an instance of Cloud Firestore:
                     let db = Firestore.firestore()
                     
-                    let newUser = db.collection("users").document()
+                    //var ref: DocumentReference? = nil
+                    let ref = db.collection("users")
+                    let docId = ref.document().documentID
                     
-                    newUser.setData([
-                            "firstname":firstName,
-                            "lastname":lastName,
-                            "email":email,
-                            "uid": result!.user.uid,
-                            "did": newUser.documentID
-                            ]) { (error) in
-                        
-                        if error != nil {
-                            //Show error message
-                            self.showError("error saving user data")
+                    let userData = [
+                        "firstname": firstName,
+                        "lastname": lastName,
+                        "email": email,
+                        "uid": result!.user.uid,
+                        "did": docId]  as [String : Any]
+   
+                    db.collection("users").document(docId).setData(userData) { err in
+                        if let err = err {
+                            print("Error adding document: \(err)")
+                        } else {
+                            print("Document added with ID: \(docId)")
                         }
                     }
 
-                    
-                    /*               db.collection("users").addDocument(data: [
-                                 "firstname":firstName,
-                                 "lastname":lastName,
-                                 "email":email,
-                                 "uid": result!.user.uid
-                                 "did":
-                                 ]) { (error) in
-                             
-                             if error != nil {
-                                 //Show error message
-                                 self.showError("error saving user data")
-                                 print("error saving user data")
-                             }
-                         }*/
+                    //get entire collection
+                    /*db.collection("users").getDocuments() { (querySnapshot, err) in
+                        if let err = err {
+                            print("Error getting documents: \(err)")
+                        } else {
+                            for document in querySnapshot!.documents {
+                                print("\(document.documentID) => \(document.data())")
+                            }
+                        }
+                    }*/
+
                 }
             }
             //Transition to home screen
             self.transitionToHome()
         }
     }
-
-    func showError(_ message:String) {
     
+    func showError(_ message:String) {
+        
         errorLabel.text = message
         errorLabel.alpha = 1
         

@@ -228,7 +228,7 @@ class TapViewController: UIViewController {
             
             let sample = HKQuantitySample(type: type, quantity: quantity, start: today as Date, end: today as Date)
             healthKitStore.save(sample) { (success, error) in
-                print("Saved \(success), error \(error ?? nil)")
+                print("Saved \(success), error \(String(describing: error ?? nil))")
             }
         }
         
@@ -237,7 +237,7 @@ class TapViewController: UIViewController {
             
             let sample = HKQuantitySample(type: type, quantity: quantity, start: today as Date, end: today as Date)
             healthKitStore.save(sample) { (success, error) in
-                print("Saved \(success), error \(error ?? nil)")
+                print("Saved \(success), error \(String(describing: error ?? nil))")
             }
         }
         
@@ -246,7 +246,7 @@ class TapViewController: UIViewController {
             
             let sample = HKQuantitySample(type: type, quantity: quantity, start: today as Date, end: today as Date)
             healthKitStore.save(sample) { (success, error) in
-                print("Saved \(success), error \(error ?? nil)")
+                print("Saved \(success), error \(String(describing: error ?? nil))")
             }
         }
         

@@ -306,11 +306,11 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     func transitionToFeed() {
 
-       let feedVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "FeedVC") as! FeedViewController
+       let mealVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "MealsVC") as! MealsViewController
         DispatchQueue.main.async {
-            self.present(feedVC, animated: true, completion: nil)
+            self.present(mealVC, animated: true, completion: nil)
         }
-        
+
     }
     
 }
