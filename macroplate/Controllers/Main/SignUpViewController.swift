@@ -95,6 +95,7 @@ class SignUpViewController: UIViewController {
                     //there was an error
                     self.showError(err?.localizedDescription ?? "error creating user")
                     print("error creating USER")
+                    print("\(String(describing: err?.localizedDescription))")
                 }
                 else {
                     //user was created successfully, store in database

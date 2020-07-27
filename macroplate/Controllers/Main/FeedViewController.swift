@@ -183,16 +183,6 @@ class FeedViewController: UIViewController {
         mealLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
         mealLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
 
-        
-        
-        
-        
-
-        
-    
-        
-        
-        
         tapButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 290).isActive = true
         tapButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 170).isActive = true
         tapButton.widthAnchor.constraint(equalToConstant: 200).isActive = true

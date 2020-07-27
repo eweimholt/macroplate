@@ -15,7 +15,7 @@ class PostCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.layer.cornerRadius = 15
+        imageView.layer.cornerRadius = 20
         //imageView.isUserInteractionEnabled = true
         return imageView
     }()
@@ -23,6 +23,12 @@ class PostCell: UICollectionViewCell {
         var postButton: UIButton = {
         let button = UIButton()
             button.translatesAutoresizingMaskIntoConstraints = false
+            button.setTitle("Pending", for: .normal)
+            button.clipsToBounds = true
+            button.layer.cornerRadius = 20
+            button.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.30)
+            button.setTitleColor(.white, for: .normal)
+            button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 24)
         return button
     }()
     
@@ -45,15 +51,15 @@ extension PostCell {
     fileprivate func setup() {
         postImage.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         postImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        //postImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        postImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         postImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        postImage.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        //postImage.heightAnchor.constraint(equalToConstant: 300).isActive = true
         
-        //postButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        postButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         postButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         postButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         postButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        postButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        //postButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
 
   
     }
