@@ -8,7 +8,15 @@
 
 import UIKit
 
+protocol PostCellDelegate {
+    //commands that we give to PostViewController
+    func didExpandPost(image: UIImage)
+    
+}
+
 class PostCell: UICollectionViewCell {
+    
+    var delegate: PostCellDelegate?
     
     let postImage: UIImageView = {
         let imageView = UIImageView()
@@ -20,15 +28,15 @@ class PostCell: UICollectionViewCell {
         return imageView
     }()
     
-        var postButton: UIButton = {
+    var postButton: UIButton = {
         let button = UIButton()
-            button.translatesAutoresizingMaskIntoConstraints = false
-            button.setTitle("Pending", for: .normal)
-            button.clipsToBounds = true
-            button.layer.cornerRadius = 20
-            button.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.30)
-            button.setTitleColor(.white, for: .normal)
-            button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 24)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        //button.setTitle("Pending", for: .normal)
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 20
+        button.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.30)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 24)
         return button
     }()
     
@@ -37,12 +45,22 @@ class PostCell: UICollectionViewCell {
         
         contentView.addSubview(postImage)
         contentView.addSubview(postButton)
+        postButton.addTarget(self, action: #selector(expandPost), for: .touchUpInside)
+        
         setup()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    @IBAction func expandPost() {
+        delegate?.didExpandPost(image: postImage.image!)
+
+        
+    }
+    
+    
     
 }
 
@@ -60,32 +78,8 @@ extension PostCell {
         postButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         postButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         //postButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-
-  
+        
+        
     }
 }
 
-
-extension UIView {
-    func anchor(top: NSLayoutYAxisAnchor?, bottom: NSLayoutYAxisAnchor?,  left: NSLayoutXAxisAnchor?,  right: NSLayoutXAxisAnchor?, paddingTop: CGFloat, paddingBottom: CGFloat, paddingLeft: CGFloat, paddingRight: CGFloat, width: CGFloat, height: CGFloat) {
-        translatesAutoresizingMaskIntoConstraints = false
-        if let top = top {
-            topAnchor.constraint(equalTo: top, constant: paddingTop).isActive = true
-        }
-        if let bottom = bottom {
-            bottomAnchor.constraint(equalTo: bottom, constant: -paddingBottom).isActive = true
-        }
-        if let right = right {
-            rightAnchor.constraint(equalTo: right, constant: -paddingRight).isActive = true
-        }
-        if let left = left {
-            leftAnchor.constraint(equalTo: left, constant: paddingLeft).isActive = true
-        }
-        if width != 0 {
-            widthAnchor.constraint(equalToConstant: width).isActive = true
-        }
-        if height != 0 {
-            heightAnchor.constraint(equalToConstant: height).isActive = true
-        }
-    }
-}

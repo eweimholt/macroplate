@@ -8,8 +8,13 @@
 
 import UIKit
 import Firebase
+import FirebaseFirestore
+import FirebaseAuth
 
-class MealsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+
+class MealsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, PostCellDelegate {
+
+    
     
     let cellId = "cell"
     
@@ -63,7 +68,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
     }
     
     func setUpLayout() {
-      
+        
         mealsCollectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
         mealsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15).isActive = true
         mealsCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30).isActive = true
@@ -75,7 +80,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         mealLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
         mealLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
         mealLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
- 
+        
     }
     
     
@@ -88,7 +93,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         //get documents created by user
         // throws an error if there are no RESULTS ___ FIX
         
-        db.collection("uploads").whereField("uid", isEqualTo: uid)//.order(by: "date")
+        db.collection("uploads").whereField("uid", isEqualTo: uid).order(by: "date", descending: true)
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
@@ -129,17 +134,32 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = mealsCollectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! PostCell
+        
         cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
-        
-        //cell.postButton.setTitle(self.posts[indexPath.row].name, for: .normal)
-
-        
+        cell.postButton.setTitle(self.posts[indexPath.row].userTextInput, for: .normal)
+        //cell.postButton.sendAction(self, to: didExpandPost(image: cell.postImage.image!), for: .touchUpInside)
+        //cell.postButton.addTarget(self, action: #selector(didExpandPost(image:cell.postImage.image!)), for: .touchUpInside)
         cell.backgroundColor = UIColor.white
+        cell.delegate = self
+        
+
         
         return cell
     }
     
+    func didExpandPost(image: UIImage) {
+        let postVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "PostVC") as! PostViewController
+        postVC.postImage = image
+
+         DispatchQueue.main.async {
+             self.present(postVC, animated: true, completion: nil)
+         }
+    }
+    
+    
 }
+
+
 
 extension UIImageView {
     func downloadImage(from imgURL: String!) {
