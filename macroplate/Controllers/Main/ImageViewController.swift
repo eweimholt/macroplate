@@ -105,6 +105,10 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
     @IBAction func sendButtonTapped(_ sender: Any) {
         //get the timestamp of when image is sent
         let date = Date()
+        /*let formatter3 = DateFormatter()
+        formatter3.dateFormat = "HH:mm E, d MMM y"
+        let formattedDate = formatter3.string(from: date)*/
+    
         
         if let user = Auth.auth().currentUser {
             
@@ -112,7 +116,7 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
             
             //let storage = Storage.storage().reference(forURL: "gs://flowaste-595b7.appspot.com")
                  
-            let ref = db.collection("uploads")
+            let ref = db.collection("posts")
             let docId = ref.document().documentID
             
             let imageRef = self.userStorage.child("\(docId).jpg")
@@ -136,9 +140,14 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
                                 "name" : user.displayName ?? nil!,
                                 "date" : date,
                                 "key" : docId,
-                                "userTextInput" : self.inputField.text!] as [String : Any]
+                                "userTextInput" : self.inputField.text!,
+                                "carbs" : "",
+                                "protein" : "",
+                                "fat" : "",
+                                "calories" : "",
+                                "State" : "Pending" ] as [String : Any]
 
-                    db.collection("uploads").document(docId).setData(feed) { err in
+                    db.collection("posts").document(docId).setData(feed) { err in
                         if let err = err {
                             print("Error adding document: \(err)")
                         } else {

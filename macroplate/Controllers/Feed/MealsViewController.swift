@@ -14,8 +14,6 @@ import FirebaseAuth
 
 class MealsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, PostCellDelegate {
 
-    
-    
     let cellId = "cell"
     
     var mealsCollectionView: UICollectionView = {
@@ -93,7 +91,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         //get documents created by user
         // throws an error if there are no RESULTS ___ FIX
         
-        db.collection("uploads").whereField("uid", isEqualTo: uid).order(by: "date", descending: true)
+        db.collection("posts").whereField("uid", isEqualTo: uid).order(by: "date", descending: true)
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
@@ -107,8 +105,15 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
                         post.name = doc["name"] as? String
                         post.pathToImage = doc["urlToImage"] as? String
                         post.date = doc["date"] as? String
-                        post.postId = doc["postId"] as? String
-                        
+                        post.postId = doc["key"] as? String
+                        post.userId = doc["uid"] as? String
+                        post.userTextInput = doc["userTextInput"] as? String
+                        post.carbs = doc["carbs"] as? String
+                        post.protein = doc["protein"] as? String
+                        post.fat = doc["fat"] as? String
+                        post.calories = doc["calories"] as? String
+                        post.state = doc["State"] as? String
+              
                         self.posts.append(post)
                         
                     }
@@ -119,6 +124,8 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         
         
     }
+    
+    // UICOLLECTIONVIEW DATA SOURCE
     
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -136,30 +143,69 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         let cell = mealsCollectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! PostCell
         
         cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
-        cell.postButton.setTitle(self.posts[indexPath.row].userTextInput, for: .normal)
-        //cell.postButton.sendAction(self, to: didExpandPost(image: cell.postImage.image!), for: .touchUpInside)
-        //cell.postButton.addTarget(self, action: #selector(didExpandPost(image:cell.postImage.image!)), for: .touchUpInside)
+        cell.postButton.setTitle(self.posts[indexPath.row].state, for: .normal) //self.posts[indexPath.row].userTextInput
+        
+        
+        cell.userTextInput = self.posts[indexPath.row].userTextInput
+        cell.date = "August 1" //self.posts[indexPath.row].date //need to add real timestamp
+        //print(self.posts[indexPath.row].date!)
+        
+        //set nutritional data
+        cell.calories = self.posts[indexPath.row].calories
+        cell.carbs = self.posts[indexPath.row].carbs
+        cell.protein = self.posts[indexPath.row].protein
+        cell.fat = self.posts[indexPath.row].fat
+        cell.state = self.posts[indexPath.row].state
+    
         cell.backgroundColor = UIColor.white
         cell.delegate = self
-        
-
+        cell.index = indexPath
         
         return cell
     }
     
-    func didExpandPost(image: UIImage) {
+    //POST CELL DELEGATE
+    func didExpandPost(image: UIImage, date: String?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?, state : String?) {
+        
         let postVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "PostVC") as! PostViewController
+        //pass data to VC
         postVC.postImage = image
-
+        postVC.date.text = date
+        postVC.userLabel.text = userText
+        postVC.caloriesText.text = "Total Calories: \(calories ?? "pending")"
+        postVC.carbs = carbs
+        postVC.protein = protein
+        postVC.fat = fat
+        postVC.state = state
+        
+        print("post tapped")
+        //present VC
          DispatchQueue.main.async {
              self.present(postVC, animated: true, completion: nil)
          }
     }
     
+    func didDeletePost(index: Int) {
+
+        print("delete tapped")
+
+        /*let db = Firestore.firestore()
+        
+        guard let deleteId = posts[index].postId else { return }
+        
+        posts.remove(at: index)
+        mealsCollectionView.reloadData()
+
+        db.collection("posts").document(deleteId).delete() { err in
+            if let err = err {
+                print("Error removing document: \(err)")
+            } else {
+                print("Document successfully removed!")
+            }
+        }*/
+    }
     
 }
-
-
 
 extension UIImageView {
     func downloadImage(from imgURL: String!) {
@@ -167,7 +213,7 @@ extension UIImageView {
         
         let task = URLSession.shared.dataTask(with: url) { (data, reponse, error) in
             if error != nil {
-                print(error)
+                print(error!)
                 return
             }
             

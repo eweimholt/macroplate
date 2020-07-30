@@ -21,6 +21,7 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var errorLabel: UILabel!
     
+    @IBOutlet weak var resetPasswordButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +40,7 @@ class LoginViewController: UIViewController {
         
         //hide error label
         errorLabel.alpha = 0
+        resetPasswordButton.alpha = 0
         
         //style elements
         Utilities.styleTextField(passwordTextField)
@@ -47,16 +49,6 @@ class LoginViewController: UIViewController {
         
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    //Check the fields and validate that the data is correct. If everything is correct, this method returns nil. Otherwise, it returns an error message as a string.
     func validateFields() -> String? {
         
         //check that all fields are filled in
@@ -100,7 +92,9 @@ class LoginViewController: UIViewController {
                 if error != nil {
                     //Couldn't sign in
                     self.errorLabel.text = error!.localizedDescription
-                    self.errorLabel.alpha = 1
+                    self.showError(self.errorLabel.text!)
+                   // self.errorLabel.alpha = 1
+                    
                 }
                 else {
                     //User has signed in successfully
@@ -117,6 +111,7 @@ class LoginViewController: UIViewController {
         
         errorLabel.text = message
         errorLabel.alpha = 1
+        resetPasswordButton.alpha = 1
             
     }
     

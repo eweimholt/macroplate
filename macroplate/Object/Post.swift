@@ -16,4 +16,14 @@ class Post: NSObject {
     var userId : String!
     var postId : String!
     var userTextInput : String!
+    var index : IndexPath!
+    
+    //nutritional data
+    var carbs : String!
+    var protein : String!
+    var fat : String!
+    var calories : String!
+    
+    //State
+    var state : String!
 }
