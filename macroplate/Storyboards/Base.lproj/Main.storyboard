@@ -10,7 +10,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="PlateMate" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="platemate" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -68,26 +68,26 @@
         <!--Login View Controller-->
         <scene sceneID="2qy-GU-hzX">
             <objects>
-                <viewController id="W6l-3p-yfr" customClass="LoginViewController" customModule="PlateMate" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="W6l-3p-yfr" customClass="LoginViewController" customModule="platemate" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="kUm-nP-GUM">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="N3g-2K-bdR">
-                                <rect key="frame" x="40" y="128" width="334" height="360"/>
+                                <rect key="frame" x="60" y="128" width="294" height="360"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JpA-7M-EOb">
-                                        <rect key="frame" x="0.0" y="0.0" width="334" height="50"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="294" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1S3-an-EOT">
-                                        <rect key="frame" x="0.0" y="70" width="334" height="50"/>
+                                        <rect key="frame" x="0.0" y="70" width="294" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4zM-E5-Nz8">
-                                        <rect key="frame" x="0.0" y="140" width="334" height="50"/>
+                                        <rect key="frame" x="0.0" y="140" width="294" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="5W7-KU-DbJ"/>
                                         </constraints>
@@ -97,7 +97,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="xFQ-uw-cqN">
-                                        <rect key="frame" x="0.0" y="210" width="334" height="100"/>
+                                        <rect key="frame" x="0.0" y="210" width="294" height="100"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="100" id="fi4-39-TQU"/>
                                         </constraints>
@@ -112,7 +112,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cHE-XQ-8CT">
-                                        <rect key="frame" x="0.0" y="330" width="334" height="30"/>
+                                        <rect key="frame" x="0.0" y="330" width="294" height="30"/>
                                         <state key="normal" title="Reset Password"/>
                                     </button>
                                 </subviews>
@@ -124,8 +124,8 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="LvA-HJ-x1Q" firstAttribute="trailing" secondItem="N3g-2K-bdR" secondAttribute="trailing" constant="40" id="7kB-2w-BD0"/>
-                            <constraint firstItem="N3g-2K-bdR" firstAttribute="leading" secondItem="LvA-HJ-x1Q" secondAttribute="leading" constant="40" id="Xne-hD-FKd"/>
+                            <constraint firstItem="LvA-HJ-x1Q" firstAttribute="trailing" secondItem="N3g-2K-bdR" secondAttribute="trailing" constant="60" id="RIp-Wt-83f"/>
+                            <constraint firstItem="N3g-2K-bdR" firstAttribute="leading" secondItem="LvA-HJ-x1Q" secondAttribute="leading" constant="60" id="SvD-Az-NbS"/>
                             <constraint firstItem="N3g-2K-bdR" firstAttribute="top" secondItem="LvA-HJ-x1Q" secondAttribute="top" constant="40" id="qaT-AU-i14"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="LvA-HJ-x1Q"/>
@@ -146,7 +146,7 @@
         <!--User View Controller-->
         <scene sceneID="72L-dM-hpO">
             <objects>
-                <viewController storyboardIdentifier="ProfileVC" id="b7i-nh-e2W" customClass="UserViewController" customModule="PlateMate" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProfileVC" id="b7i-nh-e2W" customClass="UserViewController" customModule="platemate" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="F4b-cG-wr7">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -161,7 +161,7 @@
         <!--Tap View Controller-->
         <scene sceneID="t47-Jr-XGz">
             <objects>
-                <viewController storyboardIdentifier="TapVC" id="4gc-A0-mcH" customClass="TapViewController" customModule="PlateMate" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TapVC" id="4gc-A0-mcH" customClass="TapViewController" customModule="platemate" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HP5-9C-sp7">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -176,7 +176,7 @@
         <!--Fake Feed View Controller-->
         <scene sceneID="fMJ-j9-YkN">
             <objects>
-                <viewController storyboardIdentifier="FakeVC" id="GDR-cT-1jy" customClass="FakeFeedViewController" customModule="PlateMate" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FakeVC" id="GDR-cT-1jy" customClass="FakeFeedViewController" customModule="platemate" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YiF-Bv-VCn">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -191,7 +191,7 @@
         <!--Home View Controller-->
         <scene sceneID="ClS-9x-BMS">
             <objects>
-                <viewController storyboardIdentifier="HomeVC" id="zES-yA-odS" customClass="HomeViewController" customModule="PlateMate" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeVC" id="zES-yA-odS" customClass="HomeViewController" customModule="platemate" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lxW-lo-Rey">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -206,7 +206,7 @@
         <!--Image View Controller-->
         <scene sceneID="bJp-Hl-Joy">
             <objects>
-                <viewController storyboardIdentifier="ImageVC" id="yXi-RX-JtA" customClass="ImageViewController" customModule="PlateMate" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ImageVC" id="yXi-RX-JtA" customClass="ImageViewController" customModule="platemate" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mlf-UO-IF5">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -221,7 +221,7 @@
         <!--Feed View Controller-->
         <scene sceneID="dn4-Zw-jhG">
             <objects>
-                <viewController storyboardIdentifier="FeedVC" id="5U7-Ay-IQP" customClass="FeedViewController" customModule="PlateMate" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FeedVC" id="5U7-Ay-IQP" customClass="FeedViewController" customModule="platemate" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="P3W-DJ-OI0">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -236,7 +236,7 @@
         <!--Confirmation View Controller-->
         <scene sceneID="CnM-ab-YMn">
             <objects>
-                <viewController storyboardIdentifier="ConfirmVC" id="rJc-dM-Nlj" customClass="ConfirmationViewController" customModule="PlateMate" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ConfirmVC" id="rJc-dM-Nlj" customClass="ConfirmationViewController" customModule="platemate" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="uZY-ck-fgG">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -251,7 +251,7 @@
         <!--Sign Up View Controller-->
         <scene sceneID="98D-jD-ZTZ">
             <objects>
-                <viewController id="LN0-Sz-KHl" customClass="SignUpViewController" customModule="PlateMate" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="LN0-Sz-KHl" customClass="SignUpViewController" customModule="platemate" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="yTq-6J-5qc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

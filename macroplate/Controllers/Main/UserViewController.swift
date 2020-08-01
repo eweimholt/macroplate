@@ -31,8 +31,8 @@ class UserViewController: UIViewController {
         return pImage!
     }()
     
-    let dateJoined : UITextView = {
-        let textView = UITextView()
+    let dateJoined : UILabel = {
+        let textView = UILabel()
         textView.text = "Joined July 7, 2020"
         textView.textAlignment = .center
         textView.font    = UIFont(name: "AvenirNext-Regular", size: 14)
@@ -59,15 +59,13 @@ class UserViewController: UIViewController {
         //add components
         profileView.image = profilePic
         self.view.addSubview(profileView)
-  
         self.view.addSubview(name)
    
-        self.view.addSubview(dateJoined)
-  
-        graphView.image = userGraph
-        self.view.addSubview(graphView)
+        //self.view.addSubview(dateJoined)
+        //graphView.image = userGraph
+        //self.view.addSubview(graphView)
 
-     
+
         //get personalized user data
         let db = Firestore.firestore()
         
@@ -107,15 +105,15 @@ class UserViewController: UIViewController {
         profileView.widthAnchor.constraint(equalToConstant: 200).isActive = true
         profileView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         
-        dateJoined.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+        /*dateJoined.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
         dateJoined.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 10).isActive = true
         dateJoined.widthAnchor.constraint(equalToConstant: 170).isActive = true
         dateJoined.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         graphView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
         graphView.topAnchor.constraint(equalTo: view.topAnchor, constant: 300).isActive = true
-        graphView.widthAnchor.constraint(equalToConstant: 400).isActive = true
-        graphView.heightAnchor.constraint(equalToConstant: 310).isActive = true
+        graphView.widthAnchor.constraint(equalToConstant: 370).isActive = true
+        graphView.heightAnchor.constraint(equalToConstant: 290).isActive = true*/
         
     }
     

@@ -20,7 +20,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        layout.itemSize = CGSize(width: 350, height: 350)
+        layout.itemSize = CGSize(width: 300, height: 300)
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false
         //cv.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
@@ -45,6 +45,19 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         return label
     }()
     
+    /*var testButton: UIButton = {
+        let dButton = UIButton()
+        dButton.translatesAutoresizingMaskIntoConstraints = false
+        dButton.setTitle("Test", for: .normal)
+        dButton.clipsToBounds = true
+        dButton.layer.cornerRadius = 10
+        dButton.backgroundColor = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
+        dButton.setTitleColor(.white, for: .normal)
+        dButton.titleLabel?.font = UIFont(name: "AvenirNext-Regular", size: 20)
+        return dButton
+    }()*/
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -52,6 +65,10 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         view.addSubview(mealsCollectionView)
         
         view.addSubview(mealLabel)
+        
+        //view.addSubview(testButton)
+        //testButton.addTarget(self, action: #selector(testTapped), for: .touchUpInside)
+        
         //mealsCollectionView.register(PostCell.self, forCellWithReuseIdentifier: cellId)
         mealsCollectionView.backgroundColor = UIColor.white
         mealsCollectionView.dataSource = self
@@ -67,17 +84,22 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     func setUpLayout() {
         
-        mealsCollectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
-        mealsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15).isActive = true
-        mealsCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30).isActive = true
+        mealsCollectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
+        mealsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        mealsCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
         //mealsCollectionView.heightAnchor.constraint(equalToConstant: ).isActive = true
-        mealsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15).isActive = true
+        mealsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         
         
-        mealLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -100).isActive = true
-        mealLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+        mealLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        mealLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
         mealLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
         mealLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        /*testButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 150).isActive = true
+        testButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+        testButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        testButton.heightAnchor.constraint(equalToConstant: 50).isActive = true*/
         
     }
     
@@ -170,7 +192,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         let postVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "PostVC") as! PostViewController
         //pass data to VC
         postVC.postImage = image
-        postVC.date.text = date
+        //postVC.date.text = date
         postVC.userLabel.text = userText
         postVC.caloriesText.text = "Total Calories: \(calories ?? "pending")"
         postVC.carbs = carbs
@@ -203,6 +225,16 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
                 print("Document successfully removed!")
             }
         }*/
+    }
+    
+    @IBAction func testTapped(_sender: Any) {
+        
+        //present to ProfileVC
+        let testVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "TestVC") as! TestViewController
+        DispatchQueue.main.async {
+            self.present(testVC, animated: true, completion: nil)
+        }
+        
     }
     
 }

@@ -46,6 +46,9 @@
 		01C30CF8248C703500CD40F6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C30CF7248C703500CD40F6 /* Utilities.swift */; };
 		01C30CF9248C703500CD40F6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C30CF7248C703500CD40F6 /* Utilities.swift */; };
 		01C30CFA248C703500CD40F6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C30CF7248C703500CD40F6 /* Utilities.swift */; };
+		01D27CAA24D26D07002ED4AA /* RingProgressGroupButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D27CA924D26D07002ED4AA /* RingProgressGroupButton.swift */; };
+		01D27CAE24D36647002ED4AA /* RingProgressGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D27CAD24D36647002ED4AA /* RingProgressGroupView.swift */; };
+		01D27CB024D36851002ED4AA /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D27CAF24D36851002ED4AA /* TestViewController.swift */; };
 		01F55F97248C843F00104DAB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F55F96248C843F00104DAB /* Constants.swift */; };
 		01F55F98248C843F00104DAB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F55F96248C843F00104DAB /* Constants.swift */; };
 		01F55F99248C843F00104DAB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F55F96248C843F00104DAB /* Constants.swift */; };
@@ -110,11 +113,14 @@
 		01A3BE4424CB7238001425D6 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		01C25ACB24CCD5E100BBEF68 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		01C30CF7248C703500CD40F6 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		01D27CA924D26D07002ED4AA /* RingProgressGroupButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RingProgressGroupButton.swift; path = macroplate/Controllers/Feed/RingProgressGroupButton.swift; sourceTree = SOURCE_ROOT; };
+		01D27CAD24D36647002ED4AA /* RingProgressGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RingProgressGroupView.swift; path = /Users/eliseweimholt/Desktop/Xcode_Projects/macroplate/macroplate/Object/RingProgressGroupView.swift; sourceTree = "<absolute>"; };
+		01D27CAF24D36851002ED4AA /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		01F55F96248C843F00104DAB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		01FDDD9E24CCCF440032C23D /* Feed.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Feed.storyboard; sourceTree = "<group>"; };
 		01FDDDA824CCD00C0032C23D /* MealsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsViewController.swift; sourceTree = "<group>"; };
 		01FDDDAD24CCD32B0032C23D /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
-		01FE2A49248C699E005D5750 /* PlateMate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlateMate.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		01FE2A49248C699E005D5750 /* platemate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = platemate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		01FE2A4C248C699E005D5750 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		01FE2A4E248C699E005D5750 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		01FE2A50248C699E005D5750 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -227,6 +233,8 @@
 		01C25ACA24CCD5CB00BBEF68 /* Object */ = {
 			isa = PBXGroup;
 			children = (
+				01D27CAD24D36647002ED4AA /* RingProgressGroupView.swift */,
+				01D27CA924D26D07002ED4AA /* RingProgressGroupButton.swift */,
 				01C25ACB24CCD5E100BBEF68 /* Post.swift */,
 			);
 			path = Object;
@@ -263,6 +271,7 @@
 			children = (
 				018D937324D089A700E0873C /* PostViewController.swift */,
 				01FDDDA824CCD00C0032C23D /* MealsViewController.swift */,
+				01D27CAF24D36851002ED4AA /* TestViewController.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -290,7 +299,7 @@
 		01FE2A4A248C699E005D5750 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				01FE2A49248C699E005D5750 /* PlateMate.app */,
+				01FE2A49248C699E005D5750 /* platemate.app */,
 				01FE2A5F248C699F005D5750 /* macroplateTests.xctest */,
 				01FE2A6A248C699F005D5750 /* macroplateUITests.xctest */,
 			);
@@ -385,7 +394,7 @@
 			);
 			name = macroplate;
 			productName = macroplate;
-			productReference = 01FE2A49248C699E005D5750 /* PlateMate.app */;
+			productReference = 01FE2A49248C699E005D5750 /* platemate.app */;
 			productType = "com.apple.product-type.application";
 		};
 		01FE2A5E248C699F005D5750 /* macroplateTests */ = {
@@ -656,7 +665,9 @@
 				011AEAA524C01F50008F7084 /* TapViewController.swift in Sources */,
 				01011F2824BB80620077534B /* FeedViewController.swift in Sources */,
 				01C30CF8248C703500CD40F6 /* Utilities.swift in Sources */,
+				01D27CB024D36851002ED4AA /* TestViewController.swift in Sources */,
 				018D937424D089A700E0873C /* PostViewController.swift in Sources */,
+				01D27CAE24D36647002ED4AA /* RingProgressGroupView.swift in Sources */,
 				01983B4B24C0BDD900882883 /* ImageViewController.swift in Sources */,
 				01FE2A4D248C699E005D5750 /* AppDelegate.swift in Sources */,
 				01C25ACC24CCD5E100BBEF68 /* Post.swift in Sources */,
@@ -664,6 +675,7 @@
 				01FE2A4F248C699E005D5750 /* SceneDelegate.swift in Sources */,
 				0138088A248C6C46003A9ECF /* HomeViewController.swift in Sources */,
 				01A3BE4524CB7238001425D6 /* User.swift in Sources */,
+				01D27CAA24D26D07002ED4AA /* RingProgressGroupButton.swift in Sources */,
 				015041D724B4CC5D005F4B15 /* UserButton.swift in Sources */,
 				0138088E248C6C5D003A9ECF /* SignUpViewController.swift in Sources */,
 				01F55F97248C843F00104DAB /* Constants.swift in Sources */,
@@ -871,14 +883,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = macroplate/macroplate.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = BT9643U669;
+				DEVELOPMENT_TEAM = G8Y7XBA9M8;
 				INFOPLIST_FILE = macroplate/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.eliseweimholt.platemate;
-				PRODUCT_NAME = PlateMate;
+				PRODUCT_BUNDLE_IDENTIFIER = com.FlowasteLLC.platemate;
+				PRODUCT_NAME = platemate;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -891,14 +903,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = macroplate/macroplate.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = BT9643U669;
+				DEVELOPMENT_TEAM = G8Y7XBA9M8;
 				INFOPLIST_FILE = macroplate/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.eliseweimholt.platemate;
-				PRODUCT_NAME = PlateMate;
+				PRODUCT_BUNDLE_IDENTIFIER = com.FlowasteLLC.platemate;
+				PRODUCT_NAME = platemate;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

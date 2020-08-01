@@ -9,7 +9,6 @@
 import UIKit
 
 class PostViewController: UIViewController {
-    
     var carbs : String?
     var protein : String?
     var fat : String?
@@ -18,8 +17,8 @@ class PostViewController: UIViewController {
     var state : String? 
     
     let postImageView : UIImageView = {
-        let imageView = UIImageView(frame: CGRect(x: 35, y: 40, width: 350, height: 350))
-        imageView.translatesAutoresizingMaskIntoConstraints = true
+        let imageView = UIImageView() //frame: CGRect(x: 35, y: 15, width: 300, height: 300))
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 20
@@ -29,17 +28,35 @@ class PostViewController: UIViewController {
     // post image
     var postImage:UIImage?
     
-    var date : UITextView = {
+    /*var date : UITextView = {
         let textView = UITextView()
         textView.textAlignment = .center
         textView.font    = UIFont(name: "AvenirNext-Regular", size: 14)
         textView.textColor = .lightGray
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
+    }()*/
+    
+    var userLabel : UILabel = {
+        let textView = UILabel()
+        textView.textAlignment = .center
+        textView.font    = UIFont(name: "AvenirNext-Regular", size: 18)
+        textView.textColor = UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        return textView
     }()
     
-    var userLabel : UITextView = {
-        let textView = UITextView()
+    var caloriesText : UILabel = {
+        let textView = UILabel()
+        textView.textAlignment = .center
+        textView.font = UIFont(name: "AvenirNext-Bold", size: 18)
+        textView.textColor = UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        return textView
+    }()
+    
+    var carbsText : UILabel = {
+        let textView = UILabel()
         textView.textAlignment = .center
         textView.font    = UIFont(name: "AvenirNext-Regular", size: 18)
         textView.textColor = .black
@@ -47,8 +64,8 @@ class PostViewController: UIViewController {
         return textView
     }()
     
-    var caloriesText : UITextView = {
-        let textView = UITextView()
+    var proteinText : UILabel = {
+        let textView = UILabel()
         textView.textAlignment = .center
         textView.font    = UIFont(name: "AvenirNext-Regular", size: 18)
         textView.textColor = .black
@@ -56,70 +73,167 @@ class PostViewController: UIViewController {
         return textView
     }()
     
-    let pendingView : UIImageView = {
-        let imageView = UIImageView(frame: CGRect(x: 35, y: 410, width: 350, height: 320))
-        imageView.translatesAutoresizingMaskIntoConstraints = true
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.backgroundColor = .lightGray
-        imageView.layer.cornerRadius = 20
-        return imageView
+    var fatText : UILabel = {
+        let textView = UILabel()
+        textView.textAlignment = .center
+        textView.font    = UIFont(name: "AvenirNext-Regular", size: 18)
+        textView.textColor = .black
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        return textView
     }()
 
-    let annotatedView : UIImageView = {
-        let imageView = UIImageView(frame: CGRect(x: 35, y: 410, width: 350, height: 320))
+    
+    let pendingText : UILabel = {
+        let label = UILabel()
+        var text = """
+        AI training in progress!
+        Check back in a few days.
+        """
+        label.text = text
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.textColor = UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 2
+        return label
+    }()
+    
+    /*let pendingView : UIImageView = {
+        let imageView = UIImageView(frame: CGRect(x: 35, y: 330, width: 300, height: 290))
         imageView.translatesAutoresizingMaskIntoConstraints = true
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.backgroundColor = .green
         imageView.layer.cornerRadius = 20
         return imageView
+    }()*/
+
+    let annotatedView : UIImageView = {
+        let imageView = UIImageView(frame: CGRect(x: 35, y: 420, width: 120, height: 120))
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.backgroundColor = .white
+        imageView.layer.cornerRadius = 20
+        return imageView
     }()
+    
+    
+    let healthButton : UIButton = {
+        let button = UIButton(frame: CGRect(x: 70, y: 600, width: 300, height: 50))
+        button.setTitle("View in Apple Health", for: .normal)
+        button.backgroundColor = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        //button.clipsToBounds = true
+        //button.
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.view.addSubview(postImageView)
         postImageView.image = postImage
         
-        if state == "Pending" {
-            self.view.addSubview(pendingView)
-            //print(state!)
-        } else {
-            self.view.addSubview(annotatedView)
-            //print(state!)
-        }
+        //annotatedView.image = UIImage(named: "activityring" )
         
         
-        self.view.addSubview(date)
+        //self.view.addSubview(date)
         self.view.addSubview(userLabel)
         self.view.addSubview(caloriesText)
+
         setUpLayout()
+        
+        
+        if state == "Pending" {
+            //self.view.addSubview(pendingView)
+            self.view.addSubview(pendingText)
+            
+            pendingText.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+            //pendingText.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 150).isActive = true
+            pendingText.topAnchor.constraint(equalTo: caloriesText.bottomAnchor, constant: 10).isActive = true
+            pendingText.widthAnchor.constraint(equalToConstant: 300).isActive = true
+            pendingText.heightAnchor.constraint(equalToConstant: 100).isActive = true
+            //print(state!)
+        } else {
+            //self.view.addSubview(annotatedView)
+            self.view.addSubview(carbsText)
+            self.view.addSubview(fatText)
+            self.view.addSubview(proteinText)
+            //healthButton.addTarget(self, action: #selector(healthButtonTapped), for: .touchUpInside)
+            self.view.addSubview(healthButton)
+            Utilities.styleFilledButton(healthButton)
+            
+            carbsText.text = "Carbs: 18 g"
+            carbsText.textAlignment = .center
+            carbsText.textColor = .systemRed
+            
+            proteinText.text = "Protein: 7 g"
+            proteinText.textAlignment = .center
+            proteinText.textColor = .systemGreen
+            
+            fatText.text = "Fat: 11 g"
+            fatText.textAlignment = .center
+            fatText.textColor = .systemBlue
+            
+            carbsText.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+            carbsText.topAnchor.constraint(equalTo: view.topAnchor, constant: 510).isActive = true
+            carbsText.topAnchor.constraint(equalTo: caloriesText.bottomAnchor, constant: 10).isActive = true
+            //carbsText.topAnchor.constraint(equalTo: caloriesText.bottomAnchor, constant: 10).isActive = true
+            carbsText.widthAnchor.constraint(equalToConstant: 150).isActive = true
+            carbsText.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            
+            proteinText.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+            proteinText.topAnchor.constraint(equalTo: carbsText.bottomAnchor, constant: 10).isActive = true
+            proteinText.widthAnchor.constraint(equalToConstant: 150).isActive = true
+            proteinText.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            
+            fatText.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+            fatText.topAnchor.constraint(equalTo: proteinText.bottomAnchor, constant: 10).isActive = true
+            fatText.widthAnchor.constraint(equalToConstant: 150).isActive = true
+            fatText.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            
+            healthButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+            healthButton.topAnchor.constraint(equalTo: fatText.bottomAnchor, constant: 20).isActive = true
+            healthButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
+            healthButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+            //print(state!)
+        }
+
         
 
 
     }
     
+
     private func setUpLayout() {
 
-        date.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-        date.topAnchor.constraint(equalTo: view.topAnchor, constant: 450).isActive = true
+        /*date.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+        date.topAnchor.constraint(equalTo: view.topAnchor, constant: 400).isActive = true
         date.widthAnchor.constraint(equalToConstant: 170).isActive = true
-        date.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        date.heightAnchor.constraint(equalToConstant: 40).isActive = true*/
+        
+        postImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        postImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -200).isActive = true
+        postImageView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        postImageView.heightAnchor.constraint(equalToConstant: 300).isActive = true
         
         userLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-        userLabel.topAnchor.constraint(equalTo: date.bottomAnchor, constant: 20).isActive = true
-        //userLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        //userLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        userLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0).isActive = true
         userLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
         userLabel.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
         caloriesText.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-        caloriesText.topAnchor.constraint(equalTo: userLabel.bottomAnchor, constant: 20).isActive = true
-        //caloriesText.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        //caloriesText.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        //caloriesText.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 60).isActive = true
+        caloriesText.topAnchor.constraint(equalTo: userLabel.bottomAnchor, constant: 10).isActive = true
         caloriesText.widthAnchor.constraint(equalToConstant: 300).isActive = true
         caloriesText.heightAnchor.constraint(equalToConstant: 30).isActive = true
-
+        
+        /*annotatedView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -100).isActive = true
+        annotatedView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 100).isActive = true
+        annotatedView.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        annotatedView.heightAnchor.constraint(equalToConstant: 120).isActive = true*/
     
         
     }

@@ -10,7 +10,7 @@
         <!--Meals View Controller-->
         <scene sceneID="GOn-up-PFp">
             <objects>
-                <viewController storyboardIdentifier="MealsVC" id="QRN-aT-CnG" customClass="MealsViewController" customModule="PlateMate" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MealsVC" id="QRN-aT-CnG" customClass="MealsViewController" customModule="macroplateTests" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Vwa-GU-ui5">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -22,10 +22,34 @@
             </objects>
             <point key="canvasLocation" x="-500.00000000000006" y="37.5"/>
         </scene>
+        <!--Test View Controller-->
+        <scene sceneID="nWx-s9-59I">
+            <objects>
+                <viewController storyboardIdentifier="TestVC" id="y5k-gL-Kna" customClass="TestViewController" customModule="PlateMate" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="SNd-Jd-CJs">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j6J-66-AnA">
+                                <rect key="frame" x="186" y="438" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="Jt1-3o-hhf"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H0j-oK-BXA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-500" y="721"/>
+        </scene>
         <!--Post View Controller-->
         <scene sceneID="eEY-Dc-7vO">
             <objects>
-                <viewController storyboardIdentifier="PostVC" id="uuL-x1-8jI" customClass="PostViewController" customModule="PlateMate" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PostVC" id="uuL-x1-8jI" customClass="PostViewController" customModule="platemate" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4G6-D9-qHl">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

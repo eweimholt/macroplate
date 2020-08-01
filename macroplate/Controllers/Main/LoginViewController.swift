@@ -25,7 +25,7 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        view.backgroundColor = .white
         //TODO Set up Firebase
         /*self.storage = Storage.storage()
         self.auth = Auth.auth()
@@ -37,6 +37,7 @@ class LoginViewController: UIViewController {
     }
     
     func setUpElements() {
+        
         
         //hide error label
         errorLabel.alpha = 0

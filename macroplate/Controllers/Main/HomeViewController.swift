@@ -26,9 +26,9 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     let cameraView : UIView = {
         let camView = UIView()
-        camView.translatesAutoresizingMaskIntoConstraints = true
-        //cameraView.clipsToBounds = true
-        //cameraView.layer.cornerRadius = 10
+        camView.translatesAutoresizingMaskIntoConstraints = false
+        camView.clipsToBounds = true
+        //camView.layer.cornerRadius = 10
         return camView
     }()
    
@@ -159,31 +159,39 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         view.backgroundColor = .black
            //view.backgroundColor = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
+        
+        
+        cameraView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
+        //cameraView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50).isActive = true
+        cameraView.heightAnchor.constraint(equalToConstant: 700).isActive = true
+        cameraView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        cameraView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        
            
         cameraButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        cameraButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100).isActive = true
+        cameraButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50).isActive = true
         cameraButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
         cameraButton.heightAnchor.constraint(equalToConstant: 80).isActive = true
         
         
         flipButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        flipButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
+        flipButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
         flipButton.widthAnchor.constraint(equalToConstant: 55).isActive = true
         flipButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
         
         
         userButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        userButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -115).isActive = true
+        userButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -65).isActive = true
         userButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
         userButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         galleryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        galleryButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -115).isActive = true
+        galleryButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -65).isActive = true
         galleryButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
         galleryButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         uploadButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 80).isActive = true
-        uploadButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -125).isActive = true
+        uploadButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -75).isActive = true
         uploadButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         uploadButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
     }

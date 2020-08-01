@@ -39,7 +39,7 @@ class Utilities {
 
         // Create the background
         let background = CALayer()
-        background.frame = CGRect(x: 0, y: label.frame.height - 2, width: label.frame.width - 175, height: 2)
+        background.frame = CGRect(x: 0, y: label.frame.height - 2, width: label.frame.width, height: 2)
         background.backgroundColor = primaryUIColor.cgColor
         // Add the line to the text field
         label.layer.addSublayer(background)
