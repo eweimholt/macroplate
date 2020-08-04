@@ -135,7 +135,8 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
                         post.fat = doc["fat"] as? String
                         post.calories = doc["calories"] as? String
                         post.state = doc["State"] as? String
-              
+                        
+                        
                         self.posts.append(post)
                         
                     }

@@ -7,8 +7,14 @@
 //
 
 import UIKit
+import HealthKit
+import Photos
 
 class PostViewController: UIViewController {
+    
+    // health kit
+    let healthKitStore:HKHealthStore = HKHealthStore()
+    
     var carbs : String?
     var protein : String?
     var fat : String?
@@ -161,21 +167,25 @@ class PostViewController: UIViewController {
             self.view.addSubview(carbsText)
             self.view.addSubview(fatText)
             self.view.addSubview(proteinText)
-            //healthButton.addTarget(self, action: #selector(healthButtonTapped), for: .touchUpInside)
+            
             self.view.addSubview(healthButton)
+            healthButton.addTarget(self, action: #selector(healthButtonTapped), for: .touchUpInside)
             Utilities.styleFilledButton(healthButton)
             
-            carbsText.text = "Carbs: 18 g"
+            carbsText.text = "Carbs: \(carbs ?? "") g"
             carbsText.textAlignment = .center
             carbsText.textColor = .systemRed
             
-            proteinText.text = "Protein: 7 g"
+            proteinText.text = "Protein: \(protein ?? "") g"
             proteinText.textAlignment = .center
             proteinText.textColor = .systemGreen
             
-            fatText.text = "Fat: 11 g"
+            fatText.text = "Fat: \(fat ?? "") g"
             fatText.textAlignment = .center
             fatText.textColor = .systemBlue
+            
+            self.authorizeHealthKitInApp()
+            writeToKit()
             
             carbsText.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
             carbsText.topAnchor.constraint(equalTo: view.topAnchor, constant: 510).isActive = true
@@ -222,7 +232,7 @@ class PostViewController: UIViewController {
         userLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
         userLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0).isActive = true
         userLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        userLabel.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        //userLabel.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
         caloriesText.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
         //caloriesText.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 60).isActive = true
@@ -234,9 +244,84 @@ class PostViewController: UIViewController {
         annotatedView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 100).isActive = true
         annotatedView.widthAnchor.constraint(equalToConstant: 120).isActive = true
         annotatedView.heightAnchor.constraint(equalToConstant: 120).isActive = true*/
+    }
     
-        
+    @IBAction func healthButtonTapped(_ sender: Any) {
+       openUrl(urlString: "x-apple-health://")
     }
 
+      func openUrl(urlString: String) {
+        guard let url = URL(string: urlString) else {
+            return
+        }
+
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
+    func authorizeHealthKitInApp() {
+        
+        let healthKitTypesToRead: Set<HKObjectType> = [
+            HKObjectType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.dateOfBirth)!, HKObjectType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.bloodType)!,
+            HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates)!,        HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryProtein)!,        HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryFatTotal)!,
+            
+        
+        ]
+        let healthKitTypesToWrite: Set<HKSampleType> = [HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates)!,HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryProtein)!,        HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryFatTotal)!]
+        
+        if !HKHealthStore.isHealthDataAvailable()
+        {
+            print("error occured at health store")
+            return
+        }
+        healthKitStore.requestAuthorization(toShare: healthKitTypesToWrite, read: healthKitTypesToRead) { (success, error) -> Void in
+            print("Read Write Authorization Succeeded")
+        }
+        
+    }
+    
+    func writeToKit() {
+        guard let carbs = Double(self.carbsText.text!) else { return }
+        guard let protein = Double(self.proteinText.text!) else { return }
+        guard let fat = Double(self.fatText.text!) else { return }
+        print("\(carbs) written")
+        
+        
+        /*let carbs = 7
+        let protein = 10
+        let fat = 8;*/
+        
+        
+        let today = NSDate()
+        
+        if let type = HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates) {
+            let quantity = HKQuantity(unit: HKUnit.gram(), doubleValue: Double(carbs))
+            
+            let sample = HKQuantitySample(type: type, quantity: quantity, start: today as Date, end: today as Date)
+            healthKitStore.save(sample) { (success, error) in
+                print("Saved \(success), error \(String(describing: error ?? nil))")
+            }
+        }
+        
+        if let type = HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryProtein) {
+            let quantity = HKQuantity(unit: HKUnit.gram(), doubleValue: Double(protein))
+            
+            let sample = HKQuantitySample(type: type, quantity: quantity, start: today as Date, end: today as Date)
+            healthKitStore.save(sample) { (success, error) in
+                print("Saved \(success), error \(String(describing: error ?? nil))")
+            }
+        }
+        
+        if let type = HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryFatTotal) {
+            let quantity = HKQuantity(unit: HKUnit.gram(), doubleValue: Double(fat))
+            
+            let sample = HKQuantitySample(type: type, quantity: quantity, start: today as Date, end: today as Date)
+            healthKitStore.save(sample) { (success, error) in
+                print("Saved \(success), error \(String(describing: error ?? nil))")
+            }
+        }
+        
+    }
     
 }

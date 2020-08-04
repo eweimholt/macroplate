@@ -96,6 +96,16 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         return uButton
     }()
     
+    var cameraText : UILabel = {
+        let textLabel = UILabel()
+        textLabel.textAlignment = .center
+        textLabel.font = UIFont(name: "AvenirNext-Regular", size: 20)
+        textLabel.text = "Take a photo of your meal!"
+        textLabel.textColor = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
+        return textLabel
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         picker.delegate = self //image picker will now listen to delegates. has method called when user is done selecting image
@@ -124,6 +134,8 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         uploadButton.addTarget(self, action: #selector(uploadTapped), for: .touchUpInside)
         //uploadButton.setTitle("Upload", for: .normal)
         self.view.addSubview(uploadButton)
+        
+        self.view.addSubview(cameraText)
         
         setUpLayout()
         
@@ -173,12 +185,21 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         cameraButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
         cameraButton.heightAnchor.constraint(equalToConstant: 80).isActive = true
         
+        cameraText.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        cameraText.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80).isActive = true
+        //cameraText.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
+        cameraText.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        cameraText.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         flipButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         flipButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
         flipButton.widthAnchor.constraint(equalToConstant: 55).isActive = true
         flipButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
         
+        cameraText.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        cameraText.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
+        cameraText.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        cameraText.heightAnchor.constraint(equalToConstant: 45).isActive = true
         
         userButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         userButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -65).isActive = true
@@ -314,10 +335,10 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     func transitionToFeed() {
 
-       let mealVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "MealsVC") as! MealsViewController
-        DispatchQueue.main.async {
-            self.present(mealVC, animated: true, completion: nil)
-        }
+        let mealVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "MealsVC") as! MealsViewController
+         DispatchQueue.main.async {
+             self.present(mealVC, animated: true, completion: nil)
+         }
 
     }
     

@@ -63,8 +63,8 @@ class PostCell: UICollectionViewCell {
         dButton.setTitle("X", for: .normal)
         dButton.clipsToBounds = true
         dButton.layer.cornerRadius = 10
-        dButton.backgroundColor = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
-        dButton.setTitleColor(.white, for: .normal)
+        //dButton.backgroundColor = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
+        dButton.setTitleColor(.black, for: .normal)
         dButton.titleLabel?.font = UIFont(name: "AvenirNext-Regular", size: 20)
         return dButton
     }()
@@ -78,8 +78,8 @@ class PostCell: UICollectionViewCell {
         contentView.addSubview(postButton)
         postButton.addTarget(self, action: #selector(expandPost), for: .touchUpInside)
         
-        //contentView.addSubview(deleteButton)
-        //postButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
+        contentView.addSubview(deleteButton)
+        postButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
         
         setup()
     }
@@ -115,16 +115,16 @@ extension PostCell {
         postImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         //postImage.heightAnchor.constraint(equalToConstant: 300).isActive = true
         
-        postButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        postButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 60).isActive = true
         postButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         postButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         postButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         //postButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-        /*deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        deleteButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:315).isActive = true
-        deleteButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -315).isActive = true
-        deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true*/
+        deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        deleteButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:200).isActive = true
+        deleteButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -200).isActive = true
+        deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         
         
     }
