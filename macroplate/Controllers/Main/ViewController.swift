@@ -73,8 +73,8 @@ class ViewController: UIViewController {
         logoView.widthAnchor.constraint(equalToConstant: 500).isActive = true
         logoView.heightAnchor.constraint(equalToConstant: 500).isActive = true
         
-        betaLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 130).isActive = true
-        betaLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 425).isActive = true
+        betaLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 135).isActive = true
+        betaLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 430).isActive = true
         betaLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
         betaLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }

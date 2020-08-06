@@ -27,7 +27,7 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
     
     let myImageView : UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 55, y: 175, width: 300, height: 300))
-        imageView.translatesAutoresizingMaskIntoConstraints = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 20
         imageView.contentMode = .scaleAspectFill
@@ -35,9 +35,10 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
     }()
     
     let sendButton : UIButton = {
-        let button = UIButton(frame: CGRect(x: 55, y: 500, width: 300, height: 50))
-        button.setTitle("Send to AI Model", for: .normal)
+        let button = UIButton(frame: CGRect(x: 105, y: 500, width: 200, height: 50))
+        button.setTitle("Submit", for: .normal)
         button.backgroundColor = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -106,6 +107,16 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
         messageLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 40).isActive = true
         messageLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
         messageLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        sendButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        sendButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 500).isActive = true
+        sendButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        sendButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        myImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        myImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 175).isActive = true
+        myImageView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        myImageView.heightAnchor.constraint(equalToConstant: 300).isActive = true
         
     }
     

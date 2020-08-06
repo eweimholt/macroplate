@@ -52,12 +52,13 @@ class UserViewController: UIViewController {
         label.isSelectable = true
         label.dataDetectorTypes = .link
         label.text = """
-        Platemate is powered by Flowaste, a startup with a mission to reduce food waste. We plan to achieve this by creating deep learning models to track food waste.
+        Platemate is an automatic food tracker powered by Flowaste, a startup with a mission to reduce food waste. We develop deep learning models to recognize and track food.
         """
         label.font = UIFont.systemFont(ofSize: 18)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
         label.textColor = .white
+        label.tintColor = .white
         //label.numberOfLines = 7
         return label
     }()
@@ -79,13 +80,14 @@ class UserViewController: UIViewController {
         label.isSelectable = true
         label.dataDetectorTypes = .link
         label.text = """
-        Log your meal with one snap, and check back later for a complete nutritional breakdown, synced to Apple Health. Watch a demo here.
+        Log your meal with one picture, taken from a bird's eye view above your plate. Check back later for a complete nutritional breakdown, synced to Apple Health. Watch a demo here.
         """
         label.font = UIFont.systemFont(ofSize: 18)
         label.textColor = UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
         label.textColor = .white
+        label.tintColor = .white
         return label
     }()
     
@@ -160,7 +162,7 @@ class UserViewController: UIViewController {
         self.view.addSubview(useBody)
         
         
-        let switchOnOff = UISwitch(frame:CGRect(x: 300, y: 510, width: 0, height: 0))
+        let switchOnOff = UISwitch(frame:CGRect(x: 300, y: 550, width: 0, height: 0))
         switchOnOff.addTarget(self, action: #selector(UserViewController.switchStateDidChange(_:)), for: .valueChanged)
         switchOnOff.setOn(false, animated: false)
         self.view.addSubview(switchOnOff)
@@ -242,7 +244,7 @@ class UserViewController: UIViewController {
         
         switchLabel.translatesAutoresizingMaskIntoConstraints = false
         switchLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50).isActive = true
-        switchLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 500).isActive = true
+        switchLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 540).isActive = true
         switchLabel.widthAnchor.constraint(equalToConstant: 250).isActive = true
         switchLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
@@ -272,8 +274,9 @@ class UserViewController: UIViewController {
         let attributedString2 = NSAttributedString.makeHyperlink(for: path, in: text2, as: "Flowaste")
         aboutBody.attributedText = attributedString2
         
+        let path2 = "https://www.platemate.io/"
         let text = useBody.text ?? ""
-        let attributedString = NSAttributedString.makeHyperlink(for: path, in: text, as: "here")
+        let attributedString = NSAttributedString.makeHyperlink(for: path2, in: text, as: "here")
         useBody.attributedText = attributedString
         
         
@@ -281,10 +284,12 @@ class UserViewController: UIViewController {
         aboutBody.font = font
         aboutBody.backgroundColor = .clear//background
         aboutBody.textColor = fontColor
+        aboutBody.tintColor = UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
         
         useBody.font = font
         useBody.backgroundColor = .clear//background
         useBody.textColor = fontColor
+        useBody.tintColor = UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
     }
     
     @objc func switchStateDidChange(_ sender:UISwitch){
