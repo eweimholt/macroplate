@@ -28,7 +28,20 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        navigationController?.setNavigationBarHidden(true, animated: true)
+        
+        //setup background gradient
+        UIGraphicsBeginImageContext(self.view.frame.size)
+        UIImage(named: "background_gradient.png")?.draw(in: self.view.bounds)
+
+        if let image = UIGraphicsGetImageFromCurrentImageContext(){
+            UIGraphicsEndImageContext()
+            self.view.backgroundColor = UIColor(patternImage: image)
+        }else{
+            UIGraphicsEndImageContext()
+            debugPrint("Image not available")
+         }
+        
         // Do any additional setup after loading the view.
         setUpElements()
         //validateFields()
@@ -44,7 +57,7 @@ class SignUpViewController: UIViewController {
         Utilities.styleTextField(lastNameTextField)
         Utilities.styleTextField(emailTextField)
         Utilities.styleTextField(passwordTextField)
-        Utilities.styleFilledButton(signUpButton)
+        Utilities.styleSetupButton(signUpButton)
     }
     
     //Check the fields and validate that the data is correct. If everything is correct, this method returns nil. Otherwise, it returns an error message as a string.
@@ -87,6 +100,7 @@ class SignUpViewController: UIViewController {
             let lastName = lastNameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+            let dateJoined = Date()
             
             //Create the User
             Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
@@ -117,7 +131,9 @@ class SignUpViewController: UIViewController {
                         "lastname": lastName,
                         "email": email,
                         "uid": result!.user.uid,
-                        "did": docId]  as [String : Any]
+                        "did": docId,
+                        "dateJoined" : dateJoined,
+                        "permissionGranted" : "false"]  as [String : Any]
    
                     db.collection("users").document(docId).setData(userData) { err in
                         if let err = err {

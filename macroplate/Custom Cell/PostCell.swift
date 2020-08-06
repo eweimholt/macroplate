@@ -10,10 +10,12 @@ import UIKit
 
 protocol PostCellDelegate {
     //commands that we give to PostViewController
-    func didExpandPost(image: UIImage, date: String?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?,state : String? )
+    func didExpandPost(image: UIImage, date: String?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?,state : String?, postId : String?, healthDataEvent: String?)
     
     
     func didDeletePost(index: Int)
+    
+    //func didHoldPost(index: Int)
     
 }
 
@@ -33,7 +35,9 @@ class PostCell: UICollectionViewCell {
     var fat : String?
     var calories : String?
 
-    var state : String? 
+    var state : String?
+    var healthDataEvent : String?
+    
     
     let postImage: UIImageView = {
         let imageView = UIImageView()
@@ -62,9 +66,9 @@ class PostCell: UICollectionViewCell {
         dButton.translatesAutoresizingMaskIntoConstraints = false
         dButton.setTitle("X", for: .normal)
         dButton.clipsToBounds = true
-        dButton.layer.cornerRadius = 10
-        //dButton.backgroundColor = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
-        dButton.setTitleColor(.black, for: .normal)
+        dButton.layer.cornerRadius = 15
+        dButton.backgroundColor = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
+        dButton.setTitleColor(.white, for: .normal)
         dButton.titleLabel?.font = UIFont(name: "AvenirNext-Regular", size: 20)
         return dButton
     }()
@@ -75,11 +79,13 @@ class PostCell: UICollectionViewCell {
         super.init(frame: frame)
         
         contentView.addSubview(postImage)
+        
         contentView.addSubview(postButton)
         postButton.addTarget(self, action: #selector(expandPost), for: .touchUpInside)
+        //postButton.addTarget(self, action: #selector(postHold), for: .touchDragInside)
         
         contentView.addSubview(deleteButton)
-        postButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
+        deleteButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
         
         setup()
     }
@@ -91,9 +97,9 @@ class PostCell: UICollectionViewCell {
     @IBAction func expandPost() {
 
         if let userTextInput = userTextInput {
-            delegate?.didExpandPost(image: postImage.image!, date: date!, userText: userTextInput, calories: calories, carbs: carbs, protein: protein, fat: fat, state : state)
+            delegate?.didExpandPost(image: postImage.image!, date: date!, userText: userTextInput, calories: calories, carbs: carbs, protein: protein, fat: fat, state : state, postId: postId, healthDataEvent: healthDataEvent)
         } else {
-            delegate?.didExpandPost(image: postImage.image!, date: date!, userText: "nothing", calories: calories, carbs: carbs, protein: protein, fat: fat, state : state)
+            delegate?.didExpandPost(image: postImage.image!, date: date!, userText: "nothing", calories: calories, carbs: carbs, protein: protein, fat: fat, state : state, postId: postId, healthDataEvent: healthDataEvent)
         }
 
 
@@ -101,8 +107,12 @@ class PostCell: UICollectionViewCell {
     
     @IBAction func deletePost() {
         delegate?.didDeletePost(index: index!.row)
-        
     }
+    
+    /*@IBAction func postHold() {
+        delegate?.didHoldPost(index: index!.row)
+    }*/
+
   
 }
 
@@ -115,15 +125,15 @@ extension PostCell {
         postImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         //postImage.heightAnchor.constraint(equalToConstant: 300).isActive = true
         
-        postButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 60).isActive = true
+        postButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         postButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         postButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         postButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         //postButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        deleteButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:200).isActive = true
-        deleteButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -200).isActive = true
+        deleteButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:265).isActive = true
+        deleteButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -265).isActive = true
         deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         
         

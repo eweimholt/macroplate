@@ -23,14 +23,34 @@ class Utilities {
         
         bottomLine.frame = CGRect(x: 0, y: textfield.frame.height - 2, width: textfield.frame.width, height: 2)
         
-        bottomLine.backgroundColor = primaryUIColor.cgColor
-        //UIColor.init(red: 100/255, green: 196/255, blue: 188/255, alpha: 1).cgColor
+        bottomLine.backgroundColor = UIColor.init(red: 255/255, green: 255/255, blue: 255/255, alpha: 1).cgColor
+        //primaryUIColor.cgColor
         
         // Remove border on text field
         textfield.borderStyle = .none
         
         // Add the line to the text field
         textfield.layer.addSublayer(bottomLine)
+        
+    }
+    
+    static func styleInputField(_ textfield:UITextField) {
+
+        // Create the bottom line
+        /*let bottomLine = CALayer()
+        
+        bottomLine.frame = CGRect(x: 0, y: textfield.frame.height - 2, width: textfield.frame.width, height: 2)
+        
+        bottomLine.backgroundColor = UIColor.init(red: 255/255, green: 255/255, blue: 255/255, alpha: 1).cgColor
+         
+         // Add the line to the text field
+                textfield.layer.addSublayer(bottomLine)*/
+        //primaryUIColor.cgColor
+        
+        // Remove border on text field
+        //textfield.borderStyle = .none
+        
+       
         
     }
     
@@ -55,6 +75,18 @@ class Utilities {
         // Filled rounded corner style
         button.backgroundColor = primaryUIColor
             //UIColor.init(red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
+        button.layer.cornerRadius = 25.0
+        button.tintColor = UIColor.white
+        //rgb(100, 196, 188) flowaste main color
+    }
+    
+    static func styleSetupButton(_ button:UIButton) {
+        
+        // Filled rounded corner style
+        //button.backgroundColor = .white
+        button.layer.borderWidth = 2
+        button.layer.borderColor = UIColor.white.cgColor
+        //UIColor.init(red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
         button.layer.cornerRadius = 25.0
         button.tintColor = UIColor.white
         //rgb(100, 196, 188) flowaste main color

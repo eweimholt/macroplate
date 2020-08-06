@@ -22,8 +22,9 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         layout.itemSize = CGSize(width: 300, height: 300)
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.backgroundColor = .white //UIColor.clear.withAlphaComponent(0)
+        cv.layer.cornerRadius = 20
         cv.translatesAutoresizingMaskIntoConstraints = false
-        //cv.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         cv.register(PostCell.self, forCellWithReuseIdentifier: "cell")
         return cv
     }()
@@ -45,6 +46,23 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         return label
     }()
     
+    let initialLabel : UILabel = {
+        let label = UILabel()
+        label.text = """
+        No meals logged yet.
+        Take a photo or upload one from your libary.
+        """
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.textColor = UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
+        //label.layer.masksToBounds = true
+        //label.layer.cornerRadius = 30
+        //label.backgroundColor = .green
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.numberOfLines = 3
+        return label
+    }()
+    
     /*var testButton: UIButton = {
         let dButton = UIButton()
         dButton.translatesAutoresizingMaskIntoConstraints = false
@@ -61,19 +79,18 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // view.backgroundColor = UIColor.white
+        view.backgroundColor = .white
+        
         view.addSubview(mealsCollectionView)
         
         view.addSubview(mealLabel)
         
+        
         //view.addSubview(testButton)
         //testButton.addTarget(self, action: #selector(testTapped), for: .touchUpInside)
-        
-        //mealsCollectionView.register(PostCell.self, forCellWithReuseIdentifier: cellId)
-        mealsCollectionView.backgroundColor = UIColor.white
+
         mealsCollectionView.dataSource = self
         mealsCollectionView.delegate = self
-        
         
         setUpLayout()
         
@@ -95,6 +112,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         mealLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
         mealLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
         mealLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+
         
         /*testButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 150).isActive = true
         testButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
@@ -110,15 +128,14 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         
         let uid = Auth.auth().currentUser!.uid
         
-        //get documents created by user
-        // throws an error if there are no RESULTS ___ FIX
-        
+        //let docRef = db.collection("cities").document("SF")
+
         db.collection("posts").whereField("uid", isEqualTo: uid).order(by: "date", descending: true)
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
+
                 } else {
-                    
                     for document in querySnapshot!.documents {
                         //print("\(document.documentID) => \(document.data())")
                         let post = Post()
@@ -135,6 +152,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
                         post.fat = doc["fat"] as? String
                         post.calories = doc["calories"] as? String
                         post.state = doc["State"] as? String
+                        post.healthDataEvent = doc["healthDataEvent"] as? String
                         
                         
                         self.posts.append(post)
@@ -142,7 +160,17 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
                     }
                     
                 }
-                self.mealsCollectionView.reloadData()
+                if self.posts.isEmpty {
+                    self.view.addSubview(self.initialLabel)
+                    
+                    self.initialLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+                    self.initialLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 50).isActive = true
+                    self.initialLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
+                    self.initialLabel.heightAnchor.constraint(equalToConstant: 300).isActive = true
+                }
+                else {
+                    self.mealsCollectionView.reloadData()
+                }
         }
         
         
@@ -179,6 +207,8 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         cell.protein = self.posts[indexPath.row].protein
         cell.fat = self.posts[indexPath.row].fat
         cell.state = self.posts[indexPath.row].state
+        cell.postId = self.posts[indexPath.row].postId
+        cell.healthDataEvent = self.posts[indexPath.row].healthDataEvent
     
         cell.backgroundColor = UIColor.white
         cell.delegate = self
@@ -187,8 +217,10 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         return cell
     }
     
+    
+    
     //POST CELL DELEGATE
-    func didExpandPost(image: UIImage, date: String?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?, state : String?) {
+    func didExpandPost(image: UIImage, date: String?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?, state : String?, postId : String?, healthDataEvent : String? ) {
         
         let postVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "PostVC") as! PostViewController
         //pass data to VC
@@ -200,6 +232,8 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         postVC.protein = protein
         postVC.fat = fat
         postVC.state = state
+        postVC.postId = postId
+        postVC.healthDataEvent = healthDataEvent
         
         print("post tapped")
         //present VC
@@ -211,22 +245,38 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
     func didDeletePost(index: Int) {
 
         print("delete tapped")
-
-        /*let db = Firestore.firestore()
         
-        guard let deleteId = posts[index].postId else { return }
-        
-        posts.remove(at: index)
-        mealsCollectionView.reloadData()
+        let alert = UIAlertController(title: "Are you sure?", message: "This action will permanently delete the selected meal.", preferredStyle: .alert)
 
-        db.collection("posts").document(deleteId).delete() { err in
-            if let err = err {
-                print("Error removing document: \(err)")
-            } else {
-                print("Document successfully removed!")
+        alert.addAction(UIAlertAction(title: "Yes", style: .default) {action in
+            
+            let db = Firestore.firestore()
+            
+            guard let deleteId = self.posts[index].postId else { return }
+            
+            self.posts.remove(at: index)
+            self.mealsCollectionView.reloadData()
+
+            db.collection("posts").document(deleteId).delete() { err in
+                if let err = err {
+                    print("Error removing document: \(err)")
+                } else {
+                    print("Document successfully removed!")
+                }
             }
-        }*/
+            
+        })
+        
+        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+
+        self.present(alert, animated: true)
+
+
     }
+    
+    /*func didHoldPost(index: Int) {
+        print("good job elise")
+    }*/
     
     @IBAction func testTapped(_sender: Any) {
         

@@ -40,8 +40,8 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="flowastelogo" translatesAutoresizingMaskIntoConstraints="NO" id="nbz-HZ-vND">
-                                <rect key="frame" x="40" y="128" width="334" height="453"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="platemate_white" translatesAutoresizingMaskIntoConstraints="NO" id="nbz-HZ-vND">
+                                <rect key="frame" x="40" y="128" width="334" height="2167.5"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -74,15 +74,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="N3g-2K-bdR">
-                                <rect key="frame" x="60" y="128" width="294" height="360"/>
+                                <rect key="frame" x="60" y="128" width="294" height="380"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JpA-7M-EOb">
                                         <rect key="frame" x="0.0" y="0.0" width="294" height="50"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1S3-an-EOT">
                                         <rect key="frame" x="0.0" y="70" width="294" height="50"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                     </textField>
@@ -112,8 +114,16 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cHE-XQ-8CT">
-                                        <rect key="frame" x="0.0" y="330" width="294" height="30"/>
-                                        <state key="normal" title="Reset Password"/>
+                                        <rect key="frame" x="0.0" y="330" width="294" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="eYj-fO-F3v"/>
+                                        </constraints>
+                                        <state key="normal" title="Reset Password">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="resetPasswordTapped:" destination="W6l-3p-yfr" eventType="touchUpInside" id="c8C-l8-Ox8"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -264,6 +274,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="6ky-qc-lbi"/>
                                         </constraints>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
@@ -272,6 +283,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="Z5g-0b-Vdl"/>
                                         </constraints>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
@@ -280,6 +292,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="1X3-6p-svw"/>
                                         </constraints>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" textContentType="email"/>
                                     </textField>
@@ -288,6 +301,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="JaI-Si-kx1"/>
                                         </constraints>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
@@ -335,7 +349,7 @@
         <!--Navigation Controller-->
         <scene sceneID="GyD-WU-WAj">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" hidesBarsWhenKeyboardAppears="YES" id="fBC-6G-B9U" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" hidesBarsOnSwipe="YES" hidesBarsOnTap="YES" hidesBarsWhenKeyboardAppears="YES" hidesBarsWhenVerticallyCompact="YES" id="fBC-6G-B9U" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="hj4-Ks-dXM">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -352,6 +366,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="flowastelogo" width="592" height="453"/>
+        <image name="platemate_white" width="2167" height="2167.5"/>
     </resources>
 </document>

@@ -45,6 +45,7 @@
 		01983B4C24C0BDD900882883 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01983B4A24C0BDD900882883 /* ImageViewController.swift */; };
 		01983B4D24C0BDD900882883 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01983B4A24C0BDD900882883 /* ImageViewController.swift */; };
 		01A3BE4524CB7238001425D6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A3BE4424CB7238001425D6 /* User.swift */; };
+		01A4584924DB441C008502A9 /* NSAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A4584824DB441C008502A9 /* NSAttributedString.swift */; };
 		01C25ACC24CCD5E100BBEF68 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C25ACB24CCD5E100BBEF68 /* Post.swift */; };
 		01C30CF8248C703500CD40F6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C30CF7248C703500CD40F6 /* Utilities.swift */; };
 		01C30CF9248C703500CD40F6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C30CF7248C703500CD40F6 /* Utilities.swift */; };
@@ -112,6 +113,7 @@
 		0194EE912495222A00152EE0 /* customalbum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customalbum.swift; sourceTree = "<group>"; };
 		01983B4A24C0BDD900882883 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		01A3BE4424CB7238001425D6 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		01A4584824DB441C008502A9 /* NSAttributedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributedString.swift; sourceTree = "<group>"; };
 		01C25ACB24CCD5E100BBEF68 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		01C30CF7248C703500CD40F6 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		01D27CA924D26D07002ED4AA /* RingProgressGroupButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RingProgressGroupButton.swift; path = macroplate/Controllers/Feed/RingProgressGroupButton.swift; sourceTree = SOURCE_ROOT; };
@@ -321,6 +323,7 @@
 				01983B4F24CB3E4600882883 /* Extensions */,
 				01983B5324CB3E8300882883 /* Supporting Files */,
 				015041D224B28D37005F4B15 /* standardButton.swift */,
+				01A4584824DB441C008502A9 /* NSAttributedString.swift */,
 				015041D624B4CC5D005F4B15 /* UserButton.swift */,
 				013425EE24A94127000CA6D2 /* macroplate.entitlements */,
 				0194EE912495222A00152EE0 /* customalbum.swift */,
@@ -672,6 +675,7 @@
 				01FE2A4D248C699E005D5750 /* AppDelegate.swift in Sources */,
 				01C25ACC24CCD5E100BBEF68 /* Post.swift in Sources */,
 				01011F2C24BB81810077534B /* ConfirmationViewController.swift in Sources */,
+				01A4584924DB441C008502A9 /* NSAttributedString.swift in Sources */,
 				01FE2A4F248C699E005D5750 /* SceneDelegate.swift in Sources */,
 				0138088A248C6C46003A9ECF /* HomeViewController.swift in Sources */,
 				01A3BE4524CB7238001425D6 /* User.swift in Sources */,

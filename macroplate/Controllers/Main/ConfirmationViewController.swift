@@ -81,6 +81,7 @@ class ConfirmationViewController: UIViewController {
         
         mailButton.setBackgroundImage(mailImage, for: .normal)
         view.addSubview(mailButton)
+        view.backgroundColor = .white
 
         // Do any additional setup after loading the view.
         setUpLayout()

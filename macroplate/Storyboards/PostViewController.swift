@@ -9,6 +9,9 @@
 import UIKit
 import HealthKit
 import Photos
+import FirebaseAuth
+import Firebase
+import FirebaseFirestore
 
 class PostViewController: UIViewController {
     
@@ -20,7 +23,9 @@ class PostViewController: UIViewController {
     var fat : String?
     var calories : String?
     
-    var state : String? 
+    var state : String?
+    var healthDataEvent : String?
+    var postId : String?
     
     let postImageView : UIImageView = {
         let imageView = UIImageView() //frame: CGRect(x: 35, y: 15, width: 300, height: 300))
@@ -35,13 +40,13 @@ class PostViewController: UIViewController {
     var postImage:UIImage?
     
     /*var date : UITextView = {
-        let textView = UITextView()
-        textView.textAlignment = .center
-        textView.font    = UIFont(name: "AvenirNext-Regular", size: 14)
-        textView.textColor = .lightGray
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        return textView
-    }()*/
+     let textView = UITextView()
+     textView.textAlignment = .center
+     textView.font    = UIFont(name: "AvenirNext-Regular", size: 14)
+     textView.textColor = .lightGray
+     textView.translatesAutoresizingMaskIntoConstraints = false
+     return textView
+     }()*/
     
     var userLabel : UILabel = {
         let textView = UILabel()
@@ -87,7 +92,7 @@ class PostViewController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
-
+    
     
     let pendingText : UILabel = {
         let label = UILabel()
@@ -106,15 +111,15 @@ class PostViewController: UIViewController {
     }()
     
     /*let pendingView : UIImageView = {
-        let imageView = UIImageView(frame: CGRect(x: 35, y: 330, width: 300, height: 290))
-        imageView.translatesAutoresizingMaskIntoConstraints = true
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.backgroundColor = .green
-        imageView.layer.cornerRadius = 20
-        return imageView
-    }()*/
-
+     let imageView = UIImageView(frame: CGRect(x: 35, y: 330, width: 300, height: 290))
+     imageView.translatesAutoresizingMaskIntoConstraints = true
+     imageView.contentMode = .scaleAspectFill
+     imageView.clipsToBounds = true
+     imageView.backgroundColor = .green
+     imageView.layer.cornerRadius = 20
+     return imageView
+     }()*/
+    
     let annotatedView : UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 35, y: 420, width: 120, height: 120))
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -138,16 +143,15 @@ class PostViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        view.backgroundColor = .white
+        
         self.view.addSubview(postImageView)
         postImageView.image = postImage
         
         //annotatedView.image = UIImage(named: "activityring" )
-        
-        
         //self.view.addSubview(date)
         self.view.addSubview(userLabel)
-        self.view.addSubview(caloriesText)
 
         setUpLayout()
         
@@ -157,16 +161,17 @@ class PostViewController: UIViewController {
             self.view.addSubview(pendingText)
             
             pendingText.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-            //pendingText.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 150).isActive = true
-            pendingText.topAnchor.constraint(equalTo: caloriesText.bottomAnchor, constant: 10).isActive = true
+            pendingText.topAnchor.constraint(equalTo: view.topAnchor, constant: 420).isActive = true
             pendingText.widthAnchor.constraint(equalToConstant: 300).isActive = true
             pendingText.heightAnchor.constraint(equalToConstant: 100).isActive = true
-            //print(state!)
+            
         } else {
+            
             //self.view.addSubview(annotatedView)
             self.view.addSubview(carbsText)
             self.view.addSubview(fatText)
             self.view.addSubview(proteinText)
+            self.view.addSubview(caloriesText)
             
             self.view.addSubview(healthButton)
             healthButton.addTarget(self, action: #selector(healthButtonTapped), for: .touchUpInside)
@@ -184,8 +189,11 @@ class PostViewController: UIViewController {
             fatText.textAlignment = .center
             fatText.textColor = .systemBlue
             
-            self.authorizeHealthKitInApp()
-            writeToKit()
+            caloriesText.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+            //caloriesText.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 60).isActive = true
+            caloriesText.topAnchor.constraint(equalTo: userLabel.bottomAnchor, constant: 10).isActive = true
+            caloriesText.widthAnchor.constraint(equalToConstant: 300).isActive = true
+            caloriesText.heightAnchor.constraint(equalToConstant: 30).isActive = true
             
             carbsText.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
             carbsText.topAnchor.constraint(equalTo: view.topAnchor, constant: 510).isActive = true
@@ -208,21 +216,42 @@ class PostViewController: UIViewController {
             healthButton.topAnchor.constraint(equalTo: fatText.bottomAnchor, constant: 20).isActive = true
             healthButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
             healthButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-            //print(state!)
+            
+
+            if self.healthDataEvent == "false" {
+                //write data to the health store
+                //write to Health Kit Once
+                authorizeHealthKitInApp()
+                writeToKit()
+                print("writetoKit called")
+                //update healthDataEvent to true
+                let switchState = ["healthDataEvent" : "true"]  as [String : Any]
+                
+                let db = Firestore.firestore()
+                //postId =  //self.postId!
+                db.collection("posts").document(self.postId!).updateData(switchState)  { err in
+                    if let err = err {
+                        print("Error adding document: \(err)")
+                    } else {
+                        print("Document added with ID:\(String(describing:self.postId!)) ")
+                    }
+                    
+                }
+            } else
+            {
+                print("data already saved to HealthKit")
+            }
+            
         }
-
-        
-
 
     }
     
-
     private func setUpLayout() {
-
+        
         /*date.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-        date.topAnchor.constraint(equalTo: view.topAnchor, constant: 400).isActive = true
-        date.widthAnchor.constraint(equalToConstant: 170).isActive = true
-        date.heightAnchor.constraint(equalToConstant: 40).isActive = true*/
+         date.topAnchor.constraint(equalTo: view.topAnchor, constant: 400).isActive = true
+         date.widthAnchor.constraint(equalToConstant: 170).isActive = true
+         date.heightAnchor.constraint(equalToConstant: 40).isActive = true*/
         
         postImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         postImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -200).isActive = true
@@ -234,27 +263,25 @@ class PostViewController: UIViewController {
         userLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
         //userLabel.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
-        caloriesText.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-        //caloriesText.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 60).isActive = true
-        caloriesText.topAnchor.constraint(equalTo: userLabel.bottomAnchor, constant: 10).isActive = true
-        caloriesText.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        caloriesText.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
         
         /*annotatedView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -100).isActive = true
-        annotatedView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 100).isActive = true
-        annotatedView.widthAnchor.constraint(equalToConstant: 120).isActive = true
-        annotatedView.heightAnchor.constraint(equalToConstant: 120).isActive = true*/
+         annotatedView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 100).isActive = true
+         annotatedView.widthAnchor.constraint(equalToConstant: 120).isActive = true
+         annotatedView.heightAnchor.constraint(equalToConstant: 120).isActive = true*/
     }
     
     @IBAction func healthButtonTapped(_ sender: Any) {
-       openUrl(urlString: "x-apple-health://")
+        
+        openUrl(urlString: "x-apple-health://")
+        
     }
-
-      func openUrl(urlString: String) {
+    
+    func openUrl(urlString: String) {
         guard let url = URL(string: urlString) else {
             return
         }
-
+        
         if UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
@@ -263,10 +290,9 @@ class PostViewController: UIViewController {
     func authorizeHealthKitInApp() {
         
         let healthKitTypesToRead: Set<HKObjectType> = [
-            HKObjectType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.dateOfBirth)!, HKObjectType.characteristicType(forIdentifier: HKCharacteristicTypeIdentifier.bloodType)!,
             HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates)!,        HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryProtein)!,        HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryFatTotal)!,
             
-        
+            
         ]
         let healthKitTypesToWrite: Set<HKSampleType> = [HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates)!,HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryProtein)!,        HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryFatTotal)!]
         
@@ -282,15 +308,11 @@ class PostViewController: UIViewController {
     }
     
     func writeToKit() {
-        guard let carbs = Double(self.carbsText.text!) else { return }
-        guard let protein = Double(self.proteinText.text!) else { return }
-        guard let fat = Double(self.fatText.text!) else { return }
-        print("\(carbs) written")
-        
-        
-        /*let carbs = 7
-        let protein = 10
-        let fat = 8;*/
+        let carbs = Double(self.carbs!)!
+        let protein = Double(self.protein!)!
+        let fat = Double(self.fat!)!
+        /*guard let protein = Double(self.proteinText.text!) else { return }
+         guard let fat = Double(self.fatText.text!) else { return }*/
         
         
         let today = NSDate()

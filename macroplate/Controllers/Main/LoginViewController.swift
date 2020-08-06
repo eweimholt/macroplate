@@ -12,7 +12,9 @@ import FirebaseFirestore
 import Firebase
 
 class LoginViewController: UIViewController {
-
+    
+    var userEmail : String? = nil
+    
     @IBOutlet weak var passwordTextField: UITextField!
     
     @IBOutlet weak var emailTextField: UITextField!
@@ -24,15 +26,21 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var resetPasswordButton: UIButton!
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
-        view.backgroundColor = .white
-        //TODO Set up Firebase
-        /*self.storage = Storage.storage()
-        self.auth = Auth.auth()
-        self.database = Firestore.firestore()*/
+        navigationController?.setNavigationBarHidden(true, animated: true)
+        //setup background gradient
+        UIGraphicsBeginImageContext(self.view.frame.size)
+        UIImage(named: "background_gradient.png")?.draw(in: self.view.bounds)
         
+        if let image = UIGraphicsGetImageFromCurrentImageContext(){
+            UIGraphicsEndImageContext()
+            self.view.backgroundColor = UIColor(patternImage: image)
+        }else{
+            UIGraphicsEndImageContext()
+            debugPrint("Image not available")
+        }
         
-        // Do any additional setup after loading the view.
         setUpElements()
     }
     
@@ -46,10 +54,11 @@ class LoginViewController: UIViewController {
         //style elements
         Utilities.styleTextField(passwordTextField)
         Utilities.styleTextField(emailTextField)
-        Utilities.styleFilledButton(loginButton)
+        Utilities.styleSetupButton(loginButton)
+        Utilities.styleSetupButton(resetPasswordButton)
         
     }
-
+    
     func validateFields() -> String? {
         
         //check that all fields are filled in
@@ -71,9 +80,13 @@ class LoginViewController: UIViewController {
         
         return nil
     }
-
+    
     
     @IBAction func loginButton(_ sender: Any) {
+        
+        //set email text
+        userEmail = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        
         //TODO: Validate Text Fields
         let error = validateFields()
         
@@ -85,6 +98,7 @@ class LoginViewController: UIViewController {
         else {
             //Create cleaned versions of the data
             let email = emailTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+            userEmail = email
             let password = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
             
             //Signing in the User
@@ -94,7 +108,7 @@ class LoginViewController: UIViewController {
                     //Couldn't sign in
                     self.errorLabel.text = error!.localizedDescription
                     self.showError(self.errorLabel.text!)
-                   // self.errorLabel.alpha = 1
+                    // self.errorLabel.alpha = 1
                     
                 }
                 else {
@@ -102,18 +116,27 @@ class LoginViewController: UIViewController {
                     self.transitionToHome()
                     
                 }
-            
+                
             }
         }
     }
+    
+    @IBAction func resetPasswordTapped(_ sender: Any) {
         
-     
+        
+        
+        Auth.auth().sendPasswordReset(withEmail: self.userEmail!) { error in
+            // ...
+        }
+        print("reset email sent to \(String(describing: userEmail))")
+    }
+    
     func showError(_ message:String) {
         
         errorLabel.text = message
         errorLabel.alpha = 1
         resetPasswordButton.alpha = 1
-            
+        
     }
     
     func transitionToHome() {
@@ -126,5 +149,7 @@ class LoginViewController: UIViewController {
         view.window?.makeKeyAndVisible()
         
     }
-
+    
 }
+    
+

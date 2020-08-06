@@ -26,13 +26,16 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
     
     
     let myImageView : UIImageView = {
-        let imageView = UIImageView(frame: CGRect(x: 55, y: 175, width: 300, height: 500))
+        let imageView = UIImageView(frame: CGRect(x: 55, y: 175, width: 300, height: 300))
         imageView.translatesAutoresizingMaskIntoConstraints = true
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 20
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
     let sendButton : UIButton = {
-        let button = UIButton(frame: CGRect(x: 55, y: 700, width: 300, height: 50))
+        let button = UIButton(frame: CGRect(x: 55, y: 500, width: 300, height: 50))
         button.setTitle("Send to AI Model", for: .normal)
         button.backgroundColor = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
         return button
@@ -40,7 +43,7 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
     
     let messageLabel : UILabel = {
         let label = UILabel()
-        label.text = "Please enter what's on your plate to aide the model-in-training:"
+        label.text = "Please add a label describing what's on your plate:"
         label.font = UIFont.systemFont(ofSize: 18)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -61,14 +64,18 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
         
         userStorage = storage.child("users")
         
-        inputField = UITextField(frame: CGRect(x: 55, y: 90, width: 300, height: 50))
+        inputField = UITextField(frame: CGRect(x: 55, y: 110, width: 300, height: 40))
         inputField.placeholder = "ex. chicken, rice, broccoli"
+        inputField.clipsToBounds = true
+        inputField.attributedPlaceholder = NSAttributedString(string: "ex. chicken, rice, broccoli", attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+        inputField.layer.cornerRadius = 10
+        inputField.textColor = .black
         Utilities.styleTextField(inputField)
         self.view.addSubview(inputField)
         self.inputField.delegate = self
         
         
-        
+        self.view.backgroundColor = .white
         self.view.addSubview(myImageView)
         
         sendButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
@@ -145,7 +152,8 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
                                 "protein" : "",
                                 "fat" : "",
                                 "calories" : "",
-                                "State" : "Pending" ] as [String : Any]
+                                "State" : "Pending",
+                                "healthDataEvent" : "false"] as [String : Any]
 
                     db.collection("posts").document(docId).setData(feed) { err in
                         if let err = err {
