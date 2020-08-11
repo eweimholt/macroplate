@@ -10,6 +10,8 @@ import UIKit
 import Firebase
 import UserNotificationsUI
 //import FBSDKCoreKit
+import Flurry_iOS_SDK
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,10 +20,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     
     //26:00 https://www.youtube.com/watch?v=x_vny_M6iYs&t=952s if you feel like adding an activity indicator
+    var window: UIWindow?
+    var actIdc = UIActivityIndicatorView()
+    
+    var container: UIView!
+    
+    //create an instance of App Delegate to be called elsewhere in the code
+    class func instance() -> AppDelegate {
+        return UIApplication.shared.delegate as! AppDelegate
+    }
+    
+    func showActivityIndicator() {
+        if let window = window {
+            container = UIView()
+            container.frame = window.frame
+            container.center = window.center
+            container.backgroundColor = UIColor(white: 0, alpha: 0.8)
+            
+            actIdc.style = .large
+            actIdc.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+            actIdc.hidesWhenStopped = true
+            //actIdc.center = CGPoint
+            
+        }
+        
+    }
+    
+    func dismissActivityIndicator() {
+        
+        
+    }
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        //Flurry SDK
+        Flurry.startSession("K4XX4FCZ7WMQWBTDFFDM", with: FlurrySessionBuilder
+           .init()
+           .withCrashReporting(true)
+           //.withLogLevel(FlurryLogLevelAll))
+            .withLogLevel(FlurryLogLevelNone))
 
         
         if #available(iOS 10.0, *) {
@@ -42,6 +81,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
 
+         // Your code
+        
+        
+        
+
         
         FirebaseApp.configure()
  
@@ -50,8 +94,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
     }
-
-
+    
+    //FLURRY SDK
+    /*private func application(application: UIApplication,
+      didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+       Flurry.startSession("K4XX4FCZ7WMQWBTDFFDM", with: FlurrySessionBuilder
+          .init()
+          .withCrashReporting(true)
+          .withLogLevel(FlurryLogLevelAll))
+        // Your code
+        return true
+    }*/
 
         // MARK: UISceneSession Lifecycle
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {

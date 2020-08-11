@@ -78,6 +78,40 @@ class ViewController: UIViewController {
         betaLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
         betaLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
-
+    
+    
+    /*@IBAction func signUpTapped(_ sender: Any) {
+        goToSignUp()
+    }
+    
+    
+    func goToSignUp() {
+        print("signup tapped")
+        let signupVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "signupVC") as! SignUpViewController
+        DispatchQueue.main.async {
+            //self.present(signupVC, animated: true, completion: nil)
+            self.navigationController?.pushViewController(signupVC, animated: true)
+            print("signup presented")
+        }
+        
+    }
+    
+    
+    @IBAction func loginTapped(_ sender: Any) {
+        goToLogin()
+    }
+    
+    func goToLogin() {
+        print("login tapped")
+        
+        let loginVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "loginVC") as! LoginViewController
+        DispatchQueue.main.async {
+            print("login presented")
+            self.present(loginVC, animated: true, completion: nil)
+            //self.navigationController?.pushViewController(loginVC, animated: true)
+        }
+        
+    }*/
+    
 }
 

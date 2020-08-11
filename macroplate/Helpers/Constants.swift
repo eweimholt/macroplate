@@ -18,5 +18,10 @@ struct Constants {
         static let confirmationViewController = "ConfirmVC"
         
     }
-
+    
+    struct UserDefaults {
+        static let currentUser = "currentUser"
+    }
+    
+    
 }

@@ -321,8 +321,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         let feedVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: Constants.Storyboard.feedViewController) as! FeedViewController
         feedVC.feedImage = image
-        
-        
+
         DispatchQueue.main.async {
             self.present(imageVC, animated: true, completion: nil)
         }

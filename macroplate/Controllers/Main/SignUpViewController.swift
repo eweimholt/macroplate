@@ -11,7 +11,7 @@ import FirebaseAuth
 import Firebase
 import FirebaseFirestore
 
-class SignUpViewController: UIViewController {
+class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var firstNameTextField: UITextField!
     
@@ -24,6 +24,7 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var signUpButton: UIButton!
     
     @IBOutlet weak var errorLabel: UILabel!
+
     
     let backButton : UIButton = {
         let cButton = UIButton(frame: CGRect(x: 100, y: 100, width: 70, height: 70))
@@ -35,10 +36,10 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //navigationController?.setNavigationBarHidden(true, animated: true)
+        navigationController?.setNavigationBarHidden(true, animated: true)
         
-        backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
-        view.addSubview(backButton)
+        //backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
+        //view.addSubview(backButton)
         
         //setup background gradient
         UIGraphicsBeginImageContext(self.view.frame.size)
@@ -53,8 +54,8 @@ class SignUpViewController: UIViewController {
          }
         
         // Do any additional setup after loading the view.
+
         setUpElements()
-        //validateFields()
     }
     
     @IBAction func goBack(_ sender: Any) {
@@ -62,22 +63,21 @@ class SignUpViewController: UIViewController {
     }
     
     func transitionToRoot() {
-        
-
         let viewController = storyboard?.instantiateViewController(identifier: "rootVC" ) as? ViewController
         
         //swap out root view controller for the home one
         view.window?.rootViewController = viewController
-        view.window?.makeKeyAndVisible()
+        //view.window?.makeKeyAndVisible()
+        view.window?.isHidden = false
         
     }
     
     func setUpElements() {
         
-        backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15).isActive = true
+       /* backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15).isActive = true
         backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
         backButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
-        backButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        backButton.heightAnchor.constraint(equalToConstant: 60).isActive = true*/
         
         //Hide error label
         errorLabel.alpha = 0
@@ -87,6 +87,7 @@ class SignUpViewController: UIViewController {
         Utilities.styleTextField(lastNameTextField)
         Utilities.styleTextField(emailTextField)
         Utilities.styleTextField(passwordTextField)
+  
         Utilities.styleSetupButton(signUpButton)
     }
     

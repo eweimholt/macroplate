@@ -25,9 +25,18 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var resetPasswordButton: UIButton!
     
+    let backButton : UIButton = {
+        let cButton = UIButton(frame: CGRect(x: 100, y: 100, width: 70, height: 70))
+        cButton.setTitle("Back", for: .normal)
+        cButton.setTitleColor(.white, for: .normal) // You can change the TitleColor
+        cButton.translatesAutoresizingMaskIntoConstraints = false
+        return cButton
+    }()
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
         navigationController?.setNavigationBarHidden(true, animated: true)
         //setup background gradient
         UIGraphicsBeginImageContext(self.view.frame.size)
@@ -41,12 +50,21 @@ class LoginViewController: UIViewController {
             debugPrint("Image not available")
         }
         
+        //backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
+        //view.addSubview(backButton)
+        
         setUpElements()
     }
     
+    
+    
     func setUpElements() {
         
-        
+        /*backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15).isActive = true
+        backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
+        backButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
+        backButton.heightAnchor.constraint(equalToConstant: 60).isActive = true*/
+  
         //hide error label
         errorLabel.alpha = 0
         resetPasswordButton.alpha = 0
@@ -122,9 +140,7 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func resetPasswordTapped(_ sender: Any) {
-        
-        
-        
+
         Auth.auth().sendPasswordReset(withEmail: self.userEmail!) { error in
             // ...
         }
@@ -146,6 +162,21 @@ class LoginViewController: UIViewController {
         
         //swap out root view controller for the home one, once the signup is successful
         view.window?.rootViewController = homeViewController
+        view.window?.makeKeyAndVisible()
+        
+    }
+    
+    @IBAction func goBack(_ sender: Any) {
+        transitionToRoot()
+    }
+    
+    func transitionToRoot() {
+        
+
+        let viewController = storyboard?.instantiateViewController(identifier: "rootVC" ) as? ViewController
+        
+        //swap out root view controller for the home one
+        view.window?.rootViewController = viewController
         view.window?.makeKeyAndVisible()
         
     }
