@@ -164,7 +164,7 @@ class UserViewController: UIViewController {
         
         let switchOnOff = UISwitch(frame:CGRect(x: 300, y: 550, width: 0, height: 0))
         switchOnOff.addTarget(self, action: #selector(UserViewController.switchStateDidChange(_:)), for: .valueChanged)
-        switchOnOff.setOn(false, animated: false)
+        
         self.view.addSubview(switchOnOff)
         self.view.addSubview(switchLabel)
         
@@ -202,6 +202,18 @@ class UserViewController: UIViewController {
                 }
             }
         }
+        
+        // update switch animations
+        if (switchOnOff.isOn == true){
+            print("UISwitch state animated to on")
+            switchOnOff.setOn(true, animated: true)
+            //need to remember animation
+        }
+        else{
+            print("UISwitch state animated to off")
+            switchOnOff.setOn(false, animated: true)
+        }
+
         
         setUpLayout()
         
@@ -293,7 +305,8 @@ class UserViewController: UIViewController {
     }
     
     @objc func switchStateDidChange(_ sender:UISwitch){
-        var switchState = ["permissionGranted" : "false"]  as [String : Any]
+        //var switchState = ["permissionGranted" : "false"]  as [String : Any]
+        var switchState:[String : Any]?
         
         let db = Firestore.firestore()
         
@@ -319,15 +332,18 @@ class UserViewController: UIViewController {
                     if (sender.isOn == true){
                         print("UISwitch state is now ON")
                         switchState = ["permissionGranted" : "true"]
+                        sender.setOn(true, animated: true)
+                        //need to remember animation
                         
                     }
                     else{
                         print("UISwitch state is now Off")
                         switchState = ["permissionGranted" : "false"]
+                        sender.setOn(false, animated: true)
                     }
                     
                     //set the data with the docid
-                    db.collection("users").document(docId!).updateData(switchState)  { err in
+                    db.collection("users").document(docId!).updateData(switchState!)  { err in
                         if let err = err {
                             print("Error adding document: \(err)")
                         } else {
@@ -335,6 +351,7 @@ class UserViewController: UIViewController {
                         }
                     }
                 }
+                //return sender state
         }
     }
                 
