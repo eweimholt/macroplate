@@ -58,7 +58,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         setUpElements()
     }
     
-    @IBAction func goBack(_ sender: Any) {
+   /* @IBAction func goBack(_ sender: Any) {
         transitionToRoot()
     }
     
@@ -70,7 +70,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         //view.window?.makeKeyAndVisible()
         view.window?.isHidden = false
         
-    }
+    }*/
     
     func setUpElements() {
         

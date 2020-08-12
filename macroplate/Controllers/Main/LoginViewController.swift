@@ -132,7 +132,10 @@ class LoginViewController: UIViewController {
                 else {
                     //User has signed in successfully
                     self.transitionToHome()
-                    
+                    UserDefaults.standard.set(true, forKey: "isLoggedIn")
+                    UserDefaults.standard.synchronize() //save to device
+                    print("UserDefault save to true")
+
                 }
                 
             }

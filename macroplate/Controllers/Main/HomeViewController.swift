@@ -95,6 +95,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         uButton.translatesAutoresizingMaskIntoConstraints = false
         return uButton
     }()
+
     
     var cameraText : UILabel = {
         let textLabel = UILabel()
@@ -108,10 +109,29 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //authenticateUser()
         picker.delegate = self //image picker will now listen to delegates. has method called when user is done selecting image
 
         
         //add elements to view
+        
+        if Auth.auth().currentUser == nil {
+            DispatchQueue.main.async {
+                let navController = UINavigationController(rootViewController: ViewController())
+                navController.navigationBar.barStyle = .black
+                //self.present(navController, animated: true, completion: nil)
+                
+                //swap out root view controller for the feed one
+                self.view.window?.rootViewController = ViewController()
+                self.view.window?.makeKeyAndVisible()
+                
+                /*let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "rootVC") as? ViewController
+                
+                self.show(vc!, sender: self)*/
+                //self.navigationController?.pushViewController(vc!, animated: true)
+            }
+        }
+        else {
         self.view.addSubview(cameraView)
 
         cameraButton.setBackgroundImage(circleImage, for: .normal)
@@ -134,10 +154,12 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         uploadButton.addTarget(self, action: #selector(uploadTapped), for: .touchUpInside)
         //uploadButton.setTitle("Upload", for: .normal)
         self.view.addSubview(uploadButton)
+
         
         self.view.addSubview(cameraText)
         
         setUpLayout()
+        
         
         if #available(iOS 10.2, *) {
             let captureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
@@ -164,8 +186,36 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         capturePhotoOutput = AVCapturePhotoOutput()
         capturePhotoOutput?.isHighResolutionCaptureEnabled = true
         captureSession?.addOutput(capturePhotoOutput!)
+        }
         
     }
+    
+    // MARK - APIs
+    
+    /*func authenticateUser() {
+        
+        if Auth.auth().currentUser == nil {
+            DispatchQueue.main.async {
+                let navController = UINavigationController(rootViewController: ViewController())
+                navController.navigationBar.barStyle = .black
+                self.present(navController, animated: true, completion: nil)
+                
+                //swap out root view controller for the feed one
+                self.view.window?.rootViewController = ViewController()
+                self.view.window?.makeKeyAndVisible()
+                
+                /*let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "rootVC") as? ViewController
+                
+                self.show(vc!, sender: self)*/
+                //self.navigationController?.pushViewController(vc!, animated: true)
+            }
+        }
+        else {
+            
+        }
+        
+    }*/
+
     
     private func setUpLayout() {
         
@@ -195,6 +245,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         flipButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
         flipButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
         flipButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
+
         
         userButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         userButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60).isActive = true
@@ -319,8 +370,8 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         let imageVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: Constants.Storyboard.imageViewController) as! ImageViewController
         imageVC.takenPhoto = image
         
-        let feedVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: Constants.Storyboard.feedViewController) as! FeedViewController
-        feedVC.feedImage = image
+        /*let feedVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: Constants.Storyboard.feedViewController) as! FeedViewController
+        feedVC.feedImage = image*/
 
         DispatchQueue.main.async {
             self.present(imageVC, animated: true, completion: nil)

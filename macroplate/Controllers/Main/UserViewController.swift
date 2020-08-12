@@ -18,6 +18,14 @@ class UserViewController: UIViewController {
     
     var docRef : DocumentReference!
     
+    
+    let signOutButton : UIButton = {
+        let uButton = UIButton(frame: CGRect(x: 100, y: 100, width: 35, height: 40))
+        uButton.translatesAutoresizingMaskIntoConstraints = false
+        uButton.setTitle("Sign Out", for: .normal )
+        return uButton
+    }()
+    
     let name : UserButton =  {
         let button = UserButton()
         return button
@@ -105,39 +113,6 @@ class UserViewController: UIViewController {
         return label
     }()
     
-    /*let profileView : UIImageView = {
-     let imageView = UIImageView()
-     imageView.translatesAutoresizingMaskIntoConstraints = false
-     return imageView
-     }()
-     
-     let profilePic : UIImage = {
-     let pImage = UIImage(named: "tacoavatar")
-     return pImage!
-     }()
-     
-     let mealsRecorded : UILabel = {
-     let textView = UILabel()
-     textView.text = "Joined July 7, 2020"
-     textView.textAlignment = .center
-     textView.font    = UIFont(name: "AvenirNext-Regular", size: 14)
-     textView.textColor = .lightGray
-     textView.translatesAutoresizingMaskIntoConstraints = false
-     return textView
-     }()
-     
-     let userGraph : UIImage = {
-     let gImage = UIImage(named: "usergraph.png")
-     return gImage!
-     }()
-     
-     let graphView : UIImageView = {
-     let gView = UIImageView()
-     gView.translatesAutoresizingMaskIntoConstraints = false
-     
-     return gView
-     }()*/
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         updateTextView()
@@ -162,30 +137,21 @@ class UserViewController: UIViewController {
         self.view.addSubview(useBody)
         
         
+        signOutButton.addTarget(self, action: #selector(handleSignOut), for: .touchUpInside)
+        self.view.addSubview(signOutButton)
+        
         let switchOnOff = UISwitch(frame:CGRect(x: 300, y: 550, width: 0, height: 0))
         switchOnOff.addTarget(self, action: #selector(UserViewController.switchStateDidChange(_:)), for: .valueChanged)
         
         self.view.addSubview(switchOnOff)
         self.view.addSubview(switchLabel)
-        
-        
-        //add components
-        //profileView.image = profilePic
-        //self.view.addSubview(profileView)
-        
-        
-        // self.view.addSubview(mealsRecorded)
-        //mealsRecorded.text = "X meals saved to date"
-        //graphView.image = userGraph
-        //self.view.addSubview(graphView)
-        
-        
+
         //get personalized user data
         let db = Firestore.firestore()
         
         let uid = Auth.auth().currentUser!.uid;
         
-        let dataGot: Void = db.collection("users").whereField("uid", isEqualTo: uid).getDocuments()
+        let _: Void = db.collection("users").whereField("uid", isEqualTo: uid).getDocuments()
         { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
@@ -196,34 +162,65 @@ class UserViewController: UIViewController {
                     if let person = document.data() as? [String:Any] {
                         let userFirstName = person["firstname"] as! String
                         let userLastName = person["lastname"] as! String
+                        let healthFlag = person["permissionGranted"] as! String
                         self.name.setTitle("\(userFirstName) \(userLastName)", for: .normal)
+                        
+                        
+                        // update switch animations
+                        if (healthFlag == "true"){
+                            print("healthFlag is \(healthFlag)")
+                            print("UISwitch state animated to on")
+                            switchOnOff.setOn(true, animated: true)
+                            //need to remember animation
+                        }
+                        else{
+                            print("healthFlag is \(healthFlag)")
+                            print("UISwitch state animated to off")
+                            switchOnOff.setOn(false, animated: true)
+                        }
                     }
                     
                 }
             }
         }
-        
-        // update switch animations
-        if (switchOnOff.isOn == true){
-            print("UISwitch state animated to on")
-            switchOnOff.setOn(true, animated: true)
-            //need to remember animation
-        }
-        else{
-            print("UISwitch state animated to off")
-            switchOnOff.setOn(false, animated: true)
-        }
+
 
         
         setUpLayout()
         
     }
     
+    
+    @objc func handleSignOut() {
+        let alertController = UIAlertController(title: nil, message: "Are you sure you want to sign out?", preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "Sign Out", style: .destructive, handler: { (_) in
+            self.signOut()
+        }))
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    
+    func signOut() {
+        do {
+            try Auth.auth().signOut()
+            let navController = UINavigationController(rootViewController: ViewController())
+            navController.navigationBar.barStyle = .black
+            
+            //swap out root view controller for the feed one
+            self.view.window?.rootViewController = ViewController()
+            self.view.window?.makeKeyAndVisible()
+
+        } catch let error {
+            print("Failed to sign out with error..", error)
+        }
+    }
+    
     private func setUpLayout() {
         
         name.translatesAutoresizingMaskIntoConstraints = false
         name.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 100).isActive = true
-        name.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
+        name.topAnchor.constraint(equalTo: view.topAnchor, constant: 55).isActive = true
         name.widthAnchor.constraint(equalToConstant: 300).isActive = true
         name.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
@@ -248,6 +245,12 @@ class UserViewController: UIViewController {
         useHeading.widthAnchor.constraint(equalToConstant: 300).isActive = true
         useHeading.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
+        
+        signOutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        signOutButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+        signOutButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
+        signOutButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        
         useBody.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50).isActive = true
         useBody.topAnchor.constraint(equalTo: view.topAnchor, constant: 375).isActive = true
         useBody.widthAnchor.constraint(equalToConstant: 300).isActive = true
@@ -259,22 +262,7 @@ class UserViewController: UIViewController {
         switchLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 540).isActive = true
         switchLabel.widthAnchor.constraint(equalToConstant: 250).isActive = true
         switchLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        /*profileView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-         profileView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-         profileView.widthAnchor.constraint(equalToConstant: 200).isActive = true
-         profileView.heightAnchor.constraint(equalToConstant: 200).isActive = true
-         
-         mealsRecorded.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-         mealsRecorded.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 10).isActive = true
-         mealsRecorded.widthAnchor.constraint(equalToConstant: 170).isActive = true
-         mealsRecorded.heightAnchor.constraint(equalToConstant: 40).isActive = true
-         
-         graphView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-         graphView.topAnchor.constraint(equalTo: view.topAnchor, constant: 300).isActive = true
-         graphView.widthAnchor.constraint(equalToConstant: 370).isActive = true
-         graphView.heightAnchor.constraint(equalToConstant: 290).isActive = true*/
-        
+
     }
     
     func updateTextView() {
@@ -286,7 +274,7 @@ class UserViewController: UIViewController {
         let attributedString2 = NSAttributedString.makeHyperlink(for: path, in: text2, as: "Flowaste")
         aboutBody.attributedText = attributedString2
         
-        let path2 = "https://www.platemate.io/"
+        let path2 = "https://www.platemate.io/demo"
         let text = useBody.text ?? ""
         let attributedString = NSAttributedString.makeHyperlink(for: path2, in: text, as: "here")
         useBody.attributedText = attributedString

@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		01011F2824BB80620077534B /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01011F2724BB80620077534B /* FeedViewController.swift */; };
-		01011F2924BB80620077534B /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01011F2724BB80620077534B /* FeedViewController.swift */; };
-		01011F2A24BB80620077534B /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01011F2724BB80620077534B /* FeedViewController.swift */; };
 		01011F2C24BB81810077534B /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01011F2B24BB81810077534B /* ConfirmationViewController.swift */; };
 		01011F2D24BB81810077534B /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01011F2B24BB81810077534B /* ConfirmationViewController.swift */; };
 		01011F2E24BB81810077534B /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01011F2B24BB81810077534B /* ConfirmationViewController.swift */; };
@@ -46,6 +44,7 @@
 		01983B4D24C0BDD900882883 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01983B4A24C0BDD900882883 /* ImageViewController.swift */; };
 		01A3BE4524CB7238001425D6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A3BE4424CB7238001425D6 /* User.swift */; };
 		01A4584924DB441C008502A9 /* NSAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A4584824DB441C008502A9 /* NSAttributedString.swift */; };
+		01A4584B24E395A2008502A9 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A4584A24E395A2008502A9 /* MainNavigationController.swift */; };
 		01C25ACC24CCD5E100BBEF68 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C25ACB24CCD5E100BBEF68 /* Post.swift */; };
 		01C30CF8248C703500CD40F6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C30CF7248C703500CD40F6 /* Utilities.swift */; };
 		01C30CF9248C703500CD40F6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C30CF7248C703500CD40F6 /* Utilities.swift */; };
@@ -114,6 +113,7 @@
 		01983B4A24C0BDD900882883 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		01A3BE4424CB7238001425D6 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		01A4584824DB441C008502A9 /* NSAttributedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributedString.swift; sourceTree = "<group>"; };
+		01A4584A24E395A2008502A9 /* MainNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		01C25ACB24CCD5E100BBEF68 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		01C30CF7248C703500CD40F6 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		01D27CA924D26D07002ED4AA /* RingProgressGroupButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RingProgressGroupButton.swift; path = macroplate/Controllers/Feed/RingProgressGroupButton.swift; sourceTree = SOURCE_ROOT; };
@@ -212,6 +212,7 @@
 			isa = PBXGroup;
 			children = (
 				01FE2A52248C699E005D5750 /* Main.storyboard */,
+				01A4584A24E395A2008502A9 /* MainNavigationController.swift */,
 				01FE2A57248C699F005D5750 /* LaunchScreen.storyboard */,
 				01FDDD9E24CCCF440032C23D /* Feed.storyboard */,
 			);
@@ -230,6 +231,16 @@
 			children = (
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		01A4584C24E39A8D008502A9 /* demos */ = {
+			isa = PBXGroup;
+			children = (
+				01812DE524C0A38A00F92531 /* FakeFeedViewController.swift */,
+				01011F2724BB80620077534B /* FeedViewController.swift */,
+				011AEAA424C01F50008F7084 /* TapViewController.swift */,
+			);
+			path = demos;
 			sourceTree = "<group>";
 		};
 		01C25ACA24CCD5CB00BBEF68 /* Object */ = {
@@ -259,10 +270,8 @@
 				01380891248C6C6C003A9ECF /* LoginViewController.swift */,
 				01FE2A50248C699E005D5750 /* ViewController.swift */,
 				015041CE24B28497005F4B15 /* UserViewController.swift */,
-				01011F2724BB80620077534B /* FeedViewController.swift */,
-				01812DE524C0A38A00F92531 /* FakeFeedViewController.swift */,
 				01011F2B24BB81810077534B /* ConfirmationViewController.swift */,
-				011AEAA424C01F50008F7084 /* TapViewController.swift */,
+				01A4584C24E39A8D008502A9 /* demos */,
 				01983B4A24C0BDD900882883 /* ImageViewController.swift */,
 			);
 			path = Main;
@@ -658,6 +667,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01A4584B24E395A2008502A9 /* MainNavigationController.swift in Sources */,
 				01380892248C6C6C003A9ECF /* LoginViewController.swift in Sources */,
 				01FDDDA924CCD00C0032C23D /* MealsViewController.swift in Sources */,
 				0194EE922495222A00152EE0 /* customalbum.swift in Sources */,
@@ -701,7 +711,6 @@
 				0194EE932495222A00152EE0 /* customalbum.swift in Sources */,
 				01F55F98248C843F00104DAB /* Constants.swift in Sources */,
 				01983B4C24C0BDD900882883 /* ImageViewController.swift in Sources */,
-				01011F2924BB80620077534B /* FeedViewController.swift in Sources */,
 				01FDDDAA24CCD00C0032C23D /* MealsViewController.swift in Sources */,
 				01011F2D24BB81810077534B /* ConfirmationViewController.swift in Sources */,
 				015041D824B4CC5D005F4B15 /* UserButton.swift in Sources */,
@@ -723,7 +732,6 @@
 				0194EE942495222A00152EE0 /* customalbum.swift in Sources */,
 				01F55F99248C843F00104DAB /* Constants.swift in Sources */,
 				01983B4D24C0BDD900882883 /* ImageViewController.swift in Sources */,
-				01011F2A24BB80620077534B /* FeedViewController.swift in Sources */,
 				01FDDDAB24CCD00C0032C23D /* MealsViewController.swift in Sources */,
 				01011F2E24BB81810077534B /* ConfirmationViewController.swift in Sources */,
 				015041D924B4CC5D005F4B15 /* UserButton.swift in Sources */,
@@ -887,7 +895,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = macroplate/macroplate.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1;
+				CURRENT_PROJECT_VERSION = 1.1.1;
 				DEVELOPMENT_TEAM = G8Y7XBA9M8;
 				INFOPLIST_FILE = macroplate/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -910,7 +918,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = macroplate/macroplate.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1;
+				CURRENT_PROJECT_VERSION = 1.1.1;
 				DEVELOPMENT_TEAM = G8Y7XBA9M8;
 				INFOPLIST_FILE = macroplate/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

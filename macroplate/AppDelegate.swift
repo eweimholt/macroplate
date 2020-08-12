@@ -17,9 +17,12 @@ import Flurry_iOS_SDK
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     let gcmMessageIDKey = "gcm.message_id"
+    
+    var window: UIWindow?
 
     
-    //26:00 https://www.youtube.com/watch?v=x_vny_M6iYs&t=952s if you feel like adding an activity indicator
+
+    /*//26:00 https://www.youtube.com/watch?v=x_vny_M6iYs&t=952s if you feel like adding an activity indicator
     var window: UIWindow?
     var actIdc = UIActivityIndicatorView()
     
@@ -31,25 +34,55 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func showActivityIndicator() {
-        if let window = window {
+        print("showActivityIndicator Called")
+        /*if let window = window {
             container = UIView()
-            container.frame = window.frame
-            container.center = window.center
+            container.frame = CGRect(x: 10, y: 10, width: 300, height: 300)//window.frame
+            //container.center = //window.center
             container.backgroundColor = UIColor(white: 0, alpha: 0.8)
             
             actIdc.style = .large
             actIdc.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
             actIdc.hidesWhenStopped = true
-            //actIdc.center = CGPoint
+            actIdc.center = CGPoint(x: container.frame.size.width/2, y: container.frame.size.height/2)
             
-        }
+            container.addSubview(actIdc)
+            self.window.addSubview(container)
+            
+            actIdc.startAnimating()
+            print("showing indicator")
+    
+        }*/
+        
+            /*if let window = window {
+                container = UIView()
+                container.frame = window.frame
+                container.center = window.center
+                container.backgroundColor = UIColor(white: 0, alpha: 0.8)
+                
+                actIdc.style = .large
+                actIdc.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+                actIdc.hidesWhenStopped = true
+                actIdc.center = CGPoint(x: container.frame.size.width/2, y: container.frame.size.height/2)
+                
+                container.addSubview(actIdc)
+                window.addSubview(container)
+                
+                actIdc.startAnimating()
+                print("showing indicator")
+        
+            }*/
         
     }
     
     func dismissActivityIndicator() {
+        print("dismissActivityIndicator Called")
+        if let _ = window {
+            container.removeFromSuperview()
+        }
         
         
-    }
+    }*/
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -78,16 +111,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         Messaging.messaging().delegate = self
         application.registerForRemoteNotifications()
-        
-        
 
-         // Your code
-        
-        
-        
-
-        
         FirebaseApp.configure()
+        
+        
+        // Your code
+        window = UIWindow()
+        window?.makeKeyAndVisible()
+        let navController = UINavigationController(rootViewController: HomeViewController())
+        window?.rootViewController = navController
+        
+
  
         
         return true

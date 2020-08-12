@@ -16,7 +16,9 @@ import FirebaseAuth
 
 class ImageViewController: UIViewController, UITextFieldDelegate {
     
+    @IBOutlet weak var imageInputErrorLabel: UILabel!
     // Was photo taken?
+    
     var takenPhoto:UIImage?
     
     
@@ -69,12 +71,14 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
         inputField.placeholder = "ex. chicken, rice, broccoli"
         inputField.clipsToBounds = true
         inputField.attributedPlaceholder = NSAttributedString(string: "ex. chicken, rice, broccoli", attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray])
-        inputField.layer.cornerRadius = 10
+        inputField.layer.cornerRadius = 20
         inputField.textColor = .black
-        Utilities.styleTextField(inputField)
+        //inputField.backgroundColor = .lightGray
+        inputField.translatesAutoresizingMaskIntoConstraints = false
+        
         self.view.addSubview(inputField)
         self.inputField.delegate = self
-        
+        Utilities.styleInputField(inputField)
         
         self.view.backgroundColor = .white
         self.view.addSubview(myImageView)
@@ -103,6 +107,8 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
     
     private func setUpLayout() {
         
+        imageInputErrorLabel.alpha = 0
+        
         messageLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         messageLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 40).isActive = true
         messageLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
@@ -118,74 +124,105 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
         myImageView.widthAnchor.constraint(equalToConstant: 300).isActive = true
         myImageView.heightAnchor.constraint(equalToConstant: 300).isActive = true
         
+        inputField.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        inputField.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
+        inputField.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        inputField.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        
     }
     
     @IBAction func sendButtonTapped(_ sender: Any) {
         //get the timestamp of when image is sent
         let date = Date()
         /*let formatter3 = DateFormatter()
-        formatter3.dateFormat = "HH:mm E, d MMM y"
-        let formattedDate = formatter3.string(from: date)*/
-    
+         formatter3.dateFormat = "HH:mm E, d MMM y"
+         let formattedDate = formatter3.string(from: date)*/
         
-        if let user = Auth.auth().currentUser {
+        func validateFields() -> String? {
             
-            let db = Firestore.firestore()
-            
-            //let storage = Storage.storage().reference(forURL: "gs://flowaste-595b7.appspot.com")
-                 
-            let ref = db.collection("posts")
-            let docId = ref.document().documentID
-            
-            let imageRef = self.userStorage.child("\(docId).jpg")
-            
-            let data = self.myImageView.image!.jpegData(compressionQuality: 0.0) //0.0 is smallest possible compression
-            
-            let uploadTask = imageRef.putData(data!, metadata: nil) { (metadata, err) in
-                if err != nil {
-                    print(err?.localizedDescription ?? nil!)
-                }
-                //we have successfully uploaded the photo!
-                
-                //get a download link of the image of where the code will look for it
-                imageRef.downloadURL { (url, er) in
-                    if er != nil {
-                        print(er?.localizedDescription ?? nil!)
-                    }
-                    
-                    let feed = ["uid": user.uid,
-                                "urlToImage" : url!.absoluteString,
-                                "name" : user.displayName ?? nil!,
-                                "date" : date,
-                                "key" : docId,
-                                "userTextInput" : self.inputField.text!,
-                                "carbs" : "",
-                                "protein" : "",
-                                "fat" : "",
-                                "calories" : "",
-                                "State" : "Pending",
-                                "healthDataEvent" : "false"] as [String : Any]
-
-                    db.collection("posts").document(docId).setData(feed) { err in
-                        if let err = err {
-                            print("Error adding document: \(err)")
-                        } else {
-                            print("Document added with ID: \(docId)")
-                        }
-                    }
-
-                    
-                }
-                
+            //check that all fields are filled in
+            if  inputField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+                return """
+                Please add a label to aide the
+                training of the machine learning model.
+                """
             }
-            uploadTask.resume()
-        }
-        else{
-            print("no user logged in")
+            
+            return nil
         }
         
-        //transitionToHome()
-        transitionToConfirmation()
+        //Validate the fields
+        let error = validateFields()
+        
+        if error != nil {
+            
+            // there's something wrong with the fields, show error message
+            showError(error!)
+            print("error - invalidated field")
+            
+        } else{
+            
+            if let user = Auth.auth().currentUser {
+                
+                let db = Firestore.firestore()
+                
+                //let storage = Storage.storage().reference(forURL: "gs://flowaste-595b7.appspot.com")
+                
+                let ref = db.collection("posts")
+                let docId = ref.document().documentID
+                
+                let imageRef = self.userStorage.child("\(docId).jpg")
+                
+                let data = self.myImageView.image!.jpegData(compressionQuality: 0.0) //0.0 is smallest possible compression
+                
+                let uploadTask = imageRef.putData(data!, metadata: nil) { (metadata, err) in
+                    if err != nil {
+                        print(err?.localizedDescription ?? nil!)
+                    }
+                    //we have successfully uploaded the photo!
+                    
+                    //get a download link of the image of where the code will look for it
+                    imageRef.downloadURL { (url, er) in
+                        if er != nil {
+                            print(er?.localizedDescription ?? nil!)
+                        }
+                        
+                        let feed = ["uid": user.uid,
+                                    "urlToImage" : url!.absoluteString,
+                                    "name" : user.displayName ?? nil!,
+                                    "date" : date,
+                                    "key" : docId,
+                                    "userTextInput" : self.inputField.text!,
+                                    "carbs" : "",
+                                    "protein" : "",
+                                    "fat" : "",
+                                    "calories" : "",
+                                    "State" : "Pending",
+                                    "healthDataEvent" : "false"] as [String : Any]
+                        
+                        db.collection("posts").document(docId).setData(feed) { err in
+                            if let err = err {
+                                print("Error adding document: \(err)")
+                            } else {
+                                print("Document added with ID: \(docId)")
+                            }
+                        }
+                        
+                        
+                    }
+                    
+                }
+                uploadTask.resume()
+            }
+            else{
+                print("no user logged in")
+            }
+            
+            
+            //transitionToHome()
+            transitionToConfirmation()
+        }
     }
     
     
@@ -213,6 +250,15 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
         view.window?.makeKeyAndVisible()
         
     }
+    
+    
+    func showError(_ message:String) {
+        print("Showing Error")
+        imageInputErrorLabel.text = message
+        imageInputErrorLabel.alpha = 1
+        
+    }
+    
     
     
     

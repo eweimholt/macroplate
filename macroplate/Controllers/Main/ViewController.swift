@@ -11,9 +11,23 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var signUpButton: UIButton!
+    //@IBOutlet weak var signUpButton: UIButton!
     
-    @IBOutlet weak var loginButton: UIButton!
+    //@IBOutlet weak var loginButton: UIButton!
+    
+    let loginButton : UIButton = {
+        let uButton = UIButton(frame: CGRect(x: 60, y: 550, width: 300, height: 50))
+        uButton.translatesAutoresizingMaskIntoConstraints = false
+        uButton.setTitle("Login", for: .normal )
+        return uButton
+    }()
+    
+    let signUpButton : UIButton = {
+        let uButton = UIButton(frame: CGRect(x: 60, y: 550, width: 300, height: 50))
+        uButton.translatesAutoresizingMaskIntoConstraints = false
+        uButton.setTitle("Sign Up", for: .normal )
+        return uButton
+    }()
     
     let logoView : UIImageView = {
         let lView = UIImageView() //frame: CGRect(x: 35, y: 35, width: 300, height: 300))
@@ -60,6 +74,12 @@ class ViewController: UIViewController {
         self.view.addSubview(logoView)
         self.view.addSubview(betaLabel)
         
+        loginButton.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
+        self.view.addSubview(loginButton)
+        
+        signUpButton.addTarget(self, action: #selector(signUpTapped), for: .touchUpInside)
+        self.view.addSubview(signUpButton)
+        
         setUpElements()
     }
 
@@ -77,10 +97,20 @@ class ViewController: UIViewController {
         betaLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 430).isActive = true
         betaLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
         betaLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        loginButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 520).isActive = true
+        loginButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        loginButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        signUpButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        signUpButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 600).isActive = true
+        signUpButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        signUpButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
     
-    /*@IBAction func signUpTapped(_ sender: Any) {
+    @IBAction func signUpTapped(_ sender: Any) {
         goToSignUp()
     }
     
@@ -89,8 +119,8 @@ class ViewController: UIViewController {
         print("signup tapped")
         let signupVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "signupVC") as! SignUpViewController
         DispatchQueue.main.async {
-            //self.present(signupVC, animated: true, completion: nil)
-            self.navigationController?.pushViewController(signupVC, animated: true)
+            self.present(signupVC, animated: true, completion: nil)
+            //self.navigationController?.pushViewController(signupVC, animated: true)
             print("signup presented")
         }
         
@@ -111,7 +141,7 @@ class ViewController: UIViewController {
             //self.navigationController?.pushViewController(loginVC, animated: true)
         }
         
-    }*/
+    }
     
 }
 

@@ -95,7 +95,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         setUpLayout()
         
         fetchPosts()
-        
+        //AppDelegate.instance().dismissActivityIndicator()
         
     }
     
@@ -124,6 +124,31 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     
     func fetchPosts() {
+        //show activity indicator while fetching posts
+        //AppDelegate.instance().showActivityIndicator()
+        
+       // var window: UIWindow?
+        /*var actIdc = UIActivityIndicatorView()
+        
+        var container: UIView!
+        
+        container = UIView()
+        container.frame = CGRect(x: 10, y: 10, width: 300, height: 300)//window.frame
+        //container.center = //window.center
+        container.backgroundColor = UIColor(white: 0, alpha: 0.8)
+        
+        actIdc.style = .large
+        actIdc.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        actIdc.hidesWhenStopped = true
+        actIdc.center = CGPoint(x: container.frame.size.width/2, y: container.frame.size.height/2)
+        
+        container.addSubview(actIdc)
+        self.view.addSubview(container)
+        
+        actIdc.startAnimating()
+        print("showing indicator")*/
+
+        
         let db = Firestore.firestore()
         
         let uid = Auth.auth().currentUser!.uid
@@ -134,6 +159,8 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
+                    //AppDelegate.instance().dismissActivityIndicator()
+                    //container.removeFromSuperview()
 
                 } else {
                     for document in querySnapshot!.documents {
@@ -156,7 +183,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
                         
                         
                         self.posts.append(post)
-                        
+                
                     }
                     
                 }
@@ -172,8 +199,8 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
                     self.mealsCollectionView.reloadData()
                 }
         }
-        
-        
+
+     //container.removeFromSuperview()
     }
     
     // UICOLLECTIONVIEW DATA SOURCE

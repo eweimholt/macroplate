@@ -97,11 +97,11 @@ class PostViewController: UIViewController {
     let pendingText : UILabel = {
         let label = UILabel()
         var text = """
-        AI training in progress!
+        Processing...
         Check back in a few days.
         """
         label.text = text
-        label.font = UIFont.systemFont(ofSize: 18)
+        label.font = UIFont(name: "AvenirNext-Regular", size: 18)
         label.textColor = UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
@@ -143,6 +143,7 @@ class PostViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        authorizeHealthKitInApp()
         
         view.backgroundColor = .white
         
@@ -161,7 +162,7 @@ class PostViewController: UIViewController {
             self.view.addSubview(pendingText)
             
             pendingText.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-            pendingText.topAnchor.constraint(equalTo: view.topAnchor, constant: 420).isActive = true
+            pendingText.topAnchor.constraint(equalTo: view.topAnchor, constant: 450).isActive = true
             pendingText.widthAnchor.constraint(equalToConstant: 300).isActive = true
             pendingText.heightAnchor.constraint(equalToConstant: 100).isActive = true
             
@@ -221,7 +222,7 @@ class PostViewController: UIViewController {
             if self.healthDataEvent == "false" {
                 //write data to the health store
                 //write to Health Kit Once
-                authorizeHealthKitInApp()
+                
                 writeToKit()
                 print("writetoKit called")
                 //update healthDataEvent to true
