@@ -16,17 +16,12 @@ import FirebaseAuth
 
 class ImageViewController: UIViewController, UITextFieldDelegate {
     
-    @IBOutlet weak var imageInputErrorLabel: UILabel!
-    // Was photo taken?
-    
     var takenPhoto:UIImage?
-    
     
     //Firebase setup
     var userStorage = StorageReference()
-    //var ref = DatabaseReference()
     
-    
+    // MARK: Define
     let myImageView : UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 55, y: 175, width: 300, height: 300))
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -50,16 +45,82 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
         label.font = UIFont.systemFont(ofSize: 18)
         label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .center
+        label.textAlignment = .left
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 2
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    var inputField = UITextField()
+    
+    
+    var inputField: UITextField = {
+        var tField = UITextField(frame: CGRect(x: 55, y: 110, width: 300, height: 40))
+        //tField.placeholder = "ex. chicken, rice, brocolli"
+        tField.clipsToBounds = true
+        tField.attributedPlaceholder = NSAttributedString(string: "ex. chicken, rice, broccoli", attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+        tField.textColor = .black
+        tField.translatesAutoresizingMaskIntoConstraints = false
+        tField.textAlignment = .left
+        
+        return tField
+    }()
+    
+    let restaurantLabel : UILabel = {
+        let label = UILabel()
+        label.text = "Restaurant, if applicable: "
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.textColor = .black
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .left
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 2
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+
+    var restaurantField: UITextField = {
+        var tField = UITextField(frame: CGRect(x: 55, y: 110, width: 300, height: 40))
+        //tField.placeholder = "ex. chicken, rice, brocolli"
+        tField.clipsToBounds = true
+        tField.attributedPlaceholder = NSAttributedString(string: "ex: Domino's", attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+        tField.textColor = .black
+        tField.textAlignment = .left
+        tField.translatesAutoresizingMaskIntoConstraints = false
+        
+        return tField
+    }()
+    
+    let imageInputErrorLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Please add a label describing what's on your plate:"
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.textColor = .black
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 2
+        label.textColor = .red
+        return label
+    }()
+
+    
+    let stackView: UIStackView = {
+        let sView = UIStackView()
+        sView.axis  = NSLayoutConstraint.Axis.vertical
+        sView.distribution  = UIStackView.Distribution.equalSpacing
+        sView.alignment = UIStackView.Alignment.center
+        sView.spacing   = 15
+        sView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return sView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.backgroundColor = .white
         self.hideKeyboardWhenTappedAround()
         
         //Set up storage reference
@@ -67,77 +128,78 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
         
         userStorage = storage.child("users")
         
-        inputField = UITextField(frame: CGRect(x: 55, y: 110, width: 300, height: 40))
-        inputField.placeholder = "ex. chicken, rice, broccoli"
-        inputField.clipsToBounds = true
-        inputField.attributedPlaceholder = NSAttributedString(string: "ex. chicken, rice, broccoli", attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGray])
-        inputField.layer.cornerRadius = 20
-        inputField.textColor = .black
-        //inputField.backgroundColor = .lightGray
-        inputField.translatesAutoresizingMaskIntoConstraints = false
+        //load view
+        stackView.addArrangedSubview(messageLabel)
+        stackView.addArrangedSubview(inputField)
+        //stackView.addArrangedSubview(restaurantLabel)
+        //stackView.addArrangedSubview(restaurantField)
+        stackView.addArrangedSubview(myImageView)
+        stackView.addArrangedSubview(sendButton)
+        stackView.addArrangedSubview(imageInputErrorLabel)
+        self.view.addSubview(stackView)
+
+
         
-        self.view.addSubview(inputField)
-        self.inputField.delegate = self
-        Utilities.styleInputField(inputField)
-        
-        self.view.backgroundColor = .white
-        self.view.addSubview(myImageView)
         
         sendButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
-        self.view.addSubview(sendButton)
-        Utilities.styleFilledButton(sendButton)
-        
-        messageLabel.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(messageLabel)
+        self.inputField.delegate = self
         
         // Do any additional setup after loading the view.
         setUpLayout()
         
         
-        
+        //set image view with photo
         if let availableImage = takenPhoto {
             myImageView.image = availableImage
         }
     }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.view.endEditing(true)
-        return false
-    }
-    
+
     private func setUpLayout() {
         
+
+        let stackWidth = self.view.frame.width - 80
+        let componentHeight = 50
+        
         imageInputErrorLabel.alpha = 0
+        Utilities.styleInputField(inputField, stackWidth)
+        Utilities.styleInputField(restaurantField, stackWidth)
+        Utilities.styleFilledButton(sendButton)
+
         
-        messageLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        messageLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 40).isActive = true
-        messageLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        messageLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        //Constraints
+        stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
+        stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+
+        messageLabel.widthAnchor.constraint(equalToConstant: stackWidth).isActive = true //equalToConstant: 300
+        messageLabel.heightAnchor.constraint(equalToConstant: CGFloat(componentHeight)).isActive = true
         
-        sendButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        sendButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 500).isActive = true
-        sendButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        sendButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        inputField.widthAnchor.constraint(equalToConstant: stackWidth).isActive = true
+        inputField.heightAnchor.constraint(equalToConstant: CGFloat(componentHeight-10)).isActive = true
         
-        myImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        myImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 175).isActive = true
-        myImageView.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        myImageView.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        restaurantLabel.widthAnchor.constraint(equalToConstant: stackWidth).isActive = true //equalToConstant: 300
+        restaurantLabel.heightAnchor.constraint(equalToConstant: CGFloat(componentHeight-20)).isActive = true
         
-        inputField.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        inputField.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
-        inputField.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        inputField.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        restaurantField.widthAnchor.constraint(equalToConstant: stackWidth).isActive = true
+        restaurantField.heightAnchor.constraint(equalToConstant: CGFloat(componentHeight-10)).isActive = true
         
+        imageInputErrorLabel.widthAnchor.constraint(equalToConstant: stackWidth).isActive = true
+        imageInputErrorLabel.heightAnchor.constraint(equalToConstant: CGFloat(componentHeight)).isActive = true
+
+        myImageView.widthAnchor.constraint(equalToConstant: stackWidth).isActive = true
+        myImageView.heightAnchor.constraint(equalToConstant: stackWidth).isActive = true
+   
+        sendButton.widthAnchor.constraint(equalToConstant: stackWidth).isActive = true
+        sendButton.heightAnchor.constraint(equalToConstant: CGFloat(componentHeight)).isActive = true
+
         
     }
     
     @IBAction func sendButtonTapped(_ sender: Any) {
         //get the timestamp of when image is sent
-        let date = Date()
-        /*let formatter3 = DateFormatter()
-         formatter3.dateFormat = "HH:mm E, d MMM y"
-         let formattedDate = formatter3.string(from: date)*/
+        let date = Date()//NSDate().timeIntervalSince1970 //
+        let timestamp = NSDate().timeIntervalSince1970 //Timestamp(date: date)
+        print("date set to: \(date)")
+        print("timestamp set to: \(timestamp)")
         
         func validateFields() -> String? {
             
@@ -192,6 +254,7 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
                                     "urlToImage" : url!.absoluteString,
                                     "name" : user.displayName ?? nil!,
                                     "date" : date,
+                                    "timestamp" : timestamp,
                                     "key" : docId,
                                     "userTextInput" : self.inputField.text!,
                                     "carbs" : "",
@@ -224,6 +287,13 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
             transitionToConfirmation()
         }
     }
+    
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+    
     
     
     override func didReceiveMemoryWarning() {

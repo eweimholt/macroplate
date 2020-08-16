@@ -90,11 +90,11 @@ class LoginViewController: UIViewController {
         let cleanedPassword = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         
         //returns true if password is good based on utilities function
-        if Utilities.isPasswordValid(cleanedPassword) == false {
+        /*if Utilities.isPasswordValid(cleanedPassword) == false {
             //Password isn't secure enough
             return "Password needs: 8 characters, a special character, and a number."
             
-        }
+        }*/
         
         return nil
     }

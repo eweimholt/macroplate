@@ -26,6 +26,7 @@ class PostViewController: UIViewController {
     var state : String?
     var healthDataEvent : String?
     var postId : String?
+    var date: String?
     
     let postImageView : UIImageView = {
         let imageView = UIImageView() //frame: CGRect(x: 35, y: 15, width: 300, height: 300))
@@ -39,14 +40,15 @@ class PostViewController: UIViewController {
     // post image
     var postImage:UIImage?
     
-    /*var date : UITextView = {
+    var dateText : UITextView = {
      let textView = UITextView()
      textView.textAlignment = .center
      textView.font    = UIFont(name: "AvenirNext-Regular", size: 14)
      textView.textColor = .lightGray
      textView.translatesAutoresizingMaskIntoConstraints = false
+        //textView.text = "Date Here"
      return textView
-     }()*/
+     }()
     
     var userLabel : UILabel = {
         let textView = UILabel()
@@ -54,6 +56,8 @@ class PostViewController: UIViewController {
         textView.font    = UIFont(name: "AvenirNext-Regular", size: 18)
         textView.textColor = UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.lineBreakMode = .byWordWrapping
+        textView.numberOfLines = 0
         return textView
     }()
     
@@ -151,18 +155,18 @@ class PostViewController: UIViewController {
         postImageView.image = postImage
         
         //annotatedView.image = UIImage(named: "activityring" )
-        //self.view.addSubview(date)
+        self.view.addSubview(dateText )
         self.view.addSubview(userLabel)
 
         setUpLayout()
-        
+        //dateText.text = "Date logged: \(date))"
         
         if state == "Pending" {
             //self.view.addSubview(pendingView)
             self.view.addSubview(pendingText)
             
             pendingText.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-            pendingText.topAnchor.constraint(equalTo: view.topAnchor, constant: 450).isActive = true
+            pendingText.topAnchor.constraint(equalTo: view.topAnchor, constant: 470).isActive = true
             pendingText.widthAnchor.constraint(equalToConstant: 300).isActive = true
             pendingText.heightAnchor.constraint(equalToConstant: 100).isActive = true
             
@@ -190,8 +194,9 @@ class PostViewController: UIViewController {
             fatText.textAlignment = .center
             fatText.textColor = .systemBlue
             
+            //dateText.text = "Date logged: \(date))"
+            
             caloriesText.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-            //caloriesText.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 60).isActive = true
             caloriesText.topAnchor.constraint(equalTo: userLabel.bottomAnchor, constant: 10).isActive = true
             caloriesText.widthAnchor.constraint(equalToConstant: 300).isActive = true
             caloriesText.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -199,7 +204,6 @@ class PostViewController: UIViewController {
             carbsText.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
             carbsText.topAnchor.constraint(equalTo: view.topAnchor, constant: 510).isActive = true
             carbsText.topAnchor.constraint(equalTo: caloriesText.bottomAnchor, constant: 10).isActive = true
-            //carbsText.topAnchor.constraint(equalTo: caloriesText.bottomAnchor, constant: 10).isActive = true
             carbsText.widthAnchor.constraint(equalToConstant: 150).isActive = true
             carbsText.heightAnchor.constraint(equalToConstant: 30).isActive = true
             
@@ -222,9 +226,7 @@ class PostViewController: UIViewController {
             if self.healthDataEvent == "false" {
                 //write data to the health store
                 //write to Health Kit Once
-                
                 writeToKit()
-                print("writetoKit called")
                 //update healthDataEvent to true
                 let switchState = ["healthDataEvent" : "true"]  as [String : Any]
                 
@@ -249,18 +251,18 @@ class PostViewController: UIViewController {
     
     private func setUpLayout() {
         
-        /*date.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-         date.topAnchor.constraint(equalTo: view.topAnchor, constant: 400).isActive = true
-         date.widthAnchor.constraint(equalToConstant: 170).isActive = true
-         date.heightAnchor.constraint(equalToConstant: 40).isActive = true*/
+        dateText.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
+        dateText.topAnchor.constraint(equalTo: view.topAnchor, constant: 400).isActive = true
+        dateText.widthAnchor.constraint(equalToConstant: 170).isActive = true
+        dateText.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         postImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        postImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -200).isActive = true
-        postImageView.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        postImageView.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        postImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 25).isActive = true
+        postImageView.widthAnchor.constraint(equalToConstant: self.view.frame.width - 50).isActive = true
+        postImageView.heightAnchor.constraint(equalToConstant: self.view.frame.width - 50).isActive = true
         
         userLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-        userLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0).isActive = true
+        userLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 440).isActive = true
         userLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
         //userLabel.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
@@ -315,8 +317,8 @@ class PostViewController: UIViewController {
         /*guard let protein = Double(self.proteinText.text!) else { return }
          guard let fat = Double(self.fatText.text!) else { return }*/
         
-        
-        let today = NSDate()
+        //get date from post
+        let today = NSDate() //self.date
         
         if let type = HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates) {
             let quantity = HKQuantity(unit: HKUnit.gram(), doubleValue: Double(carbs))

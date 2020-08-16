@@ -197,6 +197,7 @@
 			isa = PBXGroup;
 			children = (
 				01A3BE4424CB7238001425D6 /* User.swift */,
+				01C25ACB24CCD5E100BBEF68 /* Post.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -248,7 +249,6 @@
 			children = (
 				01D27CAD24D36647002ED4AA /* RingProgressGroupView.swift */,
 				01D27CA924D26D07002ED4AA /* RingProgressGroupButton.swift */,
-				01C25ACB24CCD5E100BBEF68 /* Post.swift */,
 			);
 			path = Object;
 			sourceTree = "<group>";
@@ -271,8 +271,8 @@
 				01FE2A50248C699E005D5750 /* ViewController.swift */,
 				015041CE24B28497005F4B15 /* UserViewController.swift */,
 				01011F2B24BB81810077534B /* ConfirmationViewController.swift */,
-				01A4584C24E39A8D008502A9 /* demos */,
 				01983B4A24C0BDD900882883 /* ImageViewController.swift */,
+				01A4584C24E39A8D008502A9 /* demos */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -895,7 +895,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = macroplate/macroplate.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1.1;
+				CURRENT_PROJECT_VERSION = 1.1.2;
 				DEVELOPMENT_TEAM = G8Y7XBA9M8;
 				INFOPLIST_FILE = macroplate/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -907,7 +907,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.FlowasteLLC.platemate;
 				PRODUCT_NAME = platemate;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -918,7 +918,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = macroplate/macroplate.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1.1;
+				CURRENT_PROJECT_VERSION = 1.1.2;
 				DEVELOPMENT_TEAM = G8Y7XBA9M8;
 				INFOPLIST_FILE = macroplate/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -930,7 +930,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.FlowasteLLC.platemate;
 				PRODUCT_NAME = platemate;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

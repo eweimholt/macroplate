@@ -34,13 +34,13 @@ class Utilities {
         
     }
     
-    static func styleInputField(_ textfield:UITextField) {
+    static func styleInputField(_ textfield:UITextField, _ width:CGFloat) {
 
         
         // Create the bottom line
         let bottomLine = CALayer()
         
-        bottomLine.frame = CGRect(x: 0, y: textfield.frame.height - 2, width: textfield.frame.width, height: 2)
+        bottomLine.frame = CGRect(x: 0, y: textfield.frame.height - 2, width: width, height: 2)
         
         bottomLine.backgroundColor = primaryUIColor.cgColor
         //primaryUIColor.cgColor
@@ -108,7 +108,8 @@ class Utilities {
     //uses a regular expression to check the security of the user password
     static func isPasswordValid(_ password : String) -> Bool {
         
-        let passwordTest = NSPredicate(format: "SELF MATCHES %@", "^(?=.*[a-z])(?=.*[$@$#!%*?&])[A-Za-z\\d$@$#!%*?&]{8,}")
+        let passwordTest = NSPredicate(format: "SELF MATCHES %@","^([a-zA-Z0-9@*#]{8,15})$")
+        //NSPredicate(format: "SELF MATCHES %@", "^(?=.*[a-z])(?=.*[$@$#!%*?&])[A-Za-z\\d$@$#!%*?&]{8,}")
         return passwordTest.evaluate(with: password)
     }
     

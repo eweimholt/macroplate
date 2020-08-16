@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FirebaseFirestore
+import Firebase
 
 protocol PostCellDelegate {
     //commands that we give to PostViewController
@@ -24,6 +26,7 @@ class PostCell: UICollectionViewCell {
     var delegate: PostCellDelegate?
     var index: IndexPath?
     var date: String?
+    var timestamp: TimeInterval?
     var userTextInput : String?
     var name : String?
     var pathToImage : String?
@@ -96,12 +99,16 @@ class PostCell: UICollectionViewCell {
     
     @IBAction func expandPost() {
 
-        if let userTextInput = userTextInput {
-            delegate?.didExpandPost(image: postImage.image!, date: date!, userText: userTextInput, calories: calories, carbs: carbs, protein: protein, fat: fat, state : state, postId: postId, healthDataEvent: healthDataEvent)
+        if let userTextInput = userTextInput, let _ = postImage.image, let calories = calories, let carbs = carbs, let protein = protein, let fat = fat, let state = state, let postId = postId, let healthDataEvent = healthDataEvent {
+            
+            if date == nil {
+            delegate?.didExpandPost(image: postImage.image!, date: "", userText: userTextInput, calories: calories, carbs: carbs, protein: protein, fat: fat, state : state, postId: postId, healthDataEvent: healthDataEvent)
+            } else {
+            delegate?.didExpandPost(image: postImage.image!, date: date, userText: userTextInput, calories: calories, carbs: carbs, protein: protein, fat: fat, state : state, postId: postId, healthDataEvent: healthDataEvent)
+            }
         } else {
-            delegate?.didExpandPost(image: postImage.image!, date: date!, userText: "nothing", calories: calories, carbs: carbs, protein: protein, fat: fat, state : state, postId: postId, healthDataEvent: healthDataEvent)
+            print("nil abort avoided :) ")
         }
-
 
     }
     

@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAuth
 import Firebase
 import FirebaseFirestore
+import FirebaseAnalytics
 
 class SignUpViewController: UIViewController, UITextFieldDelegate {
     
@@ -25,21 +26,10 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var errorLabel: UILabel!
 
-    
-    let backButton : UIButton = {
-        let cButton = UIButton(frame: CGRect(x: 100, y: 100, width: 70, height: 70))
-        cButton.setTitle("Back", for: .normal)
-        cButton.setTitleColor(.white, for: .normal) // You can change the TitleColor
-        cButton.translatesAutoresizingMaskIntoConstraints = false
-        return cButton
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.setNavigationBarHidden(true, animated: true)
-        
-        //backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
-        //view.addSubview(backButton)
+
         
         //setup background gradient
         UIGraphicsBeginImageContext(self.view.frame.size)
@@ -57,28 +47,10 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
 
         setUpElements()
     }
-    
-   /* @IBAction func goBack(_ sender: Any) {
-        transitionToRoot()
-    }
-    
-    func transitionToRoot() {
-        let viewController = storyboard?.instantiateViewController(identifier: "rootVC" ) as? ViewController
-        
-        //swap out root view controller for the home one
-        view.window?.rootViewController = viewController
-        //view.window?.makeKeyAndVisible()
-        view.window?.isHidden = false
-        
-    }*/
+
     
     func setUpElements() {
-        
-       /* backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15).isActive = true
-        backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
-        backButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
-        backButton.heightAnchor.constraint(equalToConstant: 60).isActive = true*/
-        
+
         //Hide error label
         errorLabel.alpha = 0
         
@@ -107,7 +79,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         //returns true if password is good based on utilities function
         if Utilities.isPasswordValid(cleanedPassword) == false {
             //Password isn't secure enough
-            return "Password needs: 8 characters, a special character, and a number."
+            return "Password must be at least 8 characters long"
             
         }
         
@@ -174,6 +146,8 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
                         }
                     }
 
+                    
+                    
                     //get entire collection
                     /*db.collection("users").getDocuments() { (querySnapshot, err) in
                         if let err = err {

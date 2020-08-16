@@ -7,11 +7,14 @@
 //
 
 import UIKit
+import FirebaseFirestore
+import Firebase
 
 class Post: NSObject {
 
     var name : String!
     var date : String!
+    var timestamp : TimeInterval!
     var pathToImage : String!
     var userId : String!
     var postId : String!

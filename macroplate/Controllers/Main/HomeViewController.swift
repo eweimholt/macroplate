@@ -13,6 +13,7 @@ import FirebaseFirestore
 import FirebaseStorage
 import FirebaseDatabase
 import FirebaseAuth
+import FirebaseAnalytics
 
 class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -132,6 +133,10 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             }
         }
         else {
+        //set user id for analytics
+        let uid = Auth.auth().currentUser!.uid
+        Analytics.setUserID(uid)
+
         self.view.addSubview(cameraView)
 
         cameraButton.setBackgroundImage(circleImage, for: .normal)
