@@ -45,6 +45,7 @@ class PostViewController: UIViewController {
      textView.textAlignment = .center
      textView.font    = UIFont(name: "AvenirNext-Regular", size: 14)
      textView.textColor = .lightGray
+     textView.backgroundColor = .white
      textView.translatesAutoresizingMaskIntoConstraints = false
         //textView.text = "Date Here"
      return textView
@@ -253,8 +254,8 @@ class PostViewController: UIViewController {
         
         dateText.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
         dateText.topAnchor.constraint(equalTo: view.topAnchor, constant: 400).isActive = true
-        dateText.widthAnchor.constraint(equalToConstant: 170).isActive = true
-        dateText.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        dateText.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        dateText.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         postImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         postImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 25).isActive = true
@@ -318,7 +319,22 @@ class PostViewController: UIViewController {
          guard let fat = Double(self.fatText.text!) else { return }*/
         
         //get date from post
-        let today = NSDate() //self.date
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMMM dd, yyyy HH:mm a"
+        
+        /*guard let today = dateFormatter.date(from: self.dateText.text!) else {
+           //fatalError("ERROR: Date conversion failed due to mismatched format."
+        }*/
+        
+        if self.dateText.text != nil {
+            let today = dateFormatter.date(from: self.dateText.text!)
+        } else {
+            let today = Date()
+        }
+ 
+        print("health date is \(self.dateText.text)")
+        
+        //let today = NSDate() //self.date
         
         if let type = HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates) {
             let quantity = HKQuantity(unit: HKUnit.gram(), doubleValue: Double(carbs))

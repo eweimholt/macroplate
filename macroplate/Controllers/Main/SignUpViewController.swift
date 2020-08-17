@@ -149,31 +149,6 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
                 }
             self.transitionToHome()
             }
-            //sign in user
-            /*Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
-                
-                if error != nil {
-                    //Couldn't sign in
-                    self.errorLabel.text = error!.localizedDescription
-                    self.showError(self.errorLabel.text!)
-                    // self.errorLabel.alpha = 1
-                    
-                }
-                else {
-                    //User has signed in successfully
-                    self.transitionToHome()
-                    UserDefaults.standard.set(true, forKey: "isLoggedIn")
-                    UserDefaults.standard.synchronize() //save to device
-                    print("UserDefault save to true")
-
-                }
-            }*/
-            //Transition to home screen
-            
-            //UserDefaults.standard.set(true, forKey: "isLoggedIn")
-            //UserDefaults.standard.synchronize() //save to device
-            //print("UserDefault save to true")
-            
         }
         
     }
