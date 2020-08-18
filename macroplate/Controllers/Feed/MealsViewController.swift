@@ -140,7 +140,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
                         }
                         else {
                             //print("Post timestamp is nil, add view load accordingly here")
-                            //post.date = "timestamp was nil"
+                            post.date = Date().toString()
                         }
                         //post.date = Date(timeIntervalSince1970: post.date)
                         
@@ -314,10 +314,20 @@ extension TimeInterval{
 
         //Date formatting
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMMM dd, yyyy HH:mm a"
+        dateFormatter.dateFormat = Constants.dateFormatAs
         //dateFormatter.timeZone = NSTimeZone(name: "UTC") as TimeZone? //remove timezones for now
         let dateString = dateFormatter.string(from: date as Date)
         return dateString
     }
 }
 
+
+extension Date
+{
+    func toString() -> String
+    {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = Constants.dateFormatAs
+        return dateFormatter.string(from: self)
+    }
+}

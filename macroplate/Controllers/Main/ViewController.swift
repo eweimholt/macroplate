@@ -89,22 +89,22 @@ class ViewController: UIViewController {
         Utilities.styleSetupButton(loginButton)
 
         logoView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 10).isActive = true
-        logoView.topAnchor.constraint(equalTo: view.topAnchor, constant: 120).isActive = true
+        logoView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
         logoView.widthAnchor.constraint(equalToConstant: 500).isActive = true
         logoView.heightAnchor.constraint(equalToConstant: 500).isActive = true
         
         betaLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 135).isActive = true
-        betaLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 430).isActive = true
+        betaLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 330).isActive = true
         betaLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
         betaLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        loginButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 520).isActive = true
+        loginButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 420).isActive = true
         loginButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
         loginButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         signUpButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        signUpButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 600).isActive = true
+        signUpButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 500).isActive = true
         signUpButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
         signUpButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }

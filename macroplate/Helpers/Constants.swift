@@ -23,5 +23,7 @@ struct Constants {
         static let currentUser = "currentUser"
     }
     
+    static let dateFormatAs = "MMMM dd, yyyy HH:mm"
+    
     
 }

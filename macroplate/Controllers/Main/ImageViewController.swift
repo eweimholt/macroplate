@@ -138,9 +138,6 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
         stackView.addArrangedSubview(imageInputErrorLabel)
         self.view.addSubview(stackView)
 
-
-        
-        
         sendButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
         self.inputField.delegate = self
         
@@ -198,8 +195,8 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
         //get the timestamp of when image is sent
         let date = Date()//NSDate().timeIntervalSince1970 //
         let timestamp = NSDate().timeIntervalSince1970 //Timestamp(date: date)
-        print("date set to: \(date)")
-        print("timestamp set to: \(timestamp)")
+        //print("date set to: \(date)")
+        //print("timestamp set to: \(timestamp)")
         
         func validateFields() -> String? {
             
@@ -281,7 +278,6 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
             else{
                 print("no user logged in")
             }
-            
             
             //transitionToHome()
             transitionToConfirmation()
