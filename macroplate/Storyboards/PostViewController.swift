@@ -328,7 +328,7 @@ class PostViewController: UIViewController {
 
         //get date from post
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMMM dd, yyyy HH:mm a"
+        dateFormatter.dateFormat = Constants.dateFormatAs //"MMMM dd, yyyy HH:mm a"
         
         guard let today = dateFormatter.date(from: self.dateText.text!) else {
            fatalError("ERROR: Date conversion failed due to mismatched format.")

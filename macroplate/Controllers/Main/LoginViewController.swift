@@ -36,6 +36,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
         
         navigationController?.setNavigationBarHidden(true, animated: true)
         //setup background gradient
@@ -185,5 +186,18 @@ class LoginViewController: UIViewController {
     }
     
 }
+
+extension LoginViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ImageViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
+
     
 
