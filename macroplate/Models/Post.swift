@@ -30,4 +30,5 @@ class Post: NSObject {
     //State
     var state : String!
     var healthDataEvent : String!
+    var isPlateEmpty : String!
 }

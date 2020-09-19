@@ -12,10 +12,20 @@ import FirebaseFirestore
 import FirebaseAuth
 
 
-class MealsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, PostCellDelegate {
-
+class MealsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PostCellDelegate {
+//, CleanPostCellDelegate
     let cellId = "cell"
+    let cleanId = "clean"
+    let screenSize: CGRect = UIScreen.main.bounds
     
+    let backButton : UIButton = {
+       let cButton = UIButton(frame: CGRect(x: 100, y: 100, width: 70, height: 70))
+        cButton.setTitle("Back", for: .normal)
+        cButton.setTitleColor(.blue, for: .normal) // You can change the TitleColor
+        cButton.translatesAutoresizingMaskIntoConstraints = false
+       return cButton
+    }()
+
     var mealsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -26,6 +36,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         cv.layer.cornerRadius = 20
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(PostCell.self, forCellWithReuseIdentifier: "cell")
+        cv.register(CleanPostCell.self, forCellWithReuseIdentifier: "clean")
         return cv
     }()
     
@@ -70,6 +81,10 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         
         view.backgroundColor = .white
         
+        backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
+        view.addSubview(backButton)
+
+        
         view.addSubview(mealsCollectionView)
         mealsCollectionView.dataSource = self
         mealsCollectionView.delegate = self
@@ -84,15 +99,21 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     func setUpLayout() {
         
-        mealsCollectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
-        mealsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        mealsCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
-        mealsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        mealsCollectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
+        mealsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0).isActive = true
+        mealsCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+        mealsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0).isActive = true
         
         mealLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        mealLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
+        mealLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 40).isActive = true
         mealLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
         mealLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        
+        backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15).isActive = true
+        backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
+        backButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
+        backButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
     }
 
@@ -113,8 +134,15 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
                 } else {
                     for document in querySnapshot!.documents {
                         //print("\(document.documentID) => \(document.data())")
-                        let post = Post()
                         let doc = document.data()
+                        
+                        /*if doc["State"] as? String == "Ready" {
+                            let post = Post()
+                        } else {
+                            let post = Post()
+                        }*/
+                        let post = Post()
+
    
                         post.name = doc["name"] as? String
                         post.pathToImage = doc["urlToImage"] as? String
@@ -128,6 +156,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
                         post.calories = doc["calories"] as? String
                         post.state = doc["State"] as? String
                         post.healthDataEvent = doc["healthDataEvent"] as? String
+                        post.isPlateEmpty = doc["plateIsEmpty"] as? String
                         
                         //let myTimeInterval = TimeInterval(post.timestamp)
                         //post.date = NSDate(timeIntervalSince1970: TimeInterval(myTimeInterval)) as Date
@@ -176,6 +205,21 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
     }
     
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
+    {
+        //Get UI SCreen size
+       let screenWidth = screenSize.width
+              //let screenHeight = screenSize.height
+        return CGSize(width: screenWidth * 0.85, height: screenWidth * 0.5)
+    }
+    
+
+    /*func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0) //.zero
+     }*/
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //return the number of posts
         return self.posts.count
@@ -183,36 +227,81 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = mealsCollectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! PostCell
+        //TO DO: FIX THIS
+        if self.posts[indexPath.row].state == "Pending" {
+            let cell = mealsCollectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! PostCell
+            
+            cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
+            cell.postButton.setTitle(self.posts[indexPath.row].state, for: .normal) //self.posts[indexPath.row].userTextInput
+            
+            
+            cell.userTextInput = self.posts[indexPath.row].userTextInput
+            cell.date = self.posts[indexPath.row].date //need to add real timestamp
+            print("\(String(describing: self.posts[indexPath.row].date))")
+            
+            //set nutritional data
+            cell.calories = self.posts[indexPath.row].calories
+            cell.carbs = self.posts[indexPath.row].carbs
+            cell.protein = self.posts[indexPath.row].protein
+            cell.fat = self.posts[indexPath.row].fat
+            cell.state = self.posts[indexPath.row].state
+            cell.postId = self.posts[indexPath.row].postId
+            cell.healthDataEvent = self.posts[indexPath.row].healthDataEvent
+            cell.isPlateEmpty = self.posts[indexPath.row].isPlateEmpty
+            
+            cell.backgroundColor = UIColor.white
+            cell.delegate = self
+            cell.index = indexPath
+            
+            return cell
+        } else {
+            let cell = mealsCollectionView.dequeueReusableCell(withReuseIdentifier: cleanId, for: indexPath) as! CleanPostCell
+            
+            cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
+            cell.postButton.setTitle(self.posts[indexPath.row].state, for: .normal) //self.posts[indexPath.row].userTextInput
+            
+            
+            cell.userTextInput = self.posts[indexPath.row].userTextInput
+            cell.date = self.posts[indexPath.row].date //need to add real timestamp
+            print("\(String(describing: self.posts[indexPath.row].date))")
+            
+            //set nutritional data
+            cell.calories = self.posts[indexPath.row].calories
+            cell.carbs = self.posts[indexPath.row].carbs
+            cell.protein = self.posts[indexPath.row].protein
+            cell.fat = self.posts[indexPath.row].fat
+            cell.state = self.posts[indexPath.row].state
+            cell.postId = self.posts[indexPath.row].postId
+            cell.healthDataEvent = self.posts[indexPath.row].healthDataEvent
+            cell.isPlateEmpty = self.posts[indexPath.row].isPlateEmpty
+            
+            cell.backgroundColor = UIColor.white
+            cell.delegate = self
+            cell.index = indexPath
+            return cell
+        }
         
-        cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
-        cell.postButton.setTitle(self.posts[indexPath.row].state, for: .normal) //self.posts[indexPath.row].userTextInput
         
-        
-        cell.userTextInput = self.posts[indexPath.row].userTextInput
-        cell.date = self.posts[indexPath.row].date //need to add real timestamp
-        print("\(String(describing: self.posts[indexPath.row].date))")
-        
-        //set nutritional data
-        cell.calories = self.posts[indexPath.row].calories
-        cell.carbs = self.posts[indexPath.row].carbs
-        cell.protein = self.posts[indexPath.row].protein
-        cell.fat = self.posts[indexPath.row].fat
-        cell.state = self.posts[indexPath.row].state
-        cell.postId = self.posts[indexPath.row].postId
-        cell.healthDataEvent = self.posts[indexPath.row].healthDataEvent
-    
-        cell.backgroundColor = UIColor.white
-        cell.delegate = self
-        cell.index = indexPath
-        
-        return cell
     }
     
-    
+    @IBAction func goBack(_ sender: Any) {
+        print("goBack")
+        transitionToHome()
+    }
+
+    func transitionToHome() {
+
+        let homeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: Constants.Storyboard.homeViewController) as? HomeViewController
+        
+        //swap out root view controller for the home one, once the signup is successful
+        view.window?.rootViewController = homeViewController
+        view.window?.makeKeyAndVisible()
+        
+    }
+
     
     //POST CELL DELEGATE
-    func didExpandPost(image: UIImage, date: String?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?, state : String?, postId : String?, healthDataEvent : String? ) {
+    func didExpandPost(image: UIImage, date: String?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?, state : String?, postId : String?, healthDataEvent : String?, isPlateEmpty: String? ) {
         
         let postVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "PostVC") as! PostViewController
         //pass data to VC
@@ -227,8 +316,8 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         postVC.state = state
         postVC.postId = postId
         postVC.healthDataEvent = healthDataEvent
-        
-        
+        postVC.isPlateEmpty = isPlateEmpty
+   
         print("post tapped")
         //present VC
          DispatchQueue.main.async {
@@ -258,6 +347,24 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
                     print("Document successfully removed!")
                 }
             }
+
+            //Set up storage reference
+            let storageRef = Storage.storage().reference(forURL: "gs://flowaste-595b7.appspot.com/")
+            
+            let userStorage = storageRef.child("users")
+            
+            // Create a reference to the file to delete
+            let desertRef = userStorage.child("\(deleteId).jpg")
+
+            // Delete the file
+            desertRef.delete { error in
+              if let error = error {
+                // Uh-oh, an error occurred!
+              } else {
+                print("Document successfully removed from Storage!")
+                // File deleted successfully
+              }
+            }
             
         })
         
@@ -265,24 +372,21 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
 
         self.present(alert, animated: true)
 
-
     }
     
-    /*func didHoldPost(index: Int) {
+    func addAfterMeal(index: Int, postId : String?) {
         print("good job elise")
-    }*/
-    
-    @IBAction func testTapped(_sender: Any) {
         
-        //present to ProfileVC
-        let testVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "TestVC") as! TestViewController
-        DispatchQueue.main.async {
-            self.present(testVC, animated: true, completion: nil)
-        }
-        
+        //pass data to logVC
+        let logVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "LogVC") as! LogAfterMealViewController
+        logVC.postId = postId
+            
+        view.window?.rootViewController = logVC
+        view.window?.makeKeyAndVisible()
     }
-    
 }
+
+
 
 extension UIImageView {
     func downloadImage(from imgURL: String!) {

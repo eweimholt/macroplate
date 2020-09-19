@@ -27,6 +27,7 @@ class PostViewController: UIViewController {
     var healthDataEvent : String?
     var postId : String?
     var date: String?
+    var isPlateEmpty : String?
     
     let postImageView : UIImageView = {
         let imageView = UIImageView() //frame: CGRect(x: 35, y: 15, width: 300, height: 300))
@@ -42,6 +43,7 @@ class PostViewController: UIViewController {
     
     var dateText : UITextView = {
      let textView = UITextView()
+     textView.isEditable = false
      textView.textAlignment = .center
      textView.font    = UIFont(name: "AvenirNext-Regular", size: 14)
      textView.textColor = .lightGray
@@ -333,18 +335,7 @@ class PostViewController: UIViewController {
         guard let today = dateFormatter.date(from: self.dateText.text!) else {
            fatalError("ERROR: Date conversion failed due to mismatched format.")
         }
-        
-        /*if self.dateText.text != nil {
-            let today = dateFormatter.date(from: self.dateText.text!)
-        } else {
-            let today = Date()
-        }*/
-        
-        //let today = getDateForHealth()
-        print("health date is \(self.dateText.text)")
-        
-        //let today = NSDate() //self.date
-        
+
         if let type = HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates) {
             let quantity = HKQuantity(unit: HKUnit.gram(), doubleValue: Double(carbs))
             

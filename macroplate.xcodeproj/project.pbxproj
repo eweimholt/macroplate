@@ -36,6 +36,7 @@
 		015DC2ED24D8D2FC003AF428 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 015DC2EA24D8D2FC003AF428 /* GoogleService-Info.plist */; };
 		01812DE624C0A38A00F92531 /* FakeFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01812DE524C0A38A00F92531 /* FakeFeedViewController.swift */; };
 		018D937424D089A700E0873C /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018D937324D089A700E0873C /* PostViewController.swift */; };
+		018DE3FF2511A5C4004CED0B /* LogAfterMealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018DE3FE2511A5C4004CED0B /* LogAfterMealViewController.swift */; };
 		0194EE922495222A00152EE0 /* customalbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0194EE912495222A00152EE0 /* customalbum.swift */; };
 		0194EE932495222A00152EE0 /* customalbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0194EE912495222A00152EE0 /* customalbum.swift */; };
 		0194EE942495222A00152EE0 /* customalbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0194EE912495222A00152EE0 /* customalbum.swift */; };
@@ -49,9 +50,9 @@
 		01C30CF8248C703500CD40F6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C30CF7248C703500CD40F6 /* Utilities.swift */; };
 		01C30CF9248C703500CD40F6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C30CF7248C703500CD40F6 /* Utilities.swift */; };
 		01C30CFA248C703500CD40F6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C30CF7248C703500CD40F6 /* Utilities.swift */; };
-		01D27CAA24D26D07002ED4AA /* RingProgressGroupButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D27CA924D26D07002ED4AA /* RingProgressGroupButton.swift */; };
-		01D27CAE24D36647002ED4AA /* RingProgressGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D27CAD24D36647002ED4AA /* RingProgressGroupView.swift */; };
-		01D27CB024D36851002ED4AA /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D27CAF24D36851002ED4AA /* TestViewController.swift */; };
+		01C45CCD25128E5D005BEFE4 /* CleanPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C45CCC25128E5D005BEFE4 /* CleanPostCell.swift */; };
+		01C45CCF2512A7F2005BEFE4 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C45CCE2512A7F2005BEFE4 /* RadioButton.swift */; };
+		01D508CC25154FA100E29764 /* SecondCaptureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D508CB25154FA100E29764 /* SecondCaptureViewController.swift */; };
 		01F55F97248C843F00104DAB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F55F96248C843F00104DAB /* Constants.swift */; };
 		01F55F98248C843F00104DAB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F55F96248C843F00104DAB /* Constants.swift */; };
 		01F55F99248C843F00104DAB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F55F96248C843F00104DAB /* Constants.swift */; };
@@ -109,6 +110,7 @@
 		015DC2EA24D8D2FC003AF428 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		01812DE524C0A38A00F92531 /* FakeFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeFeedViewController.swift; sourceTree = "<group>"; };
 		018D937324D089A700E0873C /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostViewController.swift; path = macroplate/Storyboards/PostViewController.swift; sourceTree = SOURCE_ROOT; };
+		018DE3FE2511A5C4004CED0B /* LogAfterMealViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogAfterMealViewController.swift; sourceTree = "<group>"; };
 		0194EE912495222A00152EE0 /* customalbum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customalbum.swift; sourceTree = "<group>"; };
 		01983B4A24C0BDD900882883 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		01A3BE4424CB7238001425D6 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -116,9 +118,9 @@
 		01A4584A24E395A2008502A9 /* MainNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		01C25ACB24CCD5E100BBEF68 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		01C30CF7248C703500CD40F6 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
-		01D27CA924D26D07002ED4AA /* RingProgressGroupButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RingProgressGroupButton.swift; path = macroplate/Controllers/Feed/RingProgressGroupButton.swift; sourceTree = SOURCE_ROOT; };
-		01D27CAD24D36647002ED4AA /* RingProgressGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RingProgressGroupView.swift; path = /Users/eliseweimholt/Desktop/Xcode_Projects/macroplate/macroplate/Object/RingProgressGroupView.swift; sourceTree = "<absolute>"; };
-		01D27CAF24D36851002ED4AA /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
+		01C45CCC25128E5D005BEFE4 /* CleanPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanPostCell.swift; sourceTree = "<group>"; };
+		01C45CCE2512A7F2005BEFE4 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
+		01D508CB25154FA100E29764 /* SecondCaptureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SecondCaptureViewController.swift; path = macroplate/Controllers/Feed/SecondCaptureViewController.swift; sourceTree = SOURCE_ROOT; };
 		01F55F96248C843F00104DAB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		01FDDD9E24CCCF440032C23D /* Feed.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Feed.storyboard; sourceTree = "<group>"; };
 		01FDDDA824CCD00C0032C23D /* MealsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsViewController.swift; sourceTree = "<group>"; };
@@ -202,13 +204,6 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		01983B5124CB3E6300882883 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
 		01983B5224CB3E7100882883 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
@@ -244,15 +239,6 @@
 			path = demos;
 			sourceTree = "<group>";
 		};
-		01C25ACA24CCD5CB00BBEF68 /* Object */ = {
-			isa = PBXGroup;
-			children = (
-				01D27CAD24D36647002ED4AA /* RingProgressGroupView.swift */,
-				01D27CA924D26D07002ED4AA /* RingProgressGroupButton.swift */,
-			);
-			path = Object;
-			sourceTree = "<group>";
-		};
 		01C30CFB248C703A00CD40F6 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -281,8 +267,9 @@
 			isa = PBXGroup;
 			children = (
 				018D937324D089A700E0873C /* PostViewController.swift */,
+				018DE3FE2511A5C4004CED0B /* LogAfterMealViewController.swift */,
 				01FDDDA824CCD00C0032C23D /* MealsViewController.swift */,
-				01D27CAF24D36851002ED4AA /* TestViewController.swift */,
+				01D508CB25154FA100E29764 /* SecondCaptureViewController.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -291,6 +278,7 @@
 			isa = PBXGroup;
 			children = (
 				01FDDDAD24CCD32B0032C23D /* PostCell.swift */,
+				01C45CCC25128E5D005BEFE4 /* CleanPostCell.swift */,
 			);
 			path = "Custom Cell";
 			sourceTree = "<group>";
@@ -320,9 +308,7 @@
 		01FE2A4B248C699E005D5750 /* macroplate */ = {
 			isa = PBXGroup;
 			children = (
-				01C25ACA24CCD5CB00BBEF68 /* Object */,
 				01FDDDAC24CCD3060032C23D /* Custom Cell */,
-				01983B5124CB3E6300882883 /* Services */,
 				01983B5024CB3E5500882883 /* Models */,
 				01380895248C6C72003A9ECF /* Controllers */,
 				01983B5424CB3E8B00882883 /* Views */,
@@ -332,6 +318,7 @@
 				01983B4F24CB3E4600882883 /* Extensions */,
 				01983B5324CB3E8300882883 /* Supporting Files */,
 				015041D224B28D37005F4B15 /* standardButton.swift */,
+				01C45CCE2512A7F2005BEFE4 /* RadioButton.swift */,
 				01A4584824DB441C008502A9 /* NSAttributedString.swift */,
 				015041D624B4CC5D005F4B15 /* UserButton.swift */,
 				013425EE24A94127000CA6D2 /* macroplate.entitlements */,
@@ -676,11 +663,11 @@
 				01FE2A51248C699E005D5750 /* ViewController.swift in Sources */,
 				01812DE624C0A38A00F92531 /* FakeFeedViewController.swift in Sources */,
 				011AEAA524C01F50008F7084 /* TapViewController.swift in Sources */,
+				01C45CCF2512A7F2005BEFE4 /* RadioButton.swift in Sources */,
 				01011F2824BB80620077534B /* FeedViewController.swift in Sources */,
 				01C30CF8248C703500CD40F6 /* Utilities.swift in Sources */,
-				01D27CB024D36851002ED4AA /* TestViewController.swift in Sources */,
+				01C45CCD25128E5D005BEFE4 /* CleanPostCell.swift in Sources */,
 				018D937424D089A700E0873C /* PostViewController.swift in Sources */,
-				01D27CAE24D36647002ED4AA /* RingProgressGroupView.swift in Sources */,
 				01983B4B24C0BDD900882883 /* ImageViewController.swift in Sources */,
 				01FE2A4D248C699E005D5750 /* AppDelegate.swift in Sources */,
 				01C25ACC24CCD5E100BBEF68 /* Post.swift in Sources */,
@@ -689,9 +676,10 @@
 				01FE2A4F248C699E005D5750 /* SceneDelegate.swift in Sources */,
 				0138088A248C6C46003A9ECF /* HomeViewController.swift in Sources */,
 				01A3BE4524CB7238001425D6 /* User.swift in Sources */,
-				01D27CAA24D26D07002ED4AA /* RingProgressGroupButton.swift in Sources */,
+				018DE3FF2511A5C4004CED0B /* LogAfterMealViewController.swift in Sources */,
 				015041D724B4CC5D005F4B15 /* UserButton.swift in Sources */,
 				0138088E248C6C5D003A9ECF /* SignUpViewController.swift in Sources */,
+				01D508CC25154FA100E29764 /* SecondCaptureViewController.swift in Sources */,
 				01F55F97248C843F00104DAB /* Constants.swift in Sources */,
 				01FDDDAE24CCD32B0032C23D /* PostCell.swift in Sources */,
 			);
@@ -895,7 +883,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = macroplate/macroplate.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1.3;
+				CURRENT_PROJECT_VERSION = 1.1.4;
 				DEVELOPMENT_TEAM = G8Y7XBA9M8;
 				INFOPLIST_FILE = macroplate/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -918,7 +906,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = macroplate/macroplate.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1.3;
+				CURRENT_PROJECT_VERSION = 1.1.4;
 				DEVELOPMENT_TEAM = G8Y7XBA9M8;
 				INFOPLIST_FILE = macroplate/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

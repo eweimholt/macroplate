@@ -297,11 +297,8 @@ class UserViewController: UIViewController {
         var switchState:[String : Any]?
         
         let db = Firestore.firestore()
-        
         let uid = Auth.auth().currentUser!.uid
-        
         var docId : String?
-        
         // get docid from a query looking at the uid
         db.collection("users").whereField("uid", isEqualTo: uid)
             .getDocuments() { (querySnapshot, err) in
@@ -311,9 +308,7 @@ class UserViewController: UIViewController {
                 } else {
                     for document in querySnapshot!.documents {
                         let doc = document.data()
-                        
                         docId = doc["did"] as? String
-                        
                     }
                     
                     
@@ -322,7 +317,6 @@ class UserViewController: UIViewController {
                         switchState = ["permissionGranted" : "true"]
                         sender.setOn(true, animated: true)
                         //need to remember animation
-                        
                     }
                     else{
                         print("UISwitch state is now Off")

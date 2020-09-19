@@ -1,24 +1,25 @@
 //
-//  PostCell.swift
+//  cleanPostCell.swift
 //  macroplate
 //
-//  Created by Elise Weimholt on 7/25/20.
+//  Created by Elise Weimholt on 9/16/20.
 //  Copyright © 2020 Elise Weimholt. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import FirebaseFirestore
 import Firebase
 
-protocol PostCellDelegate {
+/*protocol CleanPostCellDelegate {
     //commands that we give to PostViewController
-    func didExpandPost(image: UIImage, date: String?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?,state : String?, postId : String?, healthDataEvent: String?, isPlateEmpty: String?)
+    func didExpandPost(image: UIImage, date: String?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?,state : String?, postId : String?, healthDataEvent: String?)
     func didDeletePost(index: Int)
     
     func addAfterMeal(index: Int, postId : String?)
-}
+}*/
 
-class PostCell: UICollectionViewCell {
+class CleanPostCell: UICollectionViewCell {
     
     var delegate: PostCellDelegate?
     var index: IndexPath?
@@ -62,19 +63,6 @@ class PostCell: UICollectionViewCell {
         return button
     }()
     
-    var afterButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        //button.setTitle("Pending", for: .normal)
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 20
-        button.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.20)
-        button.setTitleColor(.white, for: .normal)
-        button.setTitle("+", for: .normal)
-        button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 32)
-        return button
-    }()
-    
     var deleteButton: UIButton = {
         let dButton = UIButton()
         dButton.translatesAutoresizingMaskIntoConstraints = false
@@ -91,11 +79,6 @@ class PostCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-
-        /*if state == "Ready" {*/ //The state is currently nil, need to determine how to pass this info in
-        
-        contentView.addSubview(afterButton)
-        afterButton.addTarget(self, action: #selector(addAfterMeal), for: .touchUpInside)
 
         contentView.addSubview(postImage)
             
@@ -115,8 +98,8 @@ class PostCell: UICollectionViewCell {
     }
     
     @IBAction func expandPost() {
+
         if let userTextInput = userTextInput, let _ = postImage.image, let calories = calories, let carbs = carbs, let protein = protein, let fat = fat, let state = state, let postId = postId, let healthDataEvent = healthDataEvent, let isPlateEmpty = isPlateEmpty {
-            
             if date == nil {
                 delegate?.didExpandPost(image: postImage.image!, date: "", userText: userTextInput, calories: calories, carbs: carbs, protein: protein, fat: fat, state : state, postId: postId, healthDataEvent: healthDataEvent, isPlateEmpty: isPlateEmpty)
             } else {
@@ -128,59 +111,43 @@ class PostCell: UICollectionViewCell {
     }
     
     @IBAction func addAfterMeal() {
-        //delegate?.addAfterMeal(index: index!.row)
-        if let postId = postId {
-            delegate?.addAfterMeal(index: index!.row, postId: postId)
-        }
-        else {
-            print("nil abort avoided")
-        }
+        delegate?.addAfterMeal(index: index!.row, postId: postId)
     }
     
     @IBAction func deletePost() {
         delegate?.didDeletePost(index: index!.row)
     }
-    
-    /*@IBAction func postHold() {
-        delegate?.didHoldPost(index: index!.row)
-    }*/
 
-  
 }
 
 // MARK: Helper
-extension PostCell {
+extension CleanPostCell {
     fileprivate func setup() {
         
        // let screenSize: CGRect = UIScreen.main.bounds
         
-        let cellWidth = contentView.frame.width
-        let cellHeight = contentView.frame.height
+        //let cellWidth = contentView.frame.width
+       // let cellHeight = contentView.frame.height
         
-        let imageWidth = cellWidth*0.51
+        //let imageWidth = cellWidth
         
         //BEFORE IMAGE
         postImage.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         postImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         postImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        postImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant:  -imageWidth).isActive = true
+        postImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         
         postButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         postButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         postButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        postButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant:  -imageWidth).isActive = true
+        postButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         
         deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         deleteButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         deleteButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -imageWidth).isActive = true
+        deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         
-        //AFTER IMAGE
-        afterButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        afterButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:  imageWidth).isActive = true
-        afterButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        afterButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-
+        
     }
 }
 

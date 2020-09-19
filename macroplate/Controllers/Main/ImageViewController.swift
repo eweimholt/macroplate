@@ -259,6 +259,7 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
                                     "fat" : "",
                                     "calories" : "",
                                     "State" : "Pending",
+                                    "plateIsEmpty" : "initial",
                                     "healthDataEvent" : "false"] as [String : Any]
                         
                         db.collection("posts").document(docId).setData(feed) { err in
