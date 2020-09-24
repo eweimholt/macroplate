@@ -12,7 +12,7 @@ import Firebase
 
 protocol PostCellDelegate {
     //commands that we give to PostViewController
-    func didExpandPost(image: UIImage, date: String?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?,state : String?, postId : String?, healthDataEvent: String?, isPlateEmpty: String?)
+    func didExpandPost(image: UIImage, EOMImage: UIImage, date: String?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?,state : String?, postId : String?, healthDataEvent: String?, isPlateEmpty: String?)
     func didDeletePost(index: Int)
     
     func addAfterMeal(index: Int, postId : String?)
@@ -27,6 +27,7 @@ class PostCell: UICollectionViewCell {
     var userTextInput : String?
     var name : String?
     var pathToImage : String?
+    var pathToEOMImage : String? 
     var userId : String?
     var postId : String?
     
@@ -50,15 +51,36 @@ class PostCell: UICollectionViewCell {
         return imageView
     }()
     
+    let EOMImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.layer.cornerRadius = 20
+        //imageView.isUserInteractionEnabled = true
+        return imageView
+    }()
+    
     var postButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        //button.setTitle("Pending", for: .normal)
         button.clipsToBounds = true
         button.layer.cornerRadius = 20
         button.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.20)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 24)
+        return button
+    }()
+    
+    var headerButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Header", for: .normal)
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 15
+        button.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.80)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 20)
         return button
     }()
     
@@ -92,12 +114,11 @@ class PostCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        /*if state == "Ready" {*/ //The state is currently nil, need to determine how to pass this info in
-        
         contentView.addSubview(afterButton)
         afterButton.addTarget(self, action: #selector(addAfterMeal), for: .touchUpInside)
 
         contentView.addSubview(postImage)
+
             
         contentView.addSubview(postButton)
         postButton.addTarget(self, action: #selector(expandPost), for: .touchUpInside)
@@ -106,8 +127,14 @@ class PostCell: UICollectionViewCell {
         contentView.addSubview(deleteButton)
         deleteButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
         
-       setup()
+        contentView.addSubview(headerButton)
 
+        contentView.addSubview(EOMImage)
+
+
+    
+        
+        setup()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -118,9 +145,9 @@ class PostCell: UICollectionViewCell {
         if let userTextInput = userTextInput, let _ = postImage.image, let calories = calories, let carbs = carbs, let protein = protein, let fat = fat, let state = state, let postId = postId, let healthDataEvent = healthDataEvent, let isPlateEmpty = isPlateEmpty {
             
             if date == nil {
-                delegate?.didExpandPost(image: postImage.image!, date: "", userText: userTextInput, calories: calories, carbs: carbs, protein: protein, fat: fat, state : state, postId: postId, healthDataEvent: healthDataEvent, isPlateEmpty: isPlateEmpty)
+                delegate?.didExpandPost(image: postImage.image!, EOMImage: EOMImage.image!, date: "", userText: userTextInput, calories: calories, carbs: carbs, protein: protein, fat: fat, state : state, postId: postId, healthDataEvent: healthDataEvent, isPlateEmpty: isPlateEmpty)
             } else {
-                delegate?.didExpandPost(image: postImage.image!, date: date, userText: userTextInput, calories: calories, carbs: carbs, protein: protein, fat: fat, state : state, postId: postId, healthDataEvent: healthDataEvent, isPlateEmpty: isPlateEmpty)
+                delegate?.didExpandPost(image: postImage.image!, EOMImage: EOMImage.image!, date: date, userText: userTextInput, calories: calories, carbs: carbs, protein: protein, fat: fat, state : state, postId: postId, healthDataEvent: healthDataEvent, isPlateEmpty: isPlateEmpty)
             }
         } else {
             print("nil abort avoided :) ")
@@ -176,10 +203,20 @@ extension PostCell {
         deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -imageWidth).isActive = true
         
         //AFTER IMAGE
+        EOMImage.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        EOMImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:  imageWidth).isActive = true
+        EOMImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        EOMImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        
         afterButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         afterButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:  imageWidth).isActive = true
         afterButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         afterButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        
+        headerButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        headerButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
+        headerButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        headerButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
 
     }
 }

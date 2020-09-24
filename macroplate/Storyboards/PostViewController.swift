@@ -43,6 +43,18 @@ class PostViewController: UIViewController {
     // post image
     var postImage:UIImage?
     
+    let EOMImageView : UIImageView = {
+        let imageView = UIImageView() //frame: CGRect(x: 35, y: 15, width: 300, height: 300))
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 20
+        return imageView
+    }()
+    
+    // post image
+    var EOMImage:UIImage?
+    
     var dateText : UITextView = {
      let textView = UITextView()
      textView.isEditable = false
@@ -306,10 +318,14 @@ class PostViewController: UIViewController {
         stackView.addArrangedSubview(postImageView)
         postImageView.image = postImage
         
+
+        
         stackView.addArrangedSubview(dateText)
         stackView.addArrangedSubview(userLabel)
         stackView.addArrangedSubview(pendingText)
-        stackView.addArrangedSubview(captureSecondPhotoButton)
+        stackView.addArrangedSubview(EOMImageView)
+        EOMImageView.image = EOMImage
+        //stackView.addArrangedSubview(captureSecondPhotoButton)
         self.view.addSubview(stackView)
         
         stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
@@ -328,10 +344,12 @@ class PostViewController: UIViewController {
         pendingText.widthAnchor.constraint(equalToConstant: 300).isActive = true
         pendingText.heightAnchor.constraint(equalToConstant: 100).isActive = true
         
-        captureSecondPhotoButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        EOMImageView.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        EOMImageView.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        
+        /*captureSecondPhotoButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
         captureSecondPhotoButton.heightAnchor.constraint(equalToConstant: 300).isActive = true
-        captureSecondPhotoButton.setTitle("Finished", for: .normal)
-        //captureSecondPhotoButton.setImage HERE
+        captureSecondPhotoButton.setTitle("Finished", for: .normal)*/
     }
 
     func checkHealthDataEvent() {

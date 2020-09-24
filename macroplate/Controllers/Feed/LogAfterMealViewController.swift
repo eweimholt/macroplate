@@ -133,8 +133,8 @@ class LogAfterMealViewController: UIViewController {
             leftoversButton.isSelected = false
         }
         
-        let plateIsEmpty = cleanPlateButton.isSelected.description
-        updateFirebaseSecondMeal(value: plateIsEmpty)
+        //let plateIsEmpty = cleanPlateButton.isSelected.description
+        //updateFirebaseSecondMeal(value: plateIsEmpty) //Only update once a picture is saved
     }
     
     @IBAction func btn_leftovers(sender: UIButton) {
@@ -146,8 +146,8 @@ class LogAfterMealViewController: UIViewController {
             leftoversButton.isSelected = true
             cleanPlateButton.isSelected = false
         }
-        let plateIsEmpty = cleanPlateButton.isSelected.description
-        updateFirebaseSecondMeal(value: plateIsEmpty)
+        //let plateIsEmpty = cleanPlateButton.isSelected.description
+        //updateFirebaseSecondMeal(value: plateIsEmpty)
     }
     
     func updateFirebaseSecondMeal(value: String) {
