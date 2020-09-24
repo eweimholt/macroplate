@@ -237,19 +237,19 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
                 
                 let uploadTask = imageRef.putData(data!, metadata: nil) { (metadata, err) in
                     if err != nil {
-                        print(err?.localizedDescription ?? nil!)
+                        print(err?.localizedDescription ?? "nil")
                     }
                     //we have successfully uploaded the photo!
                     
                     //get a download link of the image of where the code will look for it
                     imageRef.downloadURL { (url, er) in
                         if er != nil {
-                            print(er?.localizedDescription ?? nil!)
+                            print(er?.localizedDescription ?? "nil")
                         }
                         
                         let feed = ["uid": user.uid,
                                     "urlToImage" : url!.absoluteString,
-                                    "name" : user.displayName ?? nil!,
+                                    "name" : user.displayName ?? "nil",
                                     "date" : date,
                                     "timestamp" : timestamp,
                                     "key" : docId,
@@ -269,18 +269,13 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
                                 print("Document added with ID: \(docId)")
                             }
                         }
-                        
-                        
                     }
-                    
                 }
                 uploadTask.resume()
             }
             else{
                 print("no user logged in")
             }
-            
-            //transitionToHome()
             transitionToConfirmation()
         }
     }

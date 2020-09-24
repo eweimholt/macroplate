@@ -77,6 +77,21 @@
             </objects>
             <point key="canvasLocation" x="983" y="724"/>
         </scene>
+        <!--Second Image View Controller-->
+        <scene sceneID="MAD-12-KFD">
+            <objects>
+                <viewController storyboardIdentifier="SecondImageVC" id="VE9-Ok-gzp" customClass="SecondImageViewController" customModule="platemate" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="D8X-AN-vxP">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="1yg-Un-iji"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x0d-31-X16" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1663" y="730"/>
+        </scene>
         <!--Post View Controller-->
         <scene sceneID="eEY-Dc-7vO">
             <objects>

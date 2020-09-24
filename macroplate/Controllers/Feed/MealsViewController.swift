@@ -157,13 +157,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
                         post.state = doc["State"] as? String
                         post.healthDataEvent = doc["healthDataEvent"] as? String
                         post.isPlateEmpty = doc["plateIsEmpty"] as? String
-                        
-                        //let myTimeInterval = TimeInterval(post.timestamp)
-                        //post.date = NSDate(timeIntervalSince1970: TimeInterval(myTimeInterval)) as Date
-                        //print("post.timestamp is \(post.timestamp)")
-                        
-                        //convert time interval to date
-                        
+
                         if post.timestamp != nil {
                             post.date = post.timestamp.stringFromTimeInterval()
                         }
@@ -173,6 +167,9 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
                         }
                         //post.date = Date(timeIntervalSince1970: post.date)
                         
+                        if post.isPlateEmpty == nil {
+                            post.isPlateEmpty = "initial"
+                        }
                         
                         self.posts.append(post)
                 
@@ -233,6 +230,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             
             cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
             cell.postButton.setTitle(self.posts[indexPath.row].state, for: .normal) //self.posts[indexPath.row].userTextInput
+            cell.postButton.tag = indexPath.row // set tag
             
             
             cell.userTextInput = self.posts[indexPath.row].userTextInput
@@ -252,13 +250,13 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.backgroundColor = UIColor.white
             cell.delegate = self
             cell.index = indexPath
-            
             return cell
         } else {
             let cell = mealsCollectionView.dequeueReusableCell(withReuseIdentifier: cleanId, for: indexPath) as! CleanPostCell
             
             cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
             cell.postButton.setTitle(self.posts[indexPath.row].state, for: .normal) //self.posts[indexPath.row].userTextInput
+            cell.postButton.tag = indexPath.row // set tag
             
             
             cell.userTextInput = self.posts[indexPath.row].userTextInput
@@ -278,6 +276,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.backgroundColor = UIColor.white
             cell.delegate = self
             cell.index = indexPath
+            //cell.btn1.tag = indexPath.row // set tag
             return cell
         }
         
@@ -375,12 +374,13 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
     }
     
     func addAfterMeal(index: Int, postId : String?) {
-        print("good job elise")
-        
         //pass data to logVC
         let logVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "LogVC") as! LogAfterMealViewController
         logVC.postId = postId
-            
+        
+        
+        //send postId
+        print("postId at MVC is \(postId ?? "empty")")
         view.window?.rootViewController = logVC
         view.window?.makeKeyAndVisible()
     }

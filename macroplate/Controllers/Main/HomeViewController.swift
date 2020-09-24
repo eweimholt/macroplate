@@ -378,10 +378,6 @@ extension HomeViewController: AVCapturePhotoCaptureDelegate {
         }
         let capturedImage = UIImage.init(data: imageData,scale: 1.0)
         if let image = capturedImage {
-            //UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-            //print("saved to album")
-            //let customAlbum = CustomPhotoAlbum()
-            //customAlbum.save(image: image)
             print("image captured, presenting image VC")
             presentToImageVC(image)
         }

@@ -91,6 +91,12 @@ class LogAfterMealViewController: UIViewController {
 
         setUpLayout()
         
+        print("postId at LogVC is \(postId ?? "empty")")
+        //send postId
+        /*let mealsVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: Constants.Storyboard.mealsViewController) as? MealsViewController*/
+        //secondImageVC?.postId = postId
+        
+        //let cellIndexAt = mealsVC.cell
     }
     
     func setUpLayout() {
@@ -115,6 +121,7 @@ class LogAfterMealViewController: UIViewController {
         backButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
         backButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
+
     
     @IBAction func btn_box(sender: UIButton) {
         if cleanPlateButton.isSelected == true {
@@ -126,7 +133,7 @@ class LogAfterMealViewController: UIViewController {
             leftoversButton.isSelected = false
         }
         
-        let plateIsEmpty = cleanPlateButton.isSelected
+        let plateIsEmpty = cleanPlateButton.isSelected.description
         updateFirebaseSecondMeal(value: plateIsEmpty)
     }
     
@@ -139,11 +146,11 @@ class LogAfterMealViewController: UIViewController {
             leftoversButton.isSelected = true
             cleanPlateButton.isSelected = false
         }
-        let plateIsEmpty = cleanPlateButton.isSelected
+        let plateIsEmpty = cleanPlateButton.isSelected.description
         updateFirebaseSecondMeal(value: plateIsEmpty)
     }
     
-    func updateFirebaseSecondMeal(value: Bool) {
+    func updateFirebaseSecondMeal(value: String) {
         //To Do: set the default of plateIsEmpty to true.
         
         //if the leftovers button is tapped, set plateIsEmpty to false
@@ -184,9 +191,9 @@ class LogAfterMealViewController: UIViewController {
     @IBAction func expandSecondCapture() { //index: Int, postId : String?
         print("second capture tapped")
         
-        //pass data to logVC
+        //pass post data
         let secondVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "SecondVC") as! SecondCaptureViewController
-        //secondVC.postId = postId
+        secondVC.postId = self.postId
         
         view.window?.rootViewController = secondVC
         view.window?.makeKeyAndVisible()

@@ -53,6 +53,7 @@
 		01C45CCD25128E5D005BEFE4 /* CleanPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C45CCC25128E5D005BEFE4 /* CleanPostCell.swift */; };
 		01C45CCF2512A7F2005BEFE4 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C45CCE2512A7F2005BEFE4 /* RadioButton.swift */; };
 		01D508CC25154FA100E29764 /* SecondCaptureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D508CB25154FA100E29764 /* SecondCaptureViewController.swift */; };
+		01D508CE2516B2BB00E29764 /* SecondImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D508CD2516B2BB00E29764 /* SecondImageViewController.swift */; };
 		01F55F97248C843F00104DAB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F55F96248C843F00104DAB /* Constants.swift */; };
 		01F55F98248C843F00104DAB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F55F96248C843F00104DAB /* Constants.swift */; };
 		01F55F99248C843F00104DAB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F55F96248C843F00104DAB /* Constants.swift */; };
@@ -121,6 +122,7 @@
 		01C45CCC25128E5D005BEFE4 /* CleanPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanPostCell.swift; sourceTree = "<group>"; };
 		01C45CCE2512A7F2005BEFE4 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		01D508CB25154FA100E29764 /* SecondCaptureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SecondCaptureViewController.swift; path = macroplate/Controllers/Feed/SecondCaptureViewController.swift; sourceTree = SOURCE_ROOT; };
+		01D508CD2516B2BB00E29764 /* SecondImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SecondImageViewController.swift; path = macroplate/Storyboards/SecondImageViewController.swift; sourceTree = SOURCE_ROOT; };
 		01F55F96248C843F00104DAB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		01FDDD9E24CCCF440032C23D /* Feed.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Feed.storyboard; sourceTree = "<group>"; };
 		01FDDDA824CCD00C0032C23D /* MealsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsViewController.swift; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 		01FDDDA724CCCFCD0032C23D /* Feed */ = {
 			isa = PBXGroup;
 			children = (
+				01D508CD2516B2BB00E29764 /* SecondImageViewController.swift */,
 				018D937324D089A700E0873C /* PostViewController.swift */,
 				018DE3FE2511A5C4004CED0B /* LogAfterMealViewController.swift */,
 				01FDDDA824CCD00C0032C23D /* MealsViewController.swift */,
@@ -679,6 +682,7 @@
 				018DE3FF2511A5C4004CED0B /* LogAfterMealViewController.swift in Sources */,
 				015041D724B4CC5D005F4B15 /* UserButton.swift in Sources */,
 				0138088E248C6C5D003A9ECF /* SignUpViewController.swift in Sources */,
+				01D508CE2516B2BB00E29764 /* SecondImageViewController.swift in Sources */,
 				01D508CC25154FA100E29764 /* SecondCaptureViewController.swift in Sources */,
 				01F55F97248C843F00104DAB /* Constants.swift in Sources */,
 				01FDDDAE24CCD32B0032C23D /* PostCell.swift in Sources */,
@@ -886,7 +890,7 @@
 				CURRENT_PROJECT_VERSION = 1.1.4;
 				DEVELOPMENT_TEAM = G8Y7XBA9M8;
 				INFOPLIST_FILE = macroplate/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -909,7 +913,7 @@
 				CURRENT_PROJECT_VERSION = 1.1.4;
 				DEVELOPMENT_TEAM = G8Y7XBA9M8;
 				INFOPLIST_FILE = macroplate/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
