@@ -12,6 +12,7 @@
 		01011F2D24BB81810077534B /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01011F2B24BB81810077534B /* ConfirmationViewController.swift */; };
 		01011F2E24BB81810077534B /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01011F2B24BB81810077534B /* ConfirmationViewController.swift */; };
 		011AEAA524C01F50008F7084 /* TapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011AEAA424C01F50008F7084 /* TapViewController.swift */; };
+		012E36A5251E49E600FE7D33 /* EOMPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012E36A4251E49E600FE7D33 /* EOMPostCell.swift */; };
 		013425F024A94127000CA6D2 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 013425EF24A94127000CA6D2 /* HealthKit.framework */; };
 		0138088A248C6C46003A9ECF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01380889248C6C46003A9ECF /* HomeViewController.swift */; };
 		0138088B248C6C46003A9ECF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01380889248C6C46003A9ECF /* HomeViewController.swift */; };
@@ -43,7 +44,6 @@
 		01983B4B24C0BDD900882883 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01983B4A24C0BDD900882883 /* ImageViewController.swift */; };
 		01983B4C24C0BDD900882883 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01983B4A24C0BDD900882883 /* ImageViewController.swift */; };
 		01983B4D24C0BDD900882883 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01983B4A24C0BDD900882883 /* ImageViewController.swift */; };
-		01A3BE4524CB7238001425D6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A3BE4424CB7238001425D6 /* User.swift */; };
 		01A4584924DB441C008502A9 /* NSAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A4584824DB441C008502A9 /* NSAttributedString.swift */; };
 		01A4584B24E395A2008502A9 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A4584A24E395A2008502A9 /* MainNavigationController.swift */; };
 		01C25ACC24CCD5E100BBEF68 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C25ACB24CCD5E100BBEF68 /* Post.swift */; };
@@ -100,6 +100,7 @@
 		01011F2724BB80620077534B /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		01011F2B24BB81810077534B /* ConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationViewController.swift; sourceTree = "<group>"; };
 		011AEAA424C01F50008F7084 /* TapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapViewController.swift; sourceTree = "<group>"; };
+		012E36A4251E49E600FE7D33 /* EOMPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EOMPostCell.swift; sourceTree = "<group>"; };
 		013425EE24A94127000CA6D2 /* macroplate.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macroplate.entitlements; sourceTree = "<group>"; };
 		013425EF24A94127000CA6D2 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		01380889248C6C46003A9ECF /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -114,7 +115,6 @@
 		018DE3FE2511A5C4004CED0B /* LogAfterMealViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogAfterMealViewController.swift; sourceTree = "<group>"; };
 		0194EE912495222A00152EE0 /* customalbum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customalbum.swift; sourceTree = "<group>"; };
 		01983B4A24C0BDD900882883 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
-		01A3BE4424CB7238001425D6 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		01A4584824DB441C008502A9 /* NSAttributedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributedString.swift; sourceTree = "<group>"; };
 		01A4584A24E395A2008502A9 /* MainNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		01C25ACB24CCD5E100BBEF68 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -200,7 +200,6 @@
 		01983B5024CB3E5500882883 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				01A3BE4424CB7238001425D6 /* User.swift */,
 				01C25ACB24CCD5E100BBEF68 /* Post.swift */,
 			);
 			path = Models;
@@ -281,6 +280,7 @@
 			isa = PBXGroup;
 			children = (
 				01FDDDAD24CCD32B0032C23D /* PostCell.swift */,
+				012E36A4251E49E600FE7D33 /* EOMPostCell.swift */,
 				01C45CCC25128E5D005BEFE4 /* CleanPostCell.swift */,
 			);
 			path = "Custom Cell";
@@ -669,6 +669,7 @@
 				01C45CCF2512A7F2005BEFE4 /* RadioButton.swift in Sources */,
 				01011F2824BB80620077534B /* FeedViewController.swift in Sources */,
 				01C30CF8248C703500CD40F6 /* Utilities.swift in Sources */,
+				012E36A5251E49E600FE7D33 /* EOMPostCell.swift in Sources */,
 				01C45CCD25128E5D005BEFE4 /* CleanPostCell.swift in Sources */,
 				018D937424D089A700E0873C /* PostViewController.swift in Sources */,
 				01983B4B24C0BDD900882883 /* ImageViewController.swift in Sources */,
@@ -678,7 +679,6 @@
 				01A4584924DB441C008502A9 /* NSAttributedString.swift in Sources */,
 				01FE2A4F248C699E005D5750 /* SceneDelegate.swift in Sources */,
 				0138088A248C6C46003A9ECF /* HomeViewController.swift in Sources */,
-				01A3BE4524CB7238001425D6 /* User.swift in Sources */,
 				018DE3FF2511A5C4004CED0B /* LogAfterMealViewController.swift in Sources */,
 				015041D724B4CC5D005F4B15 /* UserButton.swift in Sources */,
 				0138088E248C6C5D003A9ECF /* SignUpViewController.swift in Sources */,

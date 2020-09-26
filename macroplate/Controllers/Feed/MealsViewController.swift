@@ -12,12 +12,11 @@ import FirebaseFirestore
 import FirebaseAuth
 
 
-class MealsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, PostCellDelegate {
+class MealsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
-    
-//, CleanPostCellDelegate
     let cellId = "cell"
     let cleanId = "clean"
+    let eomId = "eom"
     let screenSize: CGRect = UIScreen.main.bounds
     
     let backButton : UIButton = {
@@ -39,6 +38,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(PostCell.self, forCellWithReuseIdentifier: "cell")
         cv.register(CleanPostCell.self, forCellWithReuseIdentifier: "clean")
+        cv.register(EOMPostCell.self, forCellWithReuseIdentifier: "eom")
         return cv
     }()
     
@@ -128,15 +128,8 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
                     for document in querySnapshot!.documents {
                         //print("\(document.documentID) => \(document.data())")
                         let doc = document.data()
-                        
-                        /*if doc["State"] as? String == "Ready" {
-                            let post = Post()
-                        } else {
-                            let post = Post()
-                        }*/
                         let post = Post()
 
-   
                         post.name = doc["name"] as? String
                         post.pathToImage = doc["urlToImage"] as? String
                         post.timestamp = doc["timestamp"] as? TimeInterval
@@ -164,14 +157,14 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
                         }
                         
                         if post.isPlateEmpty == nil {
-                            post.isPlateEmpty = "true"
+                            post.isPlateEmpty = "DNE"
                         }
                         
                         if post.pathToEOMImage == nil {
                             //post.pathToEOMImage = "none"
-                            post.pathToEOMImage = doc["urlToImage"] as? String
+                            post.pathToEOMImage =  "DNE" //doc["urlToImage"] as? String
                         } else {
-                            post.isPlateEmpty = "initial"
+                            post.isPlateEmpty = "false"
                         }
                         
                         self.posts.append(post)
@@ -195,8 +188,6 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
     }
 
     // UICOLLECTIONVIEW DATA SOURCE
-    
-    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -207,7 +198,8 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         //Get UI SCreen size
        let screenWidth = screenSize.width
               //let screenHeight = screenSize.height
-        return CGSize(width: screenWidth * 0.85, height: screenWidth * 0.5)
+        return CGSize(width: screenWidth, height: screenWidth * 0.6)
+        //print("cellWidth= ",screenWidth)
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -222,10 +214,9 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             let cell = mealsCollectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! PostCell
             
             cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
-            cell.postButton.setTitle(self.posts[indexPath.row].state, for: .normal) //self.posts[indexPath.row].userTextInput
             cell.postButton.tag = indexPath.row // set tag
-            cell.headerButton.setTitle(self.posts[indexPath.row].isPlateEmpty, for: .normal)
-            cell.EOMImage.downloadImage(from: self.posts[indexPath.row].pathToEOMImage)
+            cell.headerButton.setTitle(self.posts[indexPath.row].date, for: .normal)
+            cell.indicator.setTitle(self.posts[indexPath.row].state, for: .normal)
             
             
             cell.userTextInput = self.posts[indexPath.row].userTextInput
@@ -237,10 +228,13 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.carbs = self.posts[indexPath.row].carbs
             cell.protein = self.posts[indexPath.row].protein
             cell.fat = self.posts[indexPath.row].fat
+            
+            
             cell.state = self.posts[indexPath.row].state
             cell.postId = self.posts[indexPath.row].postId
             cell.healthDataEvent = self.posts[indexPath.row].healthDataEvent
             cell.isPlateEmpty = self.posts[indexPath.row].isPlateEmpty
+            print("\(String(describing: self.posts[indexPath.row].isPlateEmpty))")
             
             cell.backgroundColor = UIColor.white
             cell.delegate = self
@@ -252,10 +246,18 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             let cell = mealsCollectionView.dequeueReusableCell(withReuseIdentifier: cleanId, for: indexPath) as! CleanPostCell
             
             cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
-            cell.postButton.setTitle(self.posts[indexPath.row].state, for: .normal) //self.posts[indexPath.row].userTextInput
+            //cell.postButton.setTitle(self.posts[indexPath.row].state, for: .normal) //self.posts[indexPath.row].userTextInput
             cell.postButton.tag = indexPath.row // set tag
-            //cell.headerButton.setTitle(self.posts[indexPath.row].isPlateEmpty, for: .normal)
-            cell.EOMImage.downloadImage(from: self.posts[indexPath.row].pathToEOMImage)
+            cell.headerButton.setTitle(self.posts[indexPath.row].date, for: .normal)
+            cell.indicator.setTitle(self.posts[indexPath.row].state, for: .normal)
+            //this is just filler to conform to PostCellDelegate
+            // cell.EOMImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
+            
+            if self.posts[indexPath.row].state == "Pending" {
+                cell.indicator.backgroundColor = UIColor.orange
+            } else {
+                cell.indicator.backgroundColor = UIColor.systemGreen
+            }
             
             cell.userTextInput = self.posts[indexPath.row].userTextInput
             cell.date = self.posts[indexPath.row].date //need to add real timestamp
@@ -278,13 +280,21 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             return cell
         }
         
-        func setUpEOMCell() -> PostCell  {
-            let cell = mealsCollectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! PostCell
+        func setUpEOMCell() -> EOMPostCell  {
+            let cell = mealsCollectionView.dequeueReusableCell(withReuseIdentifier: eomId, for: indexPath) as! EOMPostCell
             
             cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
-            cell.postButton.setTitle(self.posts[indexPath.row].state, for: .normal) //self.posts[indexPath.row].userTextInput
+            //cell.postButton.setTitle(self.posts[indexPath.row].state, for: .normal) //self.posts[indexPath.row].userTextInput
             cell.postButton.tag = indexPath.row // set tag
-            cell.headerButton.setTitle(self.posts[indexPath.row].isPlateEmpty, for: .normal)
+            cell.headerButton.setTitle(self.posts[indexPath.row].date, for: .normal)
+            cell.indicator.setTitle(self.posts[indexPath.row].state, for: .normal)
+            
+            if self.posts[indexPath.row].state == "Pending" {
+                cell.indicator.backgroundColor = UIColor.orange
+            } else {
+                cell.indicator.backgroundColor = UIColor.systemGreen
+            }
+            //print("\(String(describing: self.posts[indexPath.row].isPlateEmpty))")
             cell.EOMImage.downloadImage(from: self.posts[indexPath.row].pathToEOMImage)
             
             cell.userTextInput = self.posts[indexPath.row].userTextInput
@@ -344,10 +354,75 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         view.window?.makeKeyAndVisible()
         
     }
+}
 
+extension MealsViewController: EOMPostCellDelegate {
+    func didExpandEOMPost(image: UIImage, EOMImage: UIImage, date: String?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?, state: String?, postId: String?, healthDataEvent: String?, isPlateEmpty: String?) {
+        
+        let postVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "PostVC") as! PostViewController
+        //pass data to VC
+        postVC.postImage = image
+        //postVC.date = date! as NSDate
+        postVC.userLabel.text = userText
+        postVC.dateText.text = date
+        postVC.caloriesText.text = "Total Calories: \(calories ?? "pending")"
+        postVC.carbs = carbs
+        postVC.protein = protein
+        postVC.fat = fat
+        postVC.state = state
+        postVC.postId = postId
+        postVC.healthDataEvent = healthDataEvent
+        postVC.isPlateEmpty = isPlateEmpty
+        
+        //FIXXXXX should be EOMimage but it's not working "Cannot find 'EOMimage' in scope
+        postVC.EOMImage = EOMImage
+   
+        print("post tapped")
+        //present VC
+         DispatchQueue.main.async {
+             self.present(postVC, animated: true, completion: nil)
+         }
+    }
     
+    
+}
+
+
+extension MealsViewController: CleanPostCellDelegate {
+    func didExpandCleanPost(image: UIImage, date: String?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?, state: String?, postId: String?, healthDataEvent: String?, isPlateEmpty: String?) {
+        let postVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "PostVC") as! PostViewController
+        //pass data to VC
+        postVC.postImage = image
+        //postVC.date = date! as NSDate
+        postVC.userLabel.text = userText
+        postVC.dateText.text = date
+        postVC.caloriesText.text = "Total Calories: \(calories ?? "pending")"
+        postVC.carbs = carbs
+        postVC.protein = protein
+        postVC.fat = fat
+        postVC.state = state
+        postVC.postId = postId
+        postVC.healthDataEvent = healthDataEvent
+        postVC.isPlateEmpty = isPlateEmpty
+        
+        //FIXXXXX should be EOMimage but it's not working "Cannot find 'EOMimage' in scope
+        //postVC.EOMImage = image
+   
+        print("clean post tapped")
+        //present VC
+         DispatchQueue.main.async {
+             self.present(postVC, animated: true, completion: nil)
+         }
+        
+        
+    }
+    
+}
+
+
+extension MealsViewController: PostCellDelegate {
     //POST CELL DELEGATE
-    func didExpandPost(image: UIImage, EOMImage: UIImage, date: String?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?, state : String?, postId : String?, healthDataEvent : String?, isPlateEmpty: String? ) {
+    func didExpandPost(image: UIImage, date: String?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?, state : String?, postId : String?, healthDataEvent : String?, isPlateEmpty: String? ) {
         
         let postVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "PostVC") as! PostViewController
         //pass data to VC
@@ -431,9 +506,8 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         view.window?.rootViewController = logVC
         view.window?.makeKeyAndVisible()
     }
+    
 }
-
-
 
 extension UIImageView {
     func downloadImage(from imgURL: String!) {
