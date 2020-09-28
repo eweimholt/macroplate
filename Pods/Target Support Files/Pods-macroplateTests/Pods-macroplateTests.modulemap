@@ -1,0 +1,6 @@
+framework module Pods_macroplateTests {
+  umbrella header "Pods-macroplateTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

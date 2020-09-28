@@ -1,0 +1,6 @@
+framework module MKRingProgressView {
+  umbrella header "MKRingProgressView-framework-umbrella.h"
+
+  export *
+  module * { export * }
+}
