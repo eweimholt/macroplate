@@ -114,11 +114,8 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
     func fetchPosts() {
         
         let db = Firestore.firestore()
-        
         let uid = Auth.auth().currentUser!.uid
         
-        //let docRef = db.collection("cities").document("SF")
-
         db.collection("posts").whereField("uid", isEqualTo: uid).order(by: "date", descending: true)
             .getDocuments() { (querySnapshot, err) in
                 if let err = err {

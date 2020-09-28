@@ -223,11 +223,7 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
         } else{
             
             if let user = Auth.auth().currentUser {
-                
                 let db = Firestore.firestore()
-                
-                //let storage = Storage.storage().reference(forURL: "gs://flowaste-595b7.appspot.com")
-                
                 let ref = db.collection("posts")
                 let docId = ref.document().documentID
                 
@@ -239,9 +235,6 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
                     if err != nil {
                         print(err?.localizedDescription ?? "nil")
                     }
-                    //we have successfully uploaded the photo!
-                    
-                    //get a download link of the image of where the code will look for it
                     imageRef.downloadURL { (url, er) in
                         if er != nil {
                             print(er?.localizedDescription ?? "nil")
