@@ -15,7 +15,6 @@ protocol EOMPostCellDelegate {
     //commands that we give to PostViewController
     func didExpandEOMPost(image: UIImage, EOMImage: UIImage, date: String?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?,state : String?, postId : String?, healthDataEvent: String?, isPlateEmpty: String?)
     func didDeletePost(index: Int)
-
 }
 
 class EOMPostCell: UICollectionViewCell {
@@ -164,6 +163,10 @@ class EOMPostCell: UICollectionViewCell {
     @IBAction func deletePost() {
         delegate?.didDeletePost(index: index!.row)
     }
+    
+    /*@IBAction func tapEOMPhoto() {
+        delegate?.didTapEOMPhoto(index: index!.row)
+    }*/
 
 }
 
@@ -202,8 +205,6 @@ extension EOMPostCell {
         deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding).isActive = true
         
         //AFTER IMAGE
-        //EOMImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight + 15).isActive = true
-        //EOMImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:  padding + 15).isActive = true
         EOMImage.trailingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: cellWidth*0.5).isActive = true
         EOMImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -padding).isActive = true
         EOMImage.heightAnchor.constraint(equalToConstant: imageWidth).isActive = true
@@ -213,7 +214,6 @@ extension EOMPostCell {
         headerButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding).isActive = true
         headerButton.heightAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
         headerButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        //headerButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         
         indicator.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         indicator.widthAnchor.constraint(equalToConstant: 105).isActive = true
