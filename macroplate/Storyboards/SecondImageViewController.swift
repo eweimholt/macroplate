@@ -61,7 +61,7 @@ class SecondImageViewController: UIViewController {
         //Set up storage reference
         let storage = Storage.storage().reference(forURL: "gs://flowaste-595b7.appspot.com/")
         
-        userStorage = storage.child("users")
+        userStorage = storage.child("users_endOfMeal")
         
         //load view
         stackView.addArrangedSubview(myImageView)
@@ -95,7 +95,7 @@ class SecondImageViewController: UIViewController {
         
         
         //Constraints
-        stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
+        stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 25).isActive = true
         stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         myImageView.widthAnchor.constraint(equalToConstant: stackWidth).isActive = true
@@ -111,52 +111,45 @@ class SecondImageViewController: UIViewController {
         let secondDate = Date()//NSDate().timeIntervalSince1970 //
         let secondTimestamp = NSDate().timeIntervalSince1970 //Timestamp(date: date)
         
-        /*if let user = Auth.auth().currentUser {
+        if let user = Auth.auth().currentUser {
             
             let db = Firestore.firestore()
             
             //let storage = Storage.storage().reference(forURL: "gs://flowaste-595b7.appspot.com")
             
             let ref = db.collection("posts")
-            //let docId = ref.document().documentID
-            //let postId =
-            
-            let imageRef = self.userStorage.child("\(docId).jpg")
+
+            let imageRef = self.userStorage.child("EOM_\(postId ?? "postIdNotSaved").jpg") //EOM = End of Meal
             
             let data = self.myImageView.image!.jpegData(compressionQuality: 0.0) //0.0 is smallest possible compression
             
             let uploadTask = imageRef.putData(data!, metadata: nil) { (metadata, err) in
                 if err != nil {
-                    print(err?.localizedDescription ?? nil!)
+                    print(err?.localizedDescription ?? "")
                 }
                 //we have successfully uploaded the photo!
                 
                 //get a download link of the image of where the code will look for it
                 imageRef.downloadURL { (url, er) in
                     if er != nil {
-                        print(er?.localizedDescription ?? nil!)
+                        print(er?.localizedDescription ?? "")
                     }
                     
-                    let feed = ["uid": user.uid,
-                                "urlToImage" : url!.absoluteString,
-                                "name" : user.displayName ?? nil!,
-                                "secondDate" : secondDate,
-                                "secondTimestamp" : secondTimestamp,
-                                "key" : docId,
-                                "userTextInput" : self.inputField.text!,
-                                "carbs" : "",
-                                "protein" : "",
-                                "fat" : "",
-                                "calories" : "",
-                                "State" : "Pending",
-                                "plateIsEmpty" : "initial",
-                                "healthDataEvent" : "false"] as [String : Any]
+                    let feed = ["urlToEOM" : url!.absoluteString,
+                                "EOM_Date" : secondDate,
+                                "EOM_Timestamp" : secondTimestamp,
+                                "EOM_carbs" : "",
+                                "EOM_protein" : "",
+                                "EOM_fat" : "",
+                                "EOM_calories" : "",
+                                "EOM_State" : "Pending",
+                                "plateIsEmpty" : "false"] as [String : Any]
                     
-                    db.collection("posts").document(docId).setData(feed) { err in
+                    db.collection("posts").document(self.postId!).updateData(feed) { err in
                         if let err = err {
                             print("Error adding document: \(err)")
                         } else {
-                            print("Document added with ID: \(docId)")
+                            print("Document added with ID: \(self.postId ?? "postId Not Found")")
                         }
                     }
                 }
@@ -165,7 +158,7 @@ class SecondImageViewController: UIViewController {
         }
         else{
             print("no user logged in")
-        }*/
+        }
         transitionToFeed()
     }
 

@@ -27,6 +27,7 @@ class PostCell: UICollectionViewCell {
     var userTextInput : String?
     var name : String?
     var pathToImage : String?
+    var pathToEOMImage : String? 
     var userId : String?
     var postId : String?
     
@@ -53,12 +54,37 @@ class PostCell: UICollectionViewCell {
     var postButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        //button.setTitle("Pending", for: .normal)
         button.clipsToBounds = true
         button.layer.cornerRadius = 20
         button.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.20)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 24)
+        return button
+    }()
+    
+    let indicator : UIButton = {
+        let cButton = UIButton()
+        cButton.setTitleColor(.white, for: .normal) // You can change the TitleColor
+        cButton.setTitle("Pending", for: .normal)
+        cButton.translatesAutoresizingMaskIntoConstraints = false
+        cButton.contentHorizontalAlignment = .center
+        let cImage = UIImage(systemName: "seal")?.withTintColor(UIColor.white, renderingMode: .alwaysOriginal)
+        cButton.setImage(cImage, for: .normal)
+        cButton.backgroundColor = UIColor.orange
+        cButton.clipsToBounds = true
+        cButton.layer.cornerRadius = 15
+        return cButton
+    }()
+
+    var headerButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 15
+        button.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.0)
+        button.setTitleColor(.darkGray, for: .normal)
+        button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 18)
+        button.contentHorizontalAlignment = .left
         return button
     }()
     
@@ -78,11 +104,11 @@ class PostCell: UICollectionViewCell {
     var deleteButton: UIButton = {
         let dButton = UIButton()
         dButton.translatesAutoresizingMaskIntoConstraints = false
-        dButton.setTitle("X", for: .normal)
         dButton.clipsToBounds = true
-        dButton.layer.cornerRadius = 15
-        dButton.backgroundColor = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
         dButton.setTitleColor(.white, for: .normal)
+        let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .semibold, scale: .large)
+        let cImage = UIImage(systemName: "x.circle", withConfiguration: config)?.withTintColor(UIColor.darkGray, renderingMode: .alwaysOriginal)
+        dButton.setImage(cImage, for: .normal)
         dButton.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 20)
         return dButton
     }()
@@ -92,22 +118,27 @@ class PostCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        /*if state == "Ready" {*/ //The state is currently nil, need to determine how to pass this info in
-        
         contentView.addSubview(afterButton)
         afterButton.addTarget(self, action: #selector(addAfterMeal), for: .touchUpInside)
 
         contentView.addSubview(postImage)
-            
+
+        contentView.addSubview(indicator)
         contentView.addSubview(postButton)
         postButton.addTarget(self, action: #selector(expandPost), for: .touchUpInside)
 
             
         contentView.addSubview(deleteButton)
         deleteButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
-        
-       setup()
+        //contentView.addSubview(EOMImage)
+        contentView.addSubview(headerButton)
 
+
+
+
+    
+        
+        setup()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -154,32 +185,48 @@ extension PostCell {
         
        // let screenSize: CGRect = UIScreen.main.bounds
         
+        let headerHeight = CGFloat(35)
+        let headerElementHeight = headerHeight - 5
+        let padding = CGFloat(15)
+        
         let cellWidth = contentView.frame.width
         let cellHeight = contentView.frame.height
         
         let imageWidth = cellWidth*0.51
         
+        
+        
         //BEFORE IMAGE
-        postImage.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        postImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        postImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        postImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight).isActive = true
+        postImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding).isActive = true
+        postImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -padding).isActive = true
         postImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant:  -imageWidth).isActive = true
         
-        postButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        postButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        postButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        postButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight).isActive = true
+        postButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding).isActive = true
+        postButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -padding).isActive = true
         postButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant:  -imageWidth).isActive = true
         
         deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        deleteButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        deleteButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -imageWidth).isActive = true
+        deleteButton.widthAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
+        deleteButton.heightAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
+        deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding).isActive = true
         
-        //AFTER IMAGE
-        afterButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        afterButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight).isActive = true
         afterButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:  imageWidth).isActive = true
-        afterButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        afterButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        afterButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -padding).isActive = true
+        afterButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding).isActive = true
+        
+        headerButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        headerButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding).isActive = true
+        headerButton.heightAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
+        headerButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        //headerButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        
+        indicator.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        indicator.widthAnchor.constraint(equalToConstant: 105).isActive = true
+        indicator.heightAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
+        indicator.leadingAnchor.constraint(equalTo: headerButton.trailingAnchor, constant: 10).isActive = true
 
     }
 }

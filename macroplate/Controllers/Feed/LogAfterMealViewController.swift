@@ -21,12 +21,15 @@ class LogAfterMealViewController: UIViewController {
         cButton.translatesAutoresizingMaskIntoConstraints = false
         return cButton
     }()
-   /*let circleImage : UIImage = {
-        let config = UIImage.SymbolConfiguration(pointSize: 5, weight: .regular, scale: .large)
-        let cImage = UIImage(systemName: "circle", withConfiguration: config)?.withTintColor(UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1), renderingMode: .alwaysOriginal)
-        return cImage!
-    }()*/
     
+    let saveButton : UIButton = {
+        let cButton = UIButton(frame: CGRect(x: 100, y: 100, width: 70, height: 70))
+        cButton.setTitle("Save", for: .normal)
+        cButton.setTitleColor(.blue, for: .normal) // You can change the TitleColor
+        cButton.translatesAutoresizingMaskIntoConstraints = false
+        return cButton
+    }()
+
     let cleanPlateButton : UIButton = {
         let cButton = UIButton(frame: CGRect(x: 100, y: 100, width: 70, height: 70))
         cButton.setTitle("I finished my plate.", for: .normal)
@@ -83,20 +86,17 @@ class LogAfterMealViewController: UIViewController {
         stackView.addArrangedSubview(captureSecondPhotoButton)
         self.view.addSubview(stackView)
         view.addSubview(backButton)
+        view.addSubview(saveButton)
 
         cleanPlateButton.addTarget(self, action: #selector(btn_box(sender:)), for: .touchUpInside)
         leftoversButton.addTarget(self, action: #selector(btn_leftovers(sender:)), for: .touchUpInside)
         backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
+        saveButton.addTarget(self, action: #selector(saveImage), for: .touchUpInside)
         captureSecondPhotoButton.addTarget(self, action: #selector(expandSecondCapture), for: .touchUpInside)
 
         setUpLayout()
         
-        print("postId at LogVC is \(postId ?? "empty")")
-        //send postId
-        /*let mealsVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: Constants.Storyboard.mealsViewController) as? MealsViewController*/
-        //secondImageVC?.postId = postId
-        
-        //let cellIndexAt = mealsVC.cell
+        //print("postId at LogVC is \(postId ?? "empty")")
     }
     
     func setUpLayout() {
@@ -120,6 +120,11 @@ class LogAfterMealViewController: UIViewController {
         backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
         backButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
         backButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        
+        saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15).isActive = true
+        saveButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
+        saveButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
+        saveButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
 
     
@@ -132,9 +137,6 @@ class LogAfterMealViewController: UIViewController {
             cleanPlateButton.isSelected = true
             leftoversButton.isSelected = false
         }
-        
-        let plateIsEmpty = cleanPlateButton.isSelected.description
-        updateFirebaseSecondMeal(value: plateIsEmpty)
     }
     
     @IBAction func btn_leftovers(sender: UIButton) {
@@ -146,8 +148,6 @@ class LogAfterMealViewController: UIViewController {
             leftoversButton.isSelected = true
             cleanPlateButton.isSelected = false
         }
-        let plateIsEmpty = cleanPlateButton.isSelected.description
-        updateFirebaseSecondMeal(value: plateIsEmpty)
     }
     
     func updateFirebaseSecondMeal(value: String) {
@@ -174,6 +174,15 @@ class LogAfterMealViewController: UIViewController {
 
     @IBAction func goBack(_ sender: Any) {
         print("goBack")
+        transitionToMeals()
+    }
+    
+    @IBAction func saveImage(_ sender: Any) {
+        //call alert the preference was saved
+        
+        let plateIsEmpty = self.cleanPlateButton.isSelected.description
+        updateFirebaseSecondMeal(value: plateIsEmpty)
+        
         transitionToMeals()
     }
     
