@@ -182,8 +182,8 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
         imageInputErrorLabel.widthAnchor.constraint(equalToConstant: stackWidth).isActive = true
         imageInputErrorLabel.heightAnchor.constraint(equalToConstant: CGFloat(componentHeight)).isActive = true
         
-        let imageWidth = stackWidth * 0.70
-        myImageView.widthAnchor.constraint(equalToConstant: imageWidth).isActive = true
+        
+        myImageView.widthAnchor.constraint(equalToConstant: stackWidth).isActive = true
         myImageView.heightAnchor.constraint(equalToConstant: stackWidth).isActive = true
    
         sendButton.widthAnchor.constraint(equalToConstant: stackWidth).isActive = true

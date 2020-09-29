@@ -126,6 +126,7 @@ class SecondImageViewController: UIViewController {
             let uploadTask = imageRef.putData(data!, metadata: nil) { (metadata, err) in
                 if err != nil {
                     print(err?.localizedDescription ?? "")
+                    print("ERROR - URL upload unsuccesfull")
                 }
                 //we have successfully uploaded the photo!
                 
@@ -133,6 +134,7 @@ class SecondImageViewController: UIViewController {
                 imageRef.downloadURL { (url, er) in
                     if er != nil {
                         print(er?.localizedDescription ?? "")
+                        print("ERROR - imageRef.downloadURL")
                     }
                     
                     let feed = ["urlToEOM" : url!.absoluteString,
