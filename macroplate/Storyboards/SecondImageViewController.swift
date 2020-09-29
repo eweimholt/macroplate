@@ -95,7 +95,7 @@ class SecondImageViewController: UIViewController {
         
         
         //Constraints
-        stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 25).isActive = true
+        stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
         stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         myImageView.widthAnchor.constraint(equalToConstant: stackWidth).isActive = true
@@ -126,6 +126,7 @@ class SecondImageViewController: UIViewController {
             let uploadTask = imageRef.putData(data!, metadata: nil) { (metadata, err) in
                 if err != nil {
                     print(err?.localizedDescription ?? "")
+                    print("ERROR - URL upload unsuccesfull")
                 }
                 //we have successfully uploaded the photo!
                 
@@ -133,6 +134,7 @@ class SecondImageViewController: UIViewController {
                 imageRef.downloadURL { (url, er) in
                     if er != nil {
                         print(er?.localizedDescription ?? "")
+                        print("ERROR - imageRef.downloadURL")
                     }
                     
                     let feed = ["urlToEOM" : url!.absoluteString,
@@ -173,7 +175,9 @@ class SecondImageViewController: UIViewController {
         //swap out root view controller for the feed one
         view.window?.rootViewController = mealsViewController
         view.window?.makeKeyAndVisible()
-    
+        
+        //refresh cells
+        mealsViewController?.mealsCollectionView.reloadData()
     }
 
 }

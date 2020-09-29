@@ -69,7 +69,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         label.numberOfLines = 3
         return label
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -204,6 +204,21 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         return self.posts.count
     }
     
+    //TO DO: Update Cell When Selected
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) as? PostCell {
+            print("PostCell was tapped")
+        }
+    }
+
+    /*func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) as? PostCell {
+            //cell.hideIcon()
+        }
+    }*/
+    
+    
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         
@@ -333,6 +348,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             //setUpTwoPhotosReady() TO DO
         }
 
+        
         
         
     }
@@ -496,12 +512,12 @@ extension MealsViewController: PostCellDelegate {
     }
     
     func addAfterMeal(index: Int, postId : String?) {
-        //pass data to logVC
-        let logVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "LogVC") as! LogAfterMealViewController
-        logVC.postId = postId
-
-        view.window?.rootViewController = logVC
+        let secondVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "SecondVC") as! SecondCaptureViewController
+        secondVC.postId = postId
+        
+        view.window?.rootViewController = secondVC
         view.window?.makeKeyAndVisible()
+
     }
     
 }

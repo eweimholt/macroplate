@@ -74,11 +74,30 @@ class SecondCaptureViewController: UIViewController, UINavigationControllerDeleg
         return textLabel
     }()
     
+    let transparentBackground : UIButton = {
+        let uButton = UIButton(frame: CGRect(x: 100, y: 100, width: 35, height: 40))
+        uButton.translatesAutoresizingMaskIntoConstraints = false
+        uButton.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.70)
+        uButton.clipsToBounds = true
+        return uButton
+    }()
+    
+    let transparentBackground2 : UIButton = {
+        let uButton = UIButton(frame: CGRect(x: 100, y: 100, width: 35, height: 40))
+        uButton.translatesAutoresizingMaskIntoConstraints = false
+        uButton.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.70)
+        uButton.clipsToBounds = true
+        return uButton
+    }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.addSubview(cameraView)
+        
+        self.view.addSubview(transparentBackground)
+        self.view.addSubview(transparentBackground2)
         
         cameraButton.setBackgroundImage(circleImage, for: .normal)
         cameraButton.addTarget(self, action: #selector(imageCapture), for: .touchUpInside)
@@ -121,6 +140,10 @@ class SecondCaptureViewController: UIViewController, UINavigationControllerDeleg
     private func setUpLayout() {
         
         view.backgroundColor = .black
+        
+        let deviceWidth = self.view.frame.width
+        let deviceHeight = self.view.frame.height
+        let w = deviceWidth*0.50
 
         cameraView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
         cameraView.heightAnchor.constraint(equalToConstant: 700).isActive = true
@@ -146,6 +169,17 @@ class SecondCaptureViewController: UIViewController, UINavigationControllerDeleg
         doneButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
         doneButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
         doneButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        
+        transparentBackground.topAnchor.constraint(equalTo: cameraView.topAnchor).isActive = true
+        transparentBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        transparentBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        transparentBackground.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: -CGFloat(w)).isActive = true
+        
+        transparentBackground2.topAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(w)).isActive = true
+        transparentBackground2.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        transparentBackground2.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        transparentBackground2.bottomAnchor.constraint(equalTo: cameraView.bottomAnchor).isActive = true
+        
     }
     
     
