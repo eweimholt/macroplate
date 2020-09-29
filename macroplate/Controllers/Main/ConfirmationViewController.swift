@@ -111,15 +111,7 @@ class ConfirmationViewController: UIViewController {
         doneButton.topAnchor.constraint(equalTo: messageLabel.bottomAnchor, constant: 20).isActive = true
         doneButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
         doneButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-  
-        
-        /*backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15).isActive = true
-        backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
-        backButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
-        backButton.heightAnchor.constraint(equalToConstant: 60).isActive = true*/
-        
 
-  
     }
     
     @IBAction func goBack(_ sender: Any) {

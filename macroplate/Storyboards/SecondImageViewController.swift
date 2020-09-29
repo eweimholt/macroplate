@@ -95,7 +95,7 @@ class SecondImageViewController: UIViewController {
         
         
         //Constraints
-        stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 25).isActive = true
+        stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
         stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         myImageView.widthAnchor.constraint(equalToConstant: stackWidth).isActive = true
@@ -173,7 +173,9 @@ class SecondImageViewController: UIViewController {
         //swap out root view controller for the feed one
         view.window?.rootViewController = mealsViewController
         view.window?.makeKeyAndVisible()
-    
+        
+        //refresh cells
+        mealsViewController?.mealsCollectionView.reloadData()
     }
 
 }

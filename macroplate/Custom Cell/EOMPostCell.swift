@@ -148,7 +148,7 @@ class EOMPostCell: UICollectionViewCell {
     }
     
     @IBAction func expandPost() {
-        if let userTextInput = userTextInput, let _ = postImage.image, let calories = calories, let carbs = carbs, let protein = protein, let fat = fat, let state = state, let postId = postId, let healthDataEvent = healthDataEvent, let isPlateEmpty = isPlateEmpty {
+        if let userTextInput = userTextInput, let _ = postImage.image, let _ = EOMImage.image, let calories = calories, let carbs = carbs, let protein = protein, let fat = fat, let state = state, let postId = postId, let healthDataEvent = healthDataEvent, let isPlateEmpty = isPlateEmpty {
             
             if date == nil {
                 delegate?.didExpandEOMPost(image: postImage.image!, EOMImage: EOMImage.image!, date: "", userText: userTextInput, calories: calories, carbs: carbs, protein: protein, fat: fat, state : state, postId: postId, healthDataEvent: healthDataEvent, isPlateEmpty: isPlateEmpty)

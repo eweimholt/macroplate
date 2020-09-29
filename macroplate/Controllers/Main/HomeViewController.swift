@@ -108,6 +108,22 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         return textLabel
     }()
     
+    let transparentBackground : UIButton = {
+        let uButton = UIButton(frame: CGRect(x: 100, y: 100, width: 35, height: 40))
+        uButton.translatesAutoresizingMaskIntoConstraints = false
+        uButton.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.70)
+        uButton.clipsToBounds = true
+        return uButton
+    }()
+    
+    let transparentBackground2 : UIButton = {
+        let uButton = UIButton(frame: CGRect(x: 100, y: 100, width: 35, height: 40))
+        uButton.translatesAutoresizingMaskIntoConstraints = false
+        uButton.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.70)
+        uButton.clipsToBounds = true
+        return uButton
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //authenticateUser()
@@ -133,6 +149,8 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         Analytics.setUserID(uid)
 
         self.view.addSubview(cameraView)
+        self.view.addSubview(transparentBackground)
+        self.view.addSubview(transparentBackground2)
 
         cameraButton.setBackgroundImage(circleImage, for: .normal)
         cameraButton.addTarget(self, action: #selector(imageCapture), for: .touchUpInside)
@@ -193,11 +211,25 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         view.backgroundColor = .black
         
+        let deviceWidth = self.view.frame.width
+        let deviceHeight = self.view.frame.height
+        let w = deviceWidth*0.50
+        
         cameraView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
-        //cameraView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50).isActive = true
         cameraView.heightAnchor.constraint(equalToConstant: 700).isActive = true
+        //cameraView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100).isActive = true
         cameraView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         cameraView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        
+        transparentBackground.topAnchor.constraint(equalTo: cameraView.topAnchor).isActive = true
+        transparentBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        transparentBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        transparentBackground.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: -CGFloat(w)).isActive = true
+        
+        transparentBackground2.topAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(w)).isActive = true
+        transparentBackground2.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        transparentBackground2.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        transparentBackground2.bottomAnchor.constraint(equalTo: cameraView.bottomAnchor).isActive = true
         
            
         cameraButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -358,6 +390,8 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         //swap out root view controller for the home one, once the signup is successful
         view.window?.rootViewController = mealsVC
         view.window?.makeKeyAndVisible()
+        //refresh cells
+        mealsVC?.mealsCollectionView.reloadData()
 
     }
     
