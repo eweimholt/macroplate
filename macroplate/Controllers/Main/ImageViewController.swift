@@ -34,6 +34,7 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
     let sendButton : UIButton = {
         let button = UIButton(frame: CGRect(x: 105, y: 500, width: 200, height: 50))
         button.setTitle("Submit", for: .normal)
+        button.titleLabel?.font = UIFont(name: "AvenirNext", size: 18)
         button.backgroundColor = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -42,8 +43,8 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
     let messageLabel : UILabel = {
         let label = UILabel()
         label.text = "Please add a label describing what's on your plate:"
-        label.font = UIFont.systemFont(ofSize: 18)
-        label.textColor = .black
+        label.font = UIFont(name: "AvenirNext", size: 18)
+        label.textColor = .darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
         label.lineBreakMode = .byWordWrapping

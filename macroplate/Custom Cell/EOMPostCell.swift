@@ -13,7 +13,7 @@ import Firebase
 
 protocol EOMPostCellDelegate {
     //commands that we give to PostViewController
-    func didExpandEOMPost(image: UIImage, EOMImage: UIImage, date: String?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?,state : String?, postId : String?, healthDataEvent: String?, isPlateEmpty: String?)
+    func didExpandEOMPost(image: UIImage, EOMImage: UIImage, date: String?, timestamp: TimeInterval?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?,state : String?, postId : String?, healthDataEvent: String?, isPlateEmpty: String?)
     func didDeletePost(index: Int)
 }
 
@@ -89,7 +89,7 @@ class EOMPostCell: UICollectionViewCell {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.clipsToBounds = true
-        button.layer.cornerRadius = 15
+        //button.layer.cornerRadius = 15
         button.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.0)
         button.setTitleColor(.darkGray, for: .normal)
         button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 18)
@@ -122,12 +122,54 @@ class EOMPostCell: UICollectionViewCell {
         return dButton
     }()
     
+    /*let completeMealLabel : UIButton = {
+        let cButton = UIButton()
+        cButton.setTitleColor(.gray, for: .normal) // You can change the TitleColor
+        cButton.setTitle("Meal Log Complete", for: .normal)
+        cButton.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 20)
+        //cButton.setFont(
+        cButton.translatesAutoresizingMaskIntoConstraints = false
+        cButton.contentHorizontalAlignment = .center
+        //let cImage = UIImage(systemName: "seal")?.withTintColor(UIColor.white, renderingMode: .alwaysOriginal)
+        //cButton.setImage(cImage, for: .normal)
+        //cButton.backgroundColor = UIColor.orange
+        cButton.clipsToBounds = true
+        cButton.layer.cornerRadius = 15
+        return cButton
+    }()*/
     
+    /*let completeMealLabel : UILabel = {
+        let label = UILabel()
+        label.text = "Meal Log Complete"
+        label.font = UIFont(name: "AvenirNext-Bold", size: 28)
+        label.textColor = .lightGray
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.numberOfLines = 2
+        //label.backgroundColor = .cyan
+        return label
+    }()*/
+    
+    var completeMealLabel = MealCompleteLabel()
+    
+    let leftoverImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        //imageView.layer.borderWidth = 1.5
+        //imageView.layer.borderColor = CGColor.init(gray: 1, alpha: 1)
+        //imageView.layer.cornerRadius = 20
+        imageView.image =  UIImage(named: "leftovers")
+        return imageView
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(headerButton)
-        contentView.addSubview(indicator)
+        //contentView.addSubview(indicator)
+        contentView.addSubview(completeMealLabel)
+        contentView.addSubview(leftoverImage)
 
         contentView.addSubview(EOMImage)
         contentView.addSubview(postImage)
@@ -151,9 +193,10 @@ class EOMPostCell: UICollectionViewCell {
         if let userTextInput = userTextInput, let _ = postImage.image, let _ = EOMImage.image, let calories = calories, let carbs = carbs, let protein = protein, let fat = fat, let state = state, let postId = postId, let healthDataEvent = healthDataEvent, let isPlateEmpty = isPlateEmpty {
             
             if date == nil {
-                delegate?.didExpandEOMPost(image: postImage.image!, EOMImage: EOMImage.image!, date: "", userText: userTextInput, calories: calories, carbs: carbs, protein: protein, fat: fat, state : state, postId: postId, healthDataEvent: healthDataEvent, isPlateEmpty: isPlateEmpty)
+                delegate?.didExpandEOMPost(image: postImage.image!, EOMImage: EOMImage.image!, date: "", timestamp: TimeInterval(), userText: userTextInput, calories: calories, carbs: carbs, protein: protein, fat: fat, state : state, postId: postId, healthDataEvent: healthDataEvent, isPlateEmpty: isPlateEmpty)
+                print("Timestamp is likely nil")
             } else {
-                delegate?.didExpandEOMPost(image: postImage.image!, EOMImage: EOMImage.image!, date: date, userText: userTextInput, calories: calories, carbs: carbs, protein: protein, fat: fat, state : state, postId: postId, healthDataEvent: healthDataEvent, isPlateEmpty: isPlateEmpty)
+                delegate?.didExpandEOMPost(image: postImage.image!, EOMImage: EOMImage.image!, date: date, timestamp: timestamp, userText: userTextInput, calories: calories, carbs: carbs, protein: protein, fat: fat, state : state, postId: postId, healthDataEvent: healthDataEvent, isPlateEmpty: isPlateEmpty)
             }
         } else {
             print("nil abort avoided :) ")
@@ -213,12 +256,27 @@ extension EOMPostCell {
         headerButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         headerButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding).isActive = true
         headerButton.heightAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
-        headerButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        //headerButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        headerButton.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -padding).isActive = true
         
-        indicator.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        /*indicator.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         indicator.widthAnchor.constraint(equalToConstant: 105).isActive = true
         indicator.heightAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
-        indicator.leadingAnchor.constraint(equalTo: headerButton.trailingAnchor, constant: 10).isActive = true
+        indicator.leadingAnchor.constraint(equalTo: headerButton.trailingAnchor, constant: 10).isActive = true*/
+        
+        completeMealLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight).isActive = true
+        completeMealLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding).isActive = true
+        completeMealLabel.heightAnchor.constraint(equalToConstant: headerElementHeight*3).isActive = true
+        completeMealLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:  cellWidth*0.50).isActive = true
+        
+        leftoverImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerElementHeight*4).isActive = true
+        //leftoverImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:  cellWidth*0.50).isActive = true
+        leftoverImage.centerXAnchor.constraint(equalTo: completeMealLabel.centerXAnchor).isActive = true
+        leftoverImage.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        leftoverImage.heightAnchor.constraint(equalToConstant: 37.5).isActive = true
+        //leftoverImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding).isActive = true
+        //leftoverImage.heightAnchor.constraint(equalToConstant: headerElementHeight*3).isActive = true
+        
 
     }
 }

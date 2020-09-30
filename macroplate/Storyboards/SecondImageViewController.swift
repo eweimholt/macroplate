@@ -37,7 +37,8 @@ class SecondImageViewController: UIViewController {
     
     let sendButton : UIButton = {
         let button = UIButton(frame: CGRect(x: 105, y: 500, width: 200, height: 50))
-        button.setTitle("Submit", for: .normal)
+        button.setTitle("Save", for: .normal)
+        button.titleLabel?.font = UIFont(name: "AvenirNext", size: 18)
         button.backgroundColor = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -54,6 +55,18 @@ class SecondImageViewController: UIViewController {
         return sView
     }()
     
+    var backButton: UIButton = {
+        let dButton = UIButton()
+        dButton.translatesAutoresizingMaskIntoConstraints = false
+        dButton.clipsToBounds = true
+        //dButton.setTitleColor(.white, for: .normal)
+        let config = UIImage.SymbolConfiguration(pointSize: 24, weight: .semibold, scale: .large)
+        let cImage = UIImage(systemName: "x.circle", withConfiguration: config)?.withTintColor(UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1), renderingMode: .alwaysOriginal)
+        dButton.setImage(cImage, for: .normal)
+        dButton.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 24)
+        return dButton
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -66,9 +79,12 @@ class SecondImageViewController: UIViewController {
         //load view
         stackView.addArrangedSubview(myImageView)
         stackView.addArrangedSubview(sendButton)
+        sendButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
         self.view.addSubview(stackView)
         
-        sendButton.addTarget(self, action: #selector(sendButtonTapped), for: .touchUpInside)
+        self.view.addSubview(backButton)
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        
         
         // Do any additional setup after loading the view.
         setUpLayout()
@@ -82,7 +98,7 @@ class SecondImageViewController: UIViewController {
         let docId:String?
         if let availableId = postId {
             docId = availableId
-            print("docId set to \(docId)")
+            //print("docId set to \(docId)")
         }
     }
     
@@ -95,7 +111,7 @@ class SecondImageViewController: UIViewController {
         
         
         //Constraints
-        stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100).isActive = true
+        stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 130).isActive = true
         stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         
         myImageView.widthAnchor.constraint(equalToConstant: stackWidth).isActive = true
@@ -104,12 +120,34 @@ class SecondImageViewController: UIViewController {
         sendButton.widthAnchor.constraint(equalToConstant: stackWidth).isActive = true
         sendButton.heightAnchor.constraint(equalToConstant: CGFloat(componentHeight)).isActive = true
         
+        backButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
+        backButton.widthAnchor.constraint(equalToConstant: 55).isActive = true
+        backButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        
+    }
+    
+    @IBAction func backButtonTapped() {
+        
+        let alert = UIAlertController(title: "Are you sure?", message: "This action will delete the photo taken", preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "Yes", style: .default) {action in
+            self.transitionToFeed()
+        })
+        
+        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+
+        self.present(alert, animated: true)
+
     }
     
     @IBAction func sendButtonTapped(_ sender: Any) {
         //get the timestamp of when image is sent
         let secondDate = Date()//NSDate().timeIntervalSince1970 //
         let secondTimestamp = NSDate().timeIntervalSince1970 //Timestamp(date: date)
+        
+        //update isPlateEmpty
+        
         
         if let user = Auth.auth().currentUser {
             
@@ -128,7 +166,7 @@ class SecondImageViewController: UIViewController {
                     print(err?.localizedDescription ?? "")
                     print("ERROR - URL upload unsuccesfull")
                 }
-                //we have successfully uploaded the photo!
+                print("we have successfully uploaded the second photo!")
                 
                 //get a download link of the image of where the code will look for it
                 imageRef.downloadURL { (url, er) in
@@ -151,17 +189,20 @@ class SecondImageViewController: UIViewController {
                         if let err = err {
                             print("Error adding document: \(err)")
                         } else {
-                            print("Document added with ID: \(self.postId ?? "postId Not Found")")
+                            print("EOM Data added with ID: \(self.postId ?? "postId Not Found")")
+                            print("calling transition to feed")
+                            self.transitionToFeed()
                         }
                     }
                 }
             }
             uploadTask.resume()
+            
         }
         else{
             print("no user logged in")
         }
-        transitionToFeed()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -179,6 +220,7 @@ class SecondImageViewController: UIViewController {
         //refresh cells
         mealsViewController?.mealsCollectionView.reloadData()
     }
+
 
 }
 

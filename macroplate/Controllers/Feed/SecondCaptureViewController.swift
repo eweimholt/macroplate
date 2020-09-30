@@ -23,12 +23,24 @@ class SecondCaptureViewController: UIViewController, UINavigationControllerDeleg
     let picker = UIImagePickerController()
     var postId : String?
     
-    let doneButton : UIButton = {
+    /*let backButton : UIButton = {
         let cButton = UIButton(frame: CGRect(x: 100, y: 100, width: 70, height: 70))
-        cButton.setTitle("Done", for: .normal)
+        cButton.setTitle("Back", for: .normal)
         cButton.setTitleColor(.blue, for: .normal) // You can change the TitleColor
         cButton.translatesAutoresizingMaskIntoConstraints = false
         return cButton
+    }()*/
+    
+    var backButton: UIButton = {
+        let dButton = UIButton()
+        dButton.translatesAutoresizingMaskIntoConstraints = false
+        dButton.clipsToBounds = true
+        //dButton.setTitleColor(.white, for: .normal)
+        let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .semibold, scale: .large)
+        let cImage = UIImage(systemName: "x.circle", withConfiguration: config)?.withTintColor(UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1), renderingMode: .alwaysOriginal)
+        dButton.setImage(cImage, for: .normal)
+        dButton.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 20)
+        return dButton
     }()
     
     let cameraView : UIView = {
@@ -102,8 +114,8 @@ class SecondCaptureViewController: UIViewController, UINavigationControllerDeleg
         cameraButton.setBackgroundImage(circleImage, for: .normal)
         cameraButton.addTarget(self, action: #selector(imageCapture), for: .touchUpInside)
         self.view.addSubview(cameraButton)
-        self.view.addSubview(doneButton)
-        doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
+        self.view.addSubview(backButton)
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         
         flipButton.setBackgroundImage(flipImage, for: .normal)
         flipButton.addTarget(self, action: #selector(rotateCamera), for: .touchUpInside)
@@ -165,17 +177,17 @@ class SecondCaptureViewController: UIViewController, UINavigationControllerDeleg
         flipButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
         flipButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
-        doneButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 250).isActive = true
-        doneButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
-        doneButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        doneButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        backButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
+        backButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
+        backButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
         transparentBackground.topAnchor.constraint(equalTo: cameraView.topAnchor).isActive = true
         transparentBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         transparentBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        transparentBackground.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: -CGFloat(w)).isActive = true
+        transparentBackground.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: -CGFloat(w*8/10)).isActive = true
         
-        transparentBackground2.topAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(w)).isActive = true
+        transparentBackground2.topAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(w*10/8)).isActive = true
         transparentBackground2.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         transparentBackground2.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         transparentBackground2.bottomAnchor.constraint(equalTo: cameraView.bottomAnchor).isActive = true
@@ -192,13 +204,13 @@ class SecondCaptureViewController: UIViewController, UINavigationControllerDeleg
         //transitionToSecondImage()
     }
     
-    @IBAction func doneButtonTapped() {
+    @IBAction func backButtonTapped() {
         
-        /*let mealsVC = storyboard?.instantiateViewController(identifier: Constants.Storyboard.mealsViewController) as? MealsViewController
+        let mealsVC = storyboard?.instantiateViewController(identifier: Constants.Storyboard.mealsViewController) as? MealsViewController
         
         //swap out root view controller for the feed one
         view.window?.rootViewController = mealsVC
-        view.window?.makeKeyAndVisible()*/
+        view.window?.makeKeyAndVisible()
     }
     
     func transitionToSecondImage(_ image : UIImage) {
@@ -269,90 +281,7 @@ class SecondCaptureViewController: UIViewController, UINavigationControllerDeleg
             }
         }
     }
-    
-    /*func addSecondMeal() {
-        //To Do: set the default of plateIsEmpty to true.
-        
-        //if the leftovers button is tapped, set plateIsEmpty to false
-        //var plateisEmptyState:[String : Any]?
-        
-        let db = Firestore.firestore()
-        //let uid = Auth.auth().currentUser!.uid
-        //var docId : String?
-        
-        // get docid from a query looking at the uid
-        db.collection("posts").document(postId!).updateData([
-            "secondPhotoTaken" : true
-        ]){ err in
-            if let err = err {
-                print("Error updating document: \(err)")
-            } else {
-                print("secondPhotoTakenset to: ", value)
-            }
-        }
-    }*/
-    
 }
-
-
-/*func sendToStorage() {
-    if let user = Auth.auth().currentUser {
-        
-        let db = Firestore.firestore()
-        
-        //let storage = Storage.storage().reference(forURL: "gs://flowaste-595b7.appspot.com")
-        
-        let ref = db.collection("posts")
-        let docId = ref.document().documentID
-        
-        let imageRef = self.userStorage.child("\(docId).jpg")
-        
-        let data = self.myImageView.image!.jpegData(compressionQuality: 0.0) //0.0 is smallest possible compression
-        
-        let uploadTask = imageRef.putData(data!, metadata: nil) { (metadata, err) in
-            if err != nil {
-                print(err?.localizedDescription ?? nil!)
-            }
-            //we have successfully uploaded the photo!
-            
-            //get a download link of the image of where the code will look for it
-            imageRef.downloadURL { (url, er) in
-                if er != nil {
-                    print(er?.localizedDescription ?? nil!)
-                }
-                
-                let feed = ["uid": user.uid,
-                            "urlToImage" : url!.absoluteString,
-                            "name" : user.displayName ?? nil!,
-                            "date" : date,
-                            "timestamp" : timestamp,
-                            "key" : docId,
-                            "userTextInput" : self.inputField.text!,
-                            "carbs" : "",
-                            "protein" : "",
-                            "fat" : "",
-                            "calories" : "",
-                            "State" : "Pending",
-                            "plateIsEmpty" : "initial",
-                            "healthDataEvent" : "false"] as [String : Any]
-                
-                db.collection("posts").document(docId).setData(feed) { err in
-                    if let err = err {
-                        print("Error adding document: \(err)")
-                    } else {
-                        print("Document added with ID: \(docId)")
-                    }
-                }
-            }
-        }
-        uploadTask.resume()
-    }
-    else{
-        print("no user logged in")
-    }
-    //transitionToConfirmation()
-}*/
-
 
 extension SecondCaptureViewController: AVCapturePhotoCaptureDelegate {
     

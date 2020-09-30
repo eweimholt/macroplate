@@ -15,11 +15,8 @@ class ConfirmationViewController: UIViewController {
     let confirmLabel : UILabel = {
         let label = UILabel()
         label.text = "Photo Submitted"
-        label.font = UIFont.systemFont(ofSize: 36)
-        label.textColor = .black
-        //label.layer.masksToBounds = true
-        //label.layer.cornerRadius = 30
-        //label.backgroundColor = .green
+        label.font = UIFont(name: "AvenirNext-Bold", size: 36)
+        label.textColor = .darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         return label
@@ -28,15 +25,15 @@ class ConfirmationViewController: UIViewController {
     let messageLabel : UILabel = {
         let label = UILabel()
         label.text = "Check back in a few days to see your results!"
-        label.font = UIFont.systemFont(ofSize: 18)
-        label.textColor = .black
+        label.font = UIFont(name: "AvenirNext", size: 18)
+        label.textColor = .darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 2
         return label
     }()
-  
+    
     let mailImage : UIImage = {
         let config = UIImage.SymbolConfiguration(pointSize: 5, weight: .regular, scale: .large)
         let cImage = UIImage(systemName: "envelope.badge", withConfiguration: config)?.withTintColor(UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1), renderingMode: .alwaysOriginal)
@@ -49,31 +46,22 @@ class ConfirmationViewController: UIViewController {
         cButton.translatesAutoresizingMaskIntoConstraints = false
        return cButton
     }()
-    
-    let backButton : UIButton = {
-       let cButton = UIButton(frame: CGRect(x: 100, y: 100, width: 70, height: 70))
-        cButton.setTitle("Back", for: .normal)
-        cButton.setTitleColor(.blue, for: .normal) // You can change the TitleColor
-        cButton.translatesAutoresizingMaskIntoConstraints = false
-       return cButton
-    }()
 
-      let doneButton : UIButton = {
-         let cButton = UIButton(frame: CGRect(x: 100, y: 100, width: 70, height: 70))
-          cButton.setTitle("Ok", for: .normal)
-          cButton.setTitleColor(.white, for: .normal) // You can change the TitleColor
-          cButton.backgroundColor = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
-          cButton.translatesAutoresizingMaskIntoConstraints = false
-         return cButton
-      }()
+    let doneButton : UIButton = {
+        let cButton = UIButton(frame: CGRect(x: 100, y: 100, width: 70, height: 70))
+        cButton.setTitle("Ok", for: .normal)
+        cButton.titleLabel?.font = UIFont(name: "AvenirNext", size: 18)
+        cButton.setTitleColor(.white, for: .normal) // You can change the TitleColor
+        cButton.backgroundColor = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
+        cButton.translatesAutoresizingMaskIntoConstraints = false
+        return cButton
+    }()
     
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
-        //view.addSubview(backButton)
+
         doneButton.addTarget(self, action: #selector(goToFeed), for: .touchUpInside)
         view.addSubview(doneButton)
         view.addSubview(confirmLabel)
@@ -83,7 +71,6 @@ class ConfirmationViewController: UIViewController {
         view.addSubview(mailButton)
         view.backgroundColor = .white
 
-        // Do any additional setup after loading the view.
         setUpLayout()
         
         Utilities.styleFilledButton(doneButton)
@@ -115,13 +102,11 @@ class ConfirmationViewController: UIViewController {
     }
     
     @IBAction func goBack(_ sender: Any) {
-        print("goBack")
         transitionToImageVC()
     }
     
     @IBAction func goToFeed(_ sender: Any) {
         transitionToHome()
-        //transitionToFeed()
     }
     
     func transitionToImageVC() {
@@ -134,25 +119,7 @@ class ConfirmationViewController: UIViewController {
         
     }
     
-    
-    
-    func transitionToFeed() {
-
-        let feedViewController = storyboard?.instantiateViewController(identifier: Constants.Storyboard.feedViewController) as? FeedViewController
-        
-        //swap out root view controller for the feed one
-        view.window?.rootViewController = feedViewController
-        view.window?.makeKeyAndVisible()
-
-            /*let feedVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "FeedVC") as! FeedViewController
-            DispatchQueue.main.async {
-                self.present(feedVC, animated: true, completion: nil)
-            }*/
-        
-    }
-    
     func transitionToHome() {
-        
 
         let homeViewController = storyboard?.instantiateViewController(identifier: Constants.Storyboard.homeViewController) as? HomeViewController
         

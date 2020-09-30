@@ -20,9 +20,9 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
     let screenSize: CGRect = UIScreen.main.bounds
     
     let backButton : UIButton = {
-       let cButton = UIButton(frame: CGRect(x: 100, y: 100, width: 70, height: 70))
+       let cButton = UIButton()
         cButton.setTitle("Back", for: .normal)
-        cButton.setTitleColor(.blue, for: .normal) // You can change the TitleColor
+        cButton.setTitleColor(.darkGray, for: .normal) // You can change the TitleColor
         cButton.translatesAutoresizingMaskIntoConstraints = false
        return cButton
     }()
@@ -30,11 +30,11 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
     var mealsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        layout.itemSize = CGSize(width: 300, height: 300)
+        //layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        //layout.itemSize = CGSize(width: 300, height: 300)
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = .white //UIColor.clear.withAlphaComponent(0)
-        cv.layer.cornerRadius = 20
+        //cv.layer.cornerRadius = 20
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(PostCell.self, forCellWithReuseIdentifier: "cell")
         cv.register(CleanPostCell.self, forCellWithReuseIdentifier: "clean")
@@ -50,7 +50,9 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         let label = UILabel()
         label.text = "Your Meals"
         label.font = UIFont.systemFont(ofSize: 40)
-        label.textColor = UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
+        label.font = UIFont.init(name: "AvenirNext-Bold", size: 40)
+        //label.textColor = UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
+        label.textColor = .darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         return label
@@ -151,6 +153,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
                         else {
                             //print("Post timestamp is nil, add view load accordingly here")
                             post.date = Date().toString()
+                            post.timestamp = TimeInterval()
                         }
                         
                         if post.isPlateEmpty == nil {
@@ -211,14 +214,6 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         }
     }
 
-    /*func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath) as? PostCell {
-            //cell.hideIcon()
-        }
-    }*/
-    
-    
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         
@@ -227,13 +222,18 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             
             cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
             cell.postButton.tag = indexPath.row // set tag
-            cell.headerButton.setTitle(self.posts[indexPath.row].date, for: .normal)
-            cell.indicator.setTitle(self.posts[indexPath.row].state, for: .normal)
+            
+            //cell.indicator.setTitle(self.posts[indexPath.row].state, for: .normal)
             
             
             cell.userTextInput = self.posts[indexPath.row].userTextInput
-            cell.date = self.posts[indexPath.row].date //need to add real timestamp
-            print("\(String(describing: self.posts[indexPath.row].date))")
+            cell.date = self.posts[indexPath.row].date
+            cell.timestamp = self.posts[indexPath.row].timestamp
+            
+            let weekdayDate = cell.timestamp?.getDateFromTimeInterval()
+            let weekday = weekdayDate?.dayOfWeek()!
+            let dateString = "\(weekday ?? ""), \(cell.date ?? "no date")"
+            cell.headerButton.setTitle(dateString, for: .normal)
             
             //set nutritional data
             cell.calories = self.posts[indexPath.row].calories
@@ -246,11 +246,96 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.postId = self.posts[indexPath.row].postId
             cell.healthDataEvent = self.posts[indexPath.row].healthDataEvent
             cell.isPlateEmpty = self.posts[indexPath.row].isPlateEmpty
-            print("\(String(describing: self.posts[indexPath.row].isPlateEmpty))")
-            
             cell.backgroundColor = UIColor.white
             cell.delegate = self
             cell.index = indexPath
+            
+            //cell.layer.borderColor = UIColor.black.cgColor
+            //cell.layer.borderWidth = 1
+           // cell.layer =
+            //cell.layer.cornerRadius = 8 // optional
+            return cell
+        }
+        
+        func setUpTrueCell() -> PostCell {
+            let cell = mealsCollectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! PostCell
+            
+            cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
+            cell.postButton.tag = indexPath.row // set tag
+            //cell.headerButton.setTitle(self.posts[indexPath.row].date, for: .normal)
+            //cell.indicator.setTitle(self.posts[indexPath.row].state, for: .normal)
+            cell.cleanPlateButton.isSelected = true
+            cell.leftoversButton.isSelected = false
+
+            cell.userTextInput = self.posts[indexPath.row].userTextInput
+            cell.date = self.posts[indexPath.row].date
+            cell.timestamp = self.posts[indexPath.row].timestamp
+            let weekdayDate = cell.timestamp?.getDateFromTimeInterval()
+            let weekday = weekdayDate?.dayOfWeek()!
+            let dateString = "\(weekday ?? ""), \(cell.date ?? "no date")"
+            cell.headerButton.setTitle(dateString, for: .normal)
+            //print("\(String(describing: self.posts[indexPath.row].date))")
+
+            //set nutritional data
+            cell.calories = self.posts[indexPath.row].calories
+            cell.carbs = self.posts[indexPath.row].carbs
+            cell.protein = self.posts[indexPath.row].protein
+            cell.fat = self.posts[indexPath.row].fat
+            
+            
+            cell.state = self.posts[indexPath.row].state
+            cell.postId = self.posts[indexPath.row].postId
+            cell.healthDataEvent = self.posts[indexPath.row].healthDataEvent
+            cell.isPlateEmpty = self.posts[indexPath.row].isPlateEmpty
+            cell.backgroundColor = UIColor.white
+            cell.delegate = self
+            cell.index = indexPath
+            
+            cell.layer.borderColor = UIColor.black.cgColor
+            cell.layer.borderWidth = 1
+            cell.layer.cornerRadius = 8 // optional
+            return cell
+        }
+        
+        func setUpFalseCell() -> PostCell {
+            let cell = mealsCollectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! PostCell
+            
+            cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
+            cell.postButton.tag = indexPath.row // set tag
+            cell.headerButton.setTitle(self.posts[indexPath.row].date, for: .normal)
+            //cell.indicator.setTitle(self.posts[indexPath.row].state, for: .normal)
+            cell.cleanPlateButton.isSelected = false
+            cell.leftoversButton.isSelected = true
+
+            cell.userTextInput = self.posts[indexPath.row].userTextInput
+            cell.date = self.posts[indexPath.row].date
+            cell.timestamp = self.posts[indexPath.row].timestamp
+            let weekdayDate = cell.timestamp?.getDateFromTimeInterval()
+            let weekday = weekdayDate?.dayOfWeek()!
+            let dateString = "\(weekday ?? ""), \(cell.date ?? "no date")"
+            cell.headerButton.setTitle(dateString, for: .normal)
+            //print("\(String(describing: self.posts[indexPath.row].date))")
+            
+            //set nutritional data
+            cell.calories = self.posts[indexPath.row].calories
+            cell.carbs = self.posts[indexPath.row].carbs
+            cell.protein = self.posts[indexPath.row].protein
+            cell.fat = self.posts[indexPath.row].fat
+            
+            
+            cell.state = self.posts[indexPath.row].state
+            cell.postId = self.posts[indexPath.row].postId
+            cell.healthDataEvent = self.posts[indexPath.row].healthDataEvent
+            cell.isPlateEmpty = self.posts[indexPath.row].isPlateEmpty
+            cell.backgroundColor = UIColor.white
+            cell.delegate = self
+            cell.index = indexPath
+            
+            cell.mealIsNotComplete()
+            
+            cell.layer.borderColor = UIColor.black.cgColor
+            cell.layer.borderWidth = 1
+            cell.layer.cornerRadius = 8 // optional
             return cell
         }
         
@@ -260,7 +345,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
             //cell.postButton.setTitle(self.posts[indexPath.row].state, for: .normal) //self.posts[indexPath.row].userTextInput
             cell.postButton.tag = indexPath.row // set tag
-            cell.headerButton.setTitle(self.posts[indexPath.row].date, for: .normal)
+            //cell.headerButton.setTitle(self.posts[indexPath.row].date, for: .normal)
             cell.indicator.setTitle(self.posts[indexPath.row].state, for: .normal)
             //this is just filler to conform to PostCellDelegate
             // cell.EOMImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
@@ -269,11 +354,19 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
                 cell.indicator.backgroundColor = UIColor.orange
             } else {
                 cell.indicator.backgroundColor = UIColor.systemGreen
+                cell.completeMealLabel.text = "Tap to View"
+                cell.cleanPlateImage.removeFromSuperview()
             }
             
             cell.userTextInput = self.posts[indexPath.row].userTextInput
             cell.date = self.posts[indexPath.row].date //need to add real timestamp
-            print("\(String(describing: self.posts[indexPath.row].date))")
+            cell.timestamp = self.posts[indexPath.row].timestamp
+            let weekdayDate = cell.timestamp?.getDateFromTimeInterval()
+            let weekday = weekdayDate?.dayOfWeek()!
+            let dateString = "\(weekday ?? ""), \(cell.date ?? "no date")"
+            cell.headerButton.setTitle(dateString, for: .normal)
+            //print("\(String(describing: self.posts[indexPath.row].date))")
+            //print(self.posts[indexPath.row].date.dayOfWeek()!) // Wednesday
             
             //set nutritional data
             cell.calories = self.posts[indexPath.row].calories
@@ -289,6 +382,10 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.delegate = self
             cell.index = indexPath
             //cell.btn1.tag = indexPath.row // set tag
+            
+            cell.layer.borderColor = UIColor.black.cgColor
+            cell.layer.borderWidth = 1
+            cell.layer.cornerRadius = 8 // optional
             return cell
         }
         
@@ -298,7 +395,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
             //cell.postButton.setTitle(self.posts[indexPath.row].state, for: .normal) //self.posts[indexPath.row].userTextInput
             cell.postButton.tag = indexPath.row // set tag
-            cell.headerButton.setTitle(self.posts[indexPath.row].date, for: .normal)
+            //cell.headerButton.setTitle(self.posts[indexPath.row].date, for: .normal)
             cell.indicator.setTitle(self.posts[indexPath.row].state, for: .normal)
             
             if self.posts[indexPath.row].state == "Pending" {
@@ -310,8 +407,13 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.EOMImage.downloadImage(from: self.posts[indexPath.row].pathToEOMImage)
             
             cell.userTextInput = self.posts[indexPath.row].userTextInput
-            cell.date = self.posts[indexPath.row].date //need to add real timestamp
-            print("\(String(describing: self.posts[indexPath.row].date))")
+            cell.date = self.posts[indexPath.row].date
+            cell.timestamp = self.posts[indexPath.row].timestamp
+            let weekdayDate = cell.timestamp?.getDateFromTimeInterval()
+            let weekday = weekdayDate?.dayOfWeek()!
+            let dateString = "\(weekday ?? ""), \(cell.date ?? "no date")"
+            cell.headerButton.setTitle(dateString, for: .normal)
+            //print("\(String(describing: self.posts[indexPath.row].date))")
             
             //set nutritional data
             cell.calories = self.posts[indexPath.row].calories
@@ -326,6 +428,11 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.backgroundColor = UIColor.white
             cell.delegate = self
             cell.index = indexPath
+            
+            cell.layer.borderColor = UIColor.black.cgColor
+            cell.layer.borderWidth = 1
+            cell.layer.cornerRadius = 8 // optional
+            
             return cell
         }
         
@@ -336,16 +443,17 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             case ("true"):
                 return setUpEmptyPlateCell()
             case ("false"):
-                return setUpEOMCell()
+                if self.posts[indexPath.row].pathToEOMImage == "DNE" {
+                    return setUpFalseCell()
+                } else {
+                    return setUpEOMCell() //setUpFalseCell() //
+                }
             default:
                 print("default")
-                return setUpInitialCell()
+                return setUpEmptyPlateCell()//setUpInitialCell()        
             }
         } else {
-            //setUpEmptyReady()
             return setUpEmptyPlateCell()
-            
-            //setUpTwoPhotosReady() TO DO
         }
 
         
@@ -370,14 +478,14 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
 }
 
 extension MealsViewController: EOMPostCellDelegate {
-    func didExpandEOMPost(image: UIImage, EOMImage: UIImage, date: String?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?, state: String?, postId: String?, healthDataEvent: String?, isPlateEmpty: String?) {
+    func didExpandEOMPost(image: UIImage, EOMImage: UIImage, date: String?, timestamp: TimeInterval?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?, state: String?, postId: String?, healthDataEvent: String?, isPlateEmpty: String?) {
         
         let postVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "PostVC") as! PostViewController
         //pass data to VC
         postVC.postImage = image
         //postVC.date = date! as NSDate
         postVC.userLabel.text = userText
-        postVC.dateText.text = date
+        postVC.date = date
         postVC.caloriesText.text = "Total Calories: \(calories ?? "pending")"
         postVC.carbs = carbs
         postVC.protein = protein
@@ -386,6 +494,7 @@ extension MealsViewController: EOMPostCellDelegate {
         postVC.postId = postId
         postVC.healthDataEvent = healthDataEvent
         postVC.isPlateEmpty = isPlateEmpty
+        postVC.timestamp = timestamp
         
         //FIXXXXX should be EOMimage but it's not working "Cannot find 'EOMimage' in scope
         postVC.EOMImage = EOMImage
@@ -402,13 +511,13 @@ extension MealsViewController: EOMPostCellDelegate {
 
 
 extension MealsViewController: CleanPostCellDelegate {
-    func didExpandCleanPost(image: UIImage, date: String?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?, state: String?, postId: String?, healthDataEvent: String?, isPlateEmpty: String?) {
+    func didExpandCleanPost(image: UIImage, date: String?, timestamp: TimeInterval?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?, state: String?, postId: String?, healthDataEvent: String?, isPlateEmpty: String?) {
         let postVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "PostVC") as! PostViewController
         //pass data to VC
         postVC.postImage = image
         //postVC.date = date! as NSDate
         postVC.userLabel.text = userText
-        postVC.dateText.text = date
+        postVC.date = date
         postVC.caloriesText.text = "Total Calories: \(calories ?? "pending")"
         postVC.carbs = carbs
         postVC.protein = protein
@@ -417,6 +526,7 @@ extension MealsViewController: CleanPostCellDelegate {
         postVC.postId = postId
         postVC.healthDataEvent = healthDataEvent
         postVC.isPlateEmpty = isPlateEmpty
+        postVC.timestamp = timestamp
         
         //FIXXXXX should be EOMimage but it's not working "Cannot find 'EOMimage' in scope
         //postVC.EOMImage = image
@@ -435,14 +545,14 @@ extension MealsViewController: CleanPostCellDelegate {
 
 extension MealsViewController: PostCellDelegate {
     //POST CELL DELEGATE
-    func didExpandPost(image: UIImage, date: String?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?, state : String?, postId : String?, healthDataEvent : String?, isPlateEmpty: String? ) {
+    func didExpandPost(image: UIImage, date: String?, timestamp: TimeInterval?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?, state : String?, postId : String?, healthDataEvent : String?, isPlateEmpty: String? ) {
         
         let postVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "PostVC") as! PostViewController
         //pass data to VC
         postVC.postImage = image
         //postVC.date = date! as NSDate
         postVC.userLabel.text = userText
-        postVC.dateText.text = date
+        postVC.date = date
         postVC.caloriesText.text = "Total Calories: \(calories ?? "pending")"
         postVC.carbs = carbs
         postVC.protein = protein
@@ -451,6 +561,7 @@ extension MealsViewController: PostCellDelegate {
         postVC.postId = postId
         postVC.healthDataEvent = healthDataEvent
         postVC.isPlateEmpty = isPlateEmpty
+        postVC.timestamp = timestamp
         
         //FIXXXXX should be EOMimage but it's not working "Cannot find 'EOMimage' in scope
         postVC.EOMImage = image
@@ -520,6 +631,26 @@ extension MealsViewController: PostCellDelegate {
 
     }
     
+    func didSelectCleanPlate() {
+         let alert = UIAlertController(title: "Save Meal Log?", message: "Just making sure.", preferredStyle: .alert)
+
+         alert.addAction(UIAlertAction(title: "Yes", style: .default) {action in
+             //update Firebase
+            // let plateIsEmpty = true//self.cleanPlateButton.isSelected.description
+            //self.mealsCollectionView.reloadData()
+             //self.updateFirebaseSecondMeal(value: plateIsEmpty)
+            //completeMealLabel.removeFromSuperview()
+            //UPDATE VIEW
+            
+             
+         })
+         
+         alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+         
+         //let mealsVC = storyboard?.instantiateViewController(identifier: Constants.Storyboard.mealsViewController) as? MealsViewController
+         
+         present(alert, animated: true)
+     }
 }
 
 extension UIImageView {
@@ -575,6 +706,17 @@ extension TimeInterval{
         let dateString = dateFormatter.string(from: date as Date)
         return dateString
     }
+
+}
+
+extension TimeInterval{
+    
+    func getDateFromTimeInterval() -> NSDate {
+        let date = NSDate(timeIntervalSince1970: self)
+        print("returning NSDate")
+        return date
+        
+    }
 }
 
 
@@ -585,5 +727,22 @@ extension Date
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = Constants.dateFormatAs
         return dateFormatter.string(from: self)
+    }
+    
+    /*func dayOfWeek() -> String? {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "EEEE"
+            return dateFormatter.string(from: self).capitalized
+            // or use capitalized(with: locale) if you want
+    }*/
+
+}
+
+extension NSDate {
+    func dayOfWeek() -> String? {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "EEEE"
+            return dateFormatter.string(from: self as Date).capitalized
+            // or use capitalized(with: locale) if you want
     }
 }

@@ -26,7 +26,7 @@ struct Constants {
         static let currentUser = "currentUser"
     }
     
-    static let dateFormatAs = "MM/dd/yy, HH:mm"
+    static let dateFormatAs = "M/dd HH:mm"//"MM/dd/yy, HH:mm"
     
     //post variables
     static let headerElementHeight = 30

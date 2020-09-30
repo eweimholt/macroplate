@@ -224,9 +224,9 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         transparentBackground.topAnchor.constraint(equalTo: cameraView.topAnchor).isActive = true
         transparentBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         transparentBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        transparentBackground.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: -CGFloat(w)).isActive = true
+        transparentBackground.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: -CGFloat(w*8/10)).isActive = true
         
-        transparentBackground2.topAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(w)).isActive = true
+        transparentBackground2.topAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(w*10/8)).isActive = true
         transparentBackground2.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         transparentBackground2.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         transparentBackground2.bottomAnchor.constraint(equalTo: cameraView.bottomAnchor).isActive = true

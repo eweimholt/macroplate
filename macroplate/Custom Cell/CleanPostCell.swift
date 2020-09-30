@@ -13,7 +13,7 @@ import Firebase
 
 protocol CleanPostCellDelegate {
     //commands that we give to PostViewController
-    func didExpandCleanPost(image: UIImage, date: String?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?,state : String?, postId : String?, healthDataEvent: String?, isPlateEmpty: String?)
+    func didExpandCleanPost(image: UIImage, date: String?, timestamp: TimeInterval?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?,state : String?, postId : String?, healthDataEvent: String?, isPlateEmpty: String?)
     
     func didDeletePost(index: Int)
     
@@ -70,7 +70,7 @@ class CleanPostCell: UICollectionViewCell {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.clipsToBounds = true
-        button.layer.cornerRadius = 15
+        //button.layer.cornerRadius = 15
         button.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.0)
         button.setTitleColor(.darkGray, for: .normal)
         button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 18)
@@ -102,6 +102,34 @@ class CleanPostCell: UICollectionViewCell {
         return dButton
     }()
     
+    /*let completeMealLabel : UIButton = {
+        let cButton = UIButton()
+        cButton.setTitleColor(.gray, for: .normal) // You can change the TitleColor
+        cButton.setTitle("Meal Log Complete", for: .normal)
+        cButton.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 20)
+        //cButton.setFont(
+        cButton.translatesAutoresizingMaskIntoConstraints = false
+        cButton.contentHorizontalAlignment = .center
+        //let cImage = UIImage(systemName: "seal")?.withTintColor(UIColor.white, renderingMode: .alwaysOriginal)
+        //cButton.setImage(cImage, for: .normal)
+        //cButton.backgroundColor = UIColor.orange
+        cButton.clipsToBounds = true
+        cButton.layer.cornerRadius = 15
+        return cButton
+    }()*/
+    
+    var completeMealLabel = MealCompleteLabel()
+    
+    let cleanPlateImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image =  UIImage(named: "cleanplate")
+        return imageView
+    }()
+
+    
     
     
     override init(frame: CGRect) {
@@ -109,10 +137,12 @@ class CleanPostCell: UICollectionViewCell {
 
         contentView.addSubview(headerButton)
 
-        contentView.addSubview(indicator)
-        
+        //contentView.addSubview(indicator)
+        contentView.addSubview(completeMealLabel)
         contentView.addSubview(postImage)
+        contentView.addSubview(cleanPlateImage)
             
+        
         contentView.addSubview(postButton)
         postButton.addTarget(self, action: #selector(expandPost), for: .touchUpInside)
 
@@ -130,11 +160,11 @@ class CleanPostCell: UICollectionViewCell {
     
     @IBAction func expandPost() {
 
-        if let userTextInput = userTextInput, let _ = postImage.image, let calories = calories, let carbs = carbs, let protein = protein, let fat = fat, let state = state, let postId = postId, let healthDataEvent = healthDataEvent, let isPlateEmpty = isPlateEmpty {
+        if let userTextInput = userTextInput, let _ = postImage.image, let calories = calories, let carbs = carbs, let protein = protein, let fat = fat, let state = state, let postId = postId, let healthDataEvent = healthDataEvent, let isPlateEmpty = isPlateEmpty, let timestamp = timestamp {
             if date == nil {
-                delegate?.didExpandCleanPost(image: postImage.image!, date: "", userText: userTextInput, calories: calories, carbs: carbs, protein: protein, fat: fat, state : state, postId: postId, healthDataEvent: healthDataEvent, isPlateEmpty: isPlateEmpty)
+                delegate?.didExpandCleanPost(image: postImage.image!, date: "", timestamp: timestamp, userText: userTextInput, calories: calories, carbs: carbs, protein: protein, fat: fat, state : state, postId: postId, healthDataEvent: healthDataEvent, isPlateEmpty: isPlateEmpty)
             } else {
-                delegate?.didExpandCleanPost(image: postImage.image!, date: date, userText: userTextInput, calories: calories, carbs: carbs, protein: protein, fat: fat, state : state, postId: postId, healthDataEvent: healthDataEvent, isPlateEmpty: isPlateEmpty)
+                delegate?.didExpandCleanPost(image: postImage.image!, date: date, timestamp: timestamp, userText: userTextInput, calories: calories, carbs: carbs, protein: protein, fat: fat, state : state, postId: postId, healthDataEvent: healthDataEvent, isPlateEmpty: isPlateEmpty)
             }
         } else {
             print("nil abort avoided :) ")
@@ -157,18 +187,20 @@ extension CleanPostCell {
         
        // let screenSize: CGRect = UIScreen.main.bounds
         
-        //let cellWidth = contentView.frame.width
-       // let cellHeight = contentView.frame.height
+        let cellWidth = contentView.frame.width
+        let cellHeight = contentView.frame.height
         
-        //let imageWidth = cellWidth
+        let imageWidth = cellWidth*0.40
         let headerHeight = CGFloat(35)
         let headerElementHeight = headerHeight - 5
         let padding = CGFloat(15)
         //BEFORE IMAGE
         postImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight).isActive = true
         postImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding).isActive = true
-        postImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -padding).isActive = true
-        postImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding).isActive = true
+        postImage.heightAnchor.constraint(equalToConstant: imageWidth).isActive = true
+        postImage.widthAnchor.constraint(equalToConstant: imageWidth).isActive = true
+        //postImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -padding).isActive = true
+        //postImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding).isActive = true
         
         postButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         postButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
@@ -183,13 +215,25 @@ extension CleanPostCell {
         headerButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         headerButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding).isActive = true
         headerButton.heightAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
-        headerButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        headerButton.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -padding).isActive = true
+        //headerButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
         //headerButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,).isActive = true
         
-        indicator.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        /*indicator.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         indicator.widthAnchor.constraint(equalToConstant: 105).isActive = true
         indicator.heightAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
-        indicator.leadingAnchor.constraint(equalTo: headerButton.trailingAnchor, constant: 10).isActive = true
+        indicator.leadingAnchor.constraint(equalTo: headerButton.trailingAnchor, constant: 10).isActive = true*/
+        
+        completeMealLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight).isActive = true
+        completeMealLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding).isActive = true
+        completeMealLabel.heightAnchor.constraint(equalToConstant: headerElementHeight*3).isActive = true
+        completeMealLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:  cellWidth*0.50).isActive = true
+        
+        cleanPlateImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerElementHeight*4).isActive = true
+        //leftoverImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:  cellWidth*0.50).isActive = true
+        cleanPlateImage.centerXAnchor.constraint(equalTo: completeMealLabel.centerXAnchor).isActive = true
+        cleanPlateImage.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        cleanPlateImage.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         
     }
