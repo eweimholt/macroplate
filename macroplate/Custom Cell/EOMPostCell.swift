@@ -180,8 +180,6 @@ class EOMPostCell: UICollectionViewCell {
         contentView.addSubview(deleteButton)
         deleteButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
         
-        
-
         setup()
     }
     
@@ -206,10 +204,6 @@ class EOMPostCell: UICollectionViewCell {
     @IBAction func deletePost() {
         delegate?.didDeletePost(index: index!.row)
     }
-    
-    /*@IBAction func tapEOMPhoto() {
-        delegate?.didTapEOMPhoto(index: index!.row)
-    }*/
 
 }
 
@@ -232,17 +226,17 @@ extension EOMPostCell {
         let imageWidth = cellWidth*0.40
         
         //BEFORE IMAGE
-        postImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight).isActive = true
+        postImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight + padding*0.6).isActive = true
         postImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding).isActive = true
         postImage.heightAnchor.constraint(equalToConstant: imageWidth).isActive = true
         postImage.widthAnchor.constraint(equalToConstant: imageWidth).isActive = true
         
-        postButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        postButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight + padding*0.6).isActive = true
         postButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
         postButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -padding).isActive = true
         postButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         
-        deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding*0.5).isActive = true
         deleteButton.widthAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
         deleteButton.heightAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
         deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding).isActive = true
@@ -253,7 +247,7 @@ extension EOMPostCell {
         EOMImage.heightAnchor.constraint(equalToConstant: imageWidth).isActive = true
         EOMImage.widthAnchor.constraint(equalToConstant: imageWidth).isActive = true
         
-        headerButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        headerButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding*0.5).isActive = true
         headerButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding).isActive = true
         headerButton.heightAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
         //headerButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
@@ -264,18 +258,16 @@ extension EOMPostCell {
         indicator.heightAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
         indicator.leadingAnchor.constraint(equalTo: headerButton.trailingAnchor, constant: 10).isActive = true*/
         
-        completeMealLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight).isActive = true
+        completeMealLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight + padding).isActive = true
         completeMealLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding).isActive = true
         completeMealLabel.heightAnchor.constraint(equalToConstant: headerElementHeight*3).isActive = true
         completeMealLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:  cellWidth*0.50).isActive = true
         
-        leftoverImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerElementHeight*4).isActive = true
-        //leftoverImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:  cellWidth*0.50).isActive = true
+        leftoverImage.topAnchor.constraint(equalTo: completeMealLabel.bottomAnchor).isActive = true
         leftoverImage.centerXAnchor.constraint(equalTo: completeMealLabel.centerXAnchor).isActive = true
         leftoverImage.widthAnchor.constraint(equalToConstant: 50).isActive = true
         leftoverImage.heightAnchor.constraint(equalToConstant: 37.5).isActive = true
-        //leftoverImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding).isActive = true
-        //leftoverImage.heightAnchor.constraint(equalToConstant: headerElementHeight*3).isActive = true
+
         
 
     }

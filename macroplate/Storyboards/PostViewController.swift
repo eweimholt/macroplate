@@ -63,7 +63,7 @@ class PostViewController: UIViewController {
      textView.textAlignment = .left
      textView.font    = UIFont(name: "AvenirNext-Bold", size: 28)
      textView.textColor = .darkGray
-     textView.backgroundColor = .cyan
+     textView.backgroundColor = .white
      textView.translatesAutoresizingMaskIntoConstraints = false
      return textView
      }()
@@ -79,43 +79,6 @@ class PostViewController: UIViewController {
         return textView
     }()
     
-    var caloriesText : UILabel = {
-        let textView = UILabel()
-        textView.textAlignment = .center
-        textView.font = UIFont(name: "AvenirNext-Bold", size: 18)
-        textView.textColor = UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        return textView
-    }()
-    
-    var carbsText : UILabel = {
-        let textView = UILabel()
-        textView.textAlignment = .center
-        textView.font    = UIFont(name: "AvenirNext-Regular", size: 18)
-        textView.textColor = .black
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        return textView
-    }()
-    
-    var proteinText : UILabel = {
-        let textView = UILabel()
-        textView.textAlignment = .center
-        textView.font    = UIFont(name: "AvenirNext-Regular", size: 18)
-        textView.textColor = .black
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        return textView
-    }()
-    
-    var fatText : UILabel = {
-        let textView = UILabel()
-        textView.textAlignment = .center
-        textView.font    = UIFont(name: "AvenirNext-Regular", size: 18)
-        textView.textColor = .black
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        return textView
-    }()
-    
-    
     let pendingText : UILabel = {
         let label = UILabel()
         var text = """
@@ -124,25 +87,17 @@ class PostViewController: UIViewController {
         """
         label.text = text
         label.font = UIFont(name: "AvenirNext-Regular", size: 18)
-        label.textColor = UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
+        label.textColor = .darkGray//UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 2
+        label.backgroundColor = UIColor(displayP3Red: 188/255, green: 188/255, blue: 188/255, alpha: 1)
+        label.clipsToBounds = true
+        label.layer.cornerRadius = 15
         return label
     }()
 
-    let annotatedView : UIImageView = {
-        let imageView = UIImageView(frame: CGRect(x: 35, y: 420, width: 120, height: 120))
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.backgroundColor = .white
-        imageView.layer.cornerRadius = 20
-        return imageView
-    }()
-    
-    
     let healthButton : UIButton = {
         let button = UIButton(frame: CGRect(x: 70, y: 600, width: 300, height: 50))
         button.setTitle("View in Apple Health", for: .normal)
@@ -174,23 +129,36 @@ class PostViewController: UIViewController {
         return sView
     }()
     
+    let summaryTableView : UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.isScrollEnabled = false
+        tableView.clipsToBounds = true
+        tableView.layer.cornerRadius = 15
+        tableView.isEditing = false
+        //tableView.register(NutritionCell.self, forCellReuseIdentifier: "tablecell")
+        return tableView
+    }()
+    //TABLE VIEW DATA
+    var characters = ["Link", "Zelda", "Ganondorf", "Midna"]
+    
+    var nutrition : [Nutrition] = [Nutrition]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         authorizeHealthKitInApp()
         
+        //FORMATTING
         view.backgroundColor = .white
-        
         let weekdayDate = timestamp?.getDateFromTimeInterval()
-        //print("weekdayDate from PostVC = \(weekdayDate)")
         weekday = weekdayDate?.dayOfWeek()!
-        //print(weekday ?? "weekday didnt work")
-        
+
         if state == "Pending" {
             switch isPlateEmpty {
             case ("initial"):
                 setUpInitial()
             case ("true"):
-                setUpEmptyPlate()
+                setUpCleanPlate()
             case ("false"):
                 setUpTwoPhotos()
             default:
@@ -198,128 +166,200 @@ class PostViewController: UIViewController {
                 setUpInitial()
             }
         } else {
-            setUpEmptyReady()
-            
-            //setUpTwoPhotosReady() TO DO
+            if isPlateEmpty == "false" {
+                setUpTwoPhotosReady() //TO DO
+            } else {
+                setUpEmptyReady()
+            }
         }
     }
     
     func setUpEmptyReady() {
-        stackView.addArrangedSubview(postImageView)
+        
+        //NUTRITION DATA
+        createNutritionArray()
+        summaryTableView.register(NutritionCell.self, forCellReuseIdentifier: "tablecell")
+        
+        //CALCULATIONS
         postImageView.image = postImage
-        stackView.addArrangedSubview(dateText)
-        stackView.addArrangedSubview(userLabel)
+        dateText.text = "\(weekday ?? ""), \(date ?? "no date")"
         
-        self.stackView.addArrangedSubview(caloriesText)
-        self.stackView.addArrangedSubview(carbsText)
-        self.stackView.addArrangedSubview(proteinText)
-        self.stackView.addArrangedSubview(fatText)
-        self.stackView.addArrangedSubview(healthButton)
-        self.view.addSubview(stackView)
         
-        stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-        stackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20).isActive = true
-        stackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20).isActive = true
-        
+        //LOAD VIEW
+        view.addSubview(dateText)
+        postImageView.image = postImage
+        view.addSubview(postImageView)
+        //TABLE VIEW
+        view.addSubview(summaryTableView)
+        summaryTableView.dataSource = self
+        //summaryTableView.delegate = self
+        view.addSubview(healthButton)
         healthButton.addTarget(self, action: #selector(healthButtonTapped), for: .touchUpInside)
         Utilities.styleFilledButton(healthButton)
-        
-        carbsText.text = "Carbs: \(carbs ?? "") g"
-        carbsText.textAlignment = .center
-        carbsText.textColor = .systemRed
-        
-        proteinText.text = "Protein: \(protein ?? "") g"
-        proteinText.textAlignment = .center
-        proteinText.textColor = .systemGreen
-        
-        fatText.text = "Fat: \(fat ?? "") g"
-        fatText.textAlignment = .center
-        fatText.textColor = .systemBlue
 
-        postImageView.widthAnchor.constraint(equalToConstant: self.view.frame.width - 80).isActive = true
-        postImageView.heightAnchor.constraint(equalToConstant: self.view.frame.width - 80).isActive = true
+        //setUpLayout
+        let cellWidth = self.view.frame.width
+        let padding = CGFloat(20)
+        let photoWidth = cellWidth - 6*padding
+        let height = CGFloat(50)
+   
+        //CONSTRAINTS
+        dateText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding).isActive = true
+        dateText.topAnchor.constraint(equalTo: view.topAnchor, constant: padding).isActive = true
+        dateText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding).isActive = true
+        dateText.heightAnchor.constraint(equalToConstant: height).isActive = true
 
-        dateText.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        dateText.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        postImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        postImageView.topAnchor.constraint(equalTo: dateText.bottomAnchor, constant: padding).isActive = true
+        postImageView.widthAnchor.constraint(equalToConstant: photoWidth).isActive = true
+        postImageView.heightAnchor.constraint(equalToConstant: photoWidth).isActive = true
         
-        userLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        userLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        summaryTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        summaryTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        summaryTableView.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: 40).isActive = true
+        //summaryTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
+        summaryTableView.heightAnchor.constraint(equalToConstant: 175).isActive = true
         
-        caloriesText.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        caloriesText.heightAnchor.constraint(equalToConstant: 30).isActive = true
-
-        carbsText.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        carbsText.heightAnchor.constraint(equalToConstant: 30).isActive = true
-
-        proteinText.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        proteinText.heightAnchor.constraint(equalToConstant: 30).isActive = true
-
-        fatText.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        fatText.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        
-        healthButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        healthButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40).isActive = true
+        healthButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40).isActive = true
+        healthButton.topAnchor.constraint(equalTo: summaryTableView.bottomAnchor, constant: 40).isActive = true
+        //summaryTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
         healthButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+ 
+        checkHealthDataEvent()
+    }
+    
+    func setUpTwoPhotosReady() {
+        
+        //NUTRITION DATA
+        createNutritionArray()
+        summaryTableView.register(NutritionCell.self, forCellReuseIdentifier: "tablecell")
+        
+        //CALCULATIONS
+        postImageView.image = postImage
+        dateText.text = "\(weekday ?? ""), \(date ?? "no date")"
+        
+        
+        //LOAD VIEW
+        view.addSubview(dateText)
+        postImageView.image = postImage
+        view.addSubview(postImageView)
+        EOMImageView.image = EOMImage
+        view.addSubview(EOMImageView)
+        //TABLE VIEW
+        view.addSubview(summaryTableView)
+        summaryTableView.dataSource = self
+        view.addSubview(healthButton)
+        healthButton.addTarget(self, action: #selector(healthButtonTapped), for: .touchUpInside)
+        Utilities.styleFilledButton(healthButton)
 
+        //setUpLayout
+        let cellWidth = self.view.frame.width
+        let padding = CGFloat(20)
+        let photoWidth = cellWidth / 2 - 3/2*padding //cellWidth - 6*padding
+        let height = CGFloat(50)
+   
+        //CONSTRAINTS
+        dateText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding).isActive = true
+        dateText.topAnchor.constraint(equalTo: view.topAnchor, constant: padding).isActive = true
+        dateText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding).isActive = true
+        dateText.heightAnchor.constraint(equalToConstant: height).isActive = true
+
+        postImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding).isActive = true
+        postImageView.topAnchor.constraint(equalTo: dateText.bottomAnchor, constant: padding).isActive = true
+        postImageView.widthAnchor.constraint(equalToConstant: photoWidth).isActive = true
+        postImageView.heightAnchor.constraint(equalToConstant: photoWidth).isActive = true
+        
+        EOMImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding).isActive = true
+        EOMImageView.topAnchor.constraint(equalTo: dateText.bottomAnchor, constant: padding).isActive = true
+        EOMImageView.widthAnchor.constraint(equalToConstant: photoWidth).isActive = true
+        EOMImageView.heightAnchor.constraint(equalToConstant: photoWidth).isActive = true
+        
+        summaryTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        summaryTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        summaryTableView.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: 40).isActive = true
+        //summaryTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
+        summaryTableView.heightAnchor.constraint(equalToConstant: 175).isActive = true
+        
+        healthButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40).isActive = true
+        healthButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40).isActive = true
+        healthButton.topAnchor.constraint(equalTo: summaryTableView.bottomAnchor, constant: 40).isActive = true
+        //summaryTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
+        healthButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+ 
         checkHealthDataEvent()
     }
     
     func setUpInitial() {
-        stackView.addArrangedSubview(postImageView)
         postImageView.image = postImage
         
-        stackView.addArrangedSubview(dateText)
-        stackView.addArrangedSubview(userLabel)
-        stackView.addArrangedSubview(pendingText)
-        stackView.addArrangedSubview(captureSecondPhotoButton)
-        self.view.addSubview(stackView)
+        dateText.text = "\(weekday ?? ""), \(date ?? "no date")"
         
-        stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-        stackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 40).isActive = true
-
+        view.addSubview(dateText)
+        view.addSubview(pendingText)
+        view.addSubview(postImageView)
+        view.addSubview(captureSecondPhotoButton)
+        captureSecondPhotoButton.addTarget(self, action: #selector(secondCaptureButtonTapped), for: .touchUpInside)
+        
+        
         //setUpLayout
-        postImageView.widthAnchor.constraint(equalToConstant: self.view.frame.width - 80).isActive = true
-        postImageView.heightAnchor.constraint(equalToConstant: self.view.frame.width - 80).isActive = true
+        let cellWidth = self.view.frame.width
+        let padding = CGFloat(20)
+        let photoWidth = cellWidth / 2 - 3/2*padding
+        let height = CGFloat(50)
+   
+        dateText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding).isActive = true
+        dateText.topAnchor.constraint(equalTo: view.topAnchor, constant: padding).isActive = true
+        dateText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding).isActive = true
+        dateText.heightAnchor.constraint(equalToConstant: height).isActive = true
 
-        dateText.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        dateText.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        postImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding).isActive = true
+        postImageView.topAnchor.constraint(equalTo: dateText.bottomAnchor, constant: padding).isActive = true
+        postImageView.widthAnchor.constraint(equalToConstant: photoWidth).isActive = true
+        postImageView.heightAnchor.constraint(equalToConstant: photoWidth).isActive = true
         
-        userLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        userLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        captureSecondPhotoButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding).isActive = true
+        captureSecondPhotoButton.topAnchor.constraint(equalTo: dateText.bottomAnchor, constant: padding).isActive = true
+        captureSecondPhotoButton.widthAnchor.constraint(equalToConstant: photoWidth).isActive = true
+        captureSecondPhotoButton.heightAnchor.constraint(equalToConstant: photoWidth).isActive = true
         
-        pendingText.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        pendingText.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        
-        captureSecondPhotoButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        captureSecondPhotoButton.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        pendingText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        pendingText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        pendingText.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: 2*padding).isActive = true
+        pendingText.heightAnchor.constraint(equalToConstant: 175).isActive = true
     }
-    
-    func setUpEmptyPlate() {
-        stackView.addArrangedSubview(postImageView)
+
+    func setUpCleanPlate() {
         postImageView.image = postImage
         
-        stackView.addArrangedSubview(dateText)
-        stackView.addArrangedSubview(userLabel)
-        stackView.addArrangedSubview(pendingText)
-        stackView.addArrangedSubview(captureSecondPhotoButton)
-        self.view.addSubview(stackView)
+        dateText.text = "\(weekday ?? ""), \(date ?? "no date")"
         
-        stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-        stackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 40).isActive = true
+        view.addSubview(dateText)
+        view.addSubview(pendingText)
+        view.addSubview(postImageView)
 
         //setUpLayout
-        postImageView.widthAnchor.constraint(equalToConstant: self.view.frame.width - 80).isActive = true
-        postImageView.heightAnchor.constraint(equalToConstant: self.view.frame.width - 80).isActive = true
+        let cellWidth = self.view.frame.width
+        let padding = CGFloat(20)
+        let photoWidth = cellWidth - 6*padding
+        let height = CGFloat(50)
+   
+        dateText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding).isActive = true
+        dateText.topAnchor.constraint(equalTo: view.topAnchor, constant: padding).isActive = true
+        dateText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding).isActive = true
+        dateText.heightAnchor.constraint(equalToConstant: height).isActive = true
 
-        dateText.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        dateText.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        postImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        postImageView.topAnchor.constraint(equalTo: dateText.bottomAnchor, constant: padding).isActive = true
+        postImageView.widthAnchor.constraint(equalToConstant: photoWidth).isActive = true
+        postImageView.heightAnchor.constraint(equalToConstant: photoWidth).isActive = true
         
-        userLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        userLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        pendingText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        pendingText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        pendingText.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: 2*padding).isActive = true
+        pendingText.heightAnchor.constraint(equalToConstant: 175).isActive = true
         
-        pendingText.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        pendingText.heightAnchor.constraint(equalToConstant: 100).isActive = true
     }
-    
     func setUpTwoPhotos() {
         
         postImageView.image = postImage
@@ -327,13 +367,9 @@ class PostViewController: UIViewController {
         dateText.text = "\(weekday ?? ""), \(date ?? "no date")"
         
         view.addSubview(dateText)
-        stackView.addArrangedSubview(userLabel)
-        stackView.addArrangedSubview(pendingText)
+        view.addSubview(pendingText)
         EOMImageView.image = EOMImage
-        //stackView.addArrangedSubview(captureSecondPhotoButton)
-        self.view.addSubview(stackView)
         view.addSubview(postImageView)
-        
         view.addSubview(EOMImageView)
         
         //setUpLayout
@@ -357,15 +393,11 @@ class PostViewController: UIViewController {
         EOMImageView.widthAnchor.constraint(equalToConstant: photoWidth).isActive = true
         EOMImageView.heightAnchor.constraint(equalToConstant: photoWidth).isActive = true
         
-        stackView.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: padding).isActive = true
-        stackView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        
-        
-        //userLabel.widthAnchor.constraint(equalToConstant: cellWidth).isActive = true
-        //userLabel.heightAnchor.constraint(equalToConstant: height).isActive = true
-        
-        //pendingText.widthAnchor.constraint(equalToConstant: cellWidth).isActive = true
-        //pendingText.heightAnchor.constraint(equalToConstant: height*2).isActive = true
+        pendingText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        pendingText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        pendingText.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: 2*padding).isActive = true
+        pendingText.heightAnchor.constraint(equalToConstant: 175).isActive = true
+
     }
 
     func checkHealthDataEvent() {
@@ -391,17 +423,15 @@ class PostViewController: UIViewController {
             print("data already saved to HealthKit")
         }
     }
+
+    @IBAction func secondCaptureButtonTapped(_ sender: Any) {
+        print("second capture button tapped")
+        let secondVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "SecondVC") as! SecondCaptureViewController
+        secondVC.postId = postId
     
-   /* private func setUpLayout() {
-        postImageView.widthAnchor.constraint(equalToConstant: self.view.frame.width - 80).isActive = true
-        postImageView.heightAnchor.constraint(equalToConstant: self.view.frame.width - 80).isActive = true
-        
-        dateText.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        dateText.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        userLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        userLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-    }*/
+        view.window?.rootViewController = secondVC
+        view.window?.makeKeyAndVisible()
+    }
     
     @IBAction func healthButtonTapped(_ sender: Any) {
         
@@ -448,7 +478,7 @@ class PostViewController: UIViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = Constants.dateFormatAs //"MMMM dd, yyyy HH:mm a"
         
-        guard let today = dateFormatter.date(from: self.dateText.text!) else {
+        guard let today = dateFormatter.date(from: self.date!) else {
            fatalError("ERROR: Date conversion failed due to mismatched format.")
         }
 
@@ -481,3 +511,38 @@ class PostViewController: UIViewController {
 
     }
 }
+
+extension PostViewController: UITableViewDataSource {
+    
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return 4
+    //return nutrition.count
+  }
+    
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: "tablecell", for: indexPath) as! NutritionCell
+    let currentItem = nutrition[indexPath.row]
+    cell.backgroundColor = .gray
+    //cell.textLabel?.font =
+    cell.selectionStyle = .none
+    cell.textLabel?.text = currentItem.nutritionTitle
+    cell.nutritionNameLabel.text = currentItem.nutritionUnit
+    cell.nutrition = currentItem
+    return cell
+  }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+       return 100 //UITableView.automaticDimension
+    }
+    
+    func createNutritionArray() {
+        /*if calories == nil {
+            return calories = "10"
+        }*/
+        nutrition.append(Nutrition(nutritionTitle: "Calories: \(calories ?? "")", nutritionValue: "10", nutritionUnit: "kJ"))
+        nutrition.append(Nutrition(nutritionTitle: "Carbs: \(carbs ?? "") g", nutritionValue: "10", nutritionUnit: "g"))
+        nutrition.append(Nutrition(nutritionTitle: "Protein: \(protein ?? "") g", nutritionValue: "10", nutritionUnit: "g"))
+        nutrition.append(Nutrition(nutritionTitle: "Fat: \(fat ?? "") g", nutritionValue: "10", nutritionUnit: "g"))
+    }
+}
+

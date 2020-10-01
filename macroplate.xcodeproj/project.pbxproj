@@ -36,6 +36,8 @@
 		015DC2EC24D8D2FC003AF428 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 015DC2EA24D8D2FC003AF428 /* GoogleService-Info.plist */; };
 		015DC2ED24D8D2FC003AF428 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 015DC2EA24D8D2FC003AF428 /* GoogleService-Info.plist */; };
 		0162B6BE252500D900778EA2 /* MealCompleteLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0162B6BD252500D900778EA2 /* MealCompleteLabel.swift */; };
+		0162B6C625257DD100778EA2 /* Nutrition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0162B6C525257DD100778EA2 /* Nutrition.swift */; };
+		0162B6CB252580D500778EA2 /* NutritionTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0162B6CA252580D500778EA2 /* NutritionTableCell.swift */; };
 		01812DE624C0A38A00F92531 /* FakeFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01812DE524C0A38A00F92531 /* FakeFeedViewController.swift */; };
 		018D937424D089A700E0873C /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018D937324D089A700E0873C /* PostViewController.swift */; };
 		0194EE922495222A00152EE0 /* customalbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0194EE912495222A00152EE0 /* customalbum.swift */; };
@@ -111,6 +113,8 @@
 		015041D624B4CC5D005F4B15 /* UserButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserButton.swift; sourceTree = "<group>"; };
 		015DC2EA24D8D2FC003AF428 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0162B6BD252500D900778EA2 /* MealCompleteLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCompleteLabel.swift; sourceTree = "<group>"; };
+		0162B6C525257DD100778EA2 /* Nutrition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Nutrition.swift; path = macroplate/Controllers/Feed/Nutrition.swift; sourceTree = SOURCE_ROOT; };
+		0162B6CA252580D500778EA2 /* NutritionTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NutritionTableCell.swift; path = "macroplate/Custom Cell/NutritionTableCell.swift"; sourceTree = SOURCE_ROOT; };
 		01812DE524C0A38A00F92531 /* FakeFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeFeedViewController.swift; sourceTree = "<group>"; };
 		018D937324D089A700E0873C /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostViewController.swift; path = macroplate/Storyboards/PostViewController.swift; sourceTree = SOURCE_ROOT; };
 		0194EE912495222A00152EE0 /* customalbum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customalbum.swift; sourceTree = "<group>"; };
@@ -200,6 +204,7 @@
 		01983B5024CB3E5500882883 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0162B6C525257DD100778EA2 /* Nutrition.swift */,
 				01C25ACB24CCD5E100BBEF68 /* Post.swift */,
 			);
 			path = Models;
@@ -269,6 +274,7 @@
 			children = (
 				01D508CD2516B2BB00E29764 /* SecondImageViewController.swift */,
 				018D937324D089A700E0873C /* PostViewController.swift */,
+				0162B6CA252580D500778EA2 /* NutritionTableCell.swift */,
 				01FDDDA824CCD00C0032C23D /* MealsViewController.swift */,
 				01D508CB25154FA100E29764 /* SecondCaptureViewController.swift */,
 			);
@@ -659,6 +665,7 @@
 			files = (
 				01A4584B24E395A2008502A9 /* MainNavigationController.swift in Sources */,
 				01380892248C6C6C003A9ECF /* LoginViewController.swift in Sources */,
+				0162B6C625257DD100778EA2 /* Nutrition.swift in Sources */,
 				01FDDDA924CCD00C0032C23D /* MealsViewController.swift in Sources */,
 				0194EE922495222A00152EE0 /* customalbum.swift in Sources */,
 				015041CF24B28497005F4B15 /* UserViewController.swift in Sources */,
@@ -685,6 +692,7 @@
 				01D508CE2516B2BB00E29764 /* SecondImageViewController.swift in Sources */,
 				01D508CC25154FA100E29764 /* SecondCaptureViewController.swift in Sources */,
 				01F55F97248C843F00104DAB /* Constants.swift in Sources */,
+				0162B6CB252580D500778EA2 /* NutritionTableCell.swift in Sources */,
 				01FDDDAE24CCD32B0032C23D /* PostCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

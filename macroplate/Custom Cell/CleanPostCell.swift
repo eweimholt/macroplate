@@ -195,7 +195,7 @@ extension CleanPostCell {
         let headerElementHeight = headerHeight - 5
         let padding = CGFloat(15)
         //BEFORE IMAGE
-        postImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight).isActive = true
+        postImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight + padding*0.6).isActive = true
         postImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding).isActive = true
         postImage.heightAnchor.constraint(equalToConstant: imageWidth).isActive = true
         postImage.widthAnchor.constraint(equalToConstant: imageWidth).isActive = true
@@ -207,12 +207,12 @@ extension CleanPostCell {
         postButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         postButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         
-        deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding*0.5).isActive = true
         deleteButton.widthAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
         deleteButton.heightAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
         deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding).isActive = true
 
-        headerButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        headerButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding*0.5).isActive = true
         headerButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding).isActive = true
         headerButton.heightAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
         headerButton.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -padding).isActive = true
@@ -224,13 +224,12 @@ extension CleanPostCell {
         indicator.heightAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
         indicator.leadingAnchor.constraint(equalTo: headerButton.trailingAnchor, constant: 10).isActive = true*/
         
-        completeMealLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight).isActive = true
+        completeMealLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight + padding).isActive = true
         completeMealLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding).isActive = true
         completeMealLabel.heightAnchor.constraint(equalToConstant: headerElementHeight*3).isActive = true
         completeMealLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:  cellWidth*0.50).isActive = true
         
-        cleanPlateImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerElementHeight*4).isActive = true
-        //leftoverImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:  cellWidth*0.50).isActive = true
+        cleanPlateImage.topAnchor.constraint(equalTo: completeMealLabel.bottomAnchor).isActive = true
         cleanPlateImage.centerXAnchor.constraint(equalTo: completeMealLabel.centerXAnchor).isActive = true
         cleanPlateImage.widthAnchor.constraint(equalToConstant: 50).isActive = true
         cleanPlateImage.heightAnchor.constraint(equalToConstant: 50).isActive = true

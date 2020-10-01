@@ -112,7 +112,7 @@ class PostCell: UICollectionViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.clipsToBounds = true
         //button.layer.cornerRadius = 15
-        button.backgroundColor = .cyan//UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.0)
+        //button.backgroundColor = .cyan//UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.0)
         button.setTitleColor(.darkGray, for: .normal)
         button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 18)
         button.contentHorizontalAlignment = .left
@@ -281,7 +281,7 @@ class PostCell: UICollectionViewCell {
         let imageWidth = cellWidth*0.40
         
         addSubview(completeMealLabel)
-        completeMealLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight).isActive = true
+        completeMealLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight + padding).isActive = true
         completeMealLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding).isActive = true
         completeMealLabel.heightAnchor.constraint(equalToConstant: headerElementHeight*3).isActive = true
         completeMealLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:  cellWidth*0.50).isActive = true
@@ -296,7 +296,7 @@ class PostCell: UICollectionViewCell {
         addSubview(cleanPlateImage)
         
         
-        cleanPlateImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerElementHeight*4).isActive = true
+        cleanPlateImage.topAnchor.constraint(equalTo: completeMealLabel.bottomAnchor).isActive = true
         cleanPlateImage.centerXAnchor.constraint(equalTo: completeMealLabel.centerXAnchor).isActive = true
         cleanPlateImage.widthAnchor.constraint(equalToConstant: 50).isActive = true
         cleanPlateImage.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -374,21 +374,21 @@ extension PostCell {
         let imageWidth = cellWidth*0.40
 
         //BEFORE IMAGE
-        postImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight).isActive = true
+        postImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight + padding*0.6).isActive = true
         postImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding).isActive = true
         postImage.heightAnchor.constraint(equalToConstant: imageWidth).isActive = true
         postImage.widthAnchor.constraint(equalToConstant: imageWidth).isActive = true
         //postImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -padding).isActive = true
         //postImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant:  -imageWidth).isActive = true
         
-        postButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight).isActive = true
+        postButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight + padding*0.6).isActive = true
         postButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding).isActive = true
         postButton.heightAnchor.constraint(equalToConstant: imageWidth).isActive = true
         postButton.widthAnchor.constraint(equalToConstant: imageWidth).isActive = true
         //postButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -padding).isActive = true
         //postButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant:  -imageWidth).isActive = true
         
-        deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        deleteButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding*0.5).isActive = true
         deleteButton.widthAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
         deleteButton.heightAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
         deleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding).isActive = true
@@ -408,7 +408,7 @@ extension PostCell {
         leftoversButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         leftoversButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding).isActive = true
         
-        headerButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        headerButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding*0.5).isActive = true
         headerButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding).isActive = true
         headerButton.heightAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
         headerButton.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -padding).isActive = true

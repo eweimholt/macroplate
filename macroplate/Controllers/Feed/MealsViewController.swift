@@ -55,6 +55,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         label.textColor = .darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
+        //label.backgroundColor = .cyan
         return label
     }()
     
@@ -75,7 +76,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(displayP3Red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
         
         backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
         view.addSubview(backButton)
@@ -250,10 +251,12 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.delegate = self
             cell.index = indexPath
             
-            //cell.layer.borderColor = UIColor.black.cgColor
-            //cell.layer.borderWidth = 1
-           // cell.layer =
-            //cell.layer.cornerRadius = 8 // optional
+            // Create Cell Outline
+            let bottomLine = CALayer()
+            bottomLine.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 1.5)
+            bottomLine.backgroundColor = UIColor.darkGray.cgColor
+            cell.layer.addSublayer(bottomLine)
+            
             return cell
         }
         
@@ -291,9 +294,12 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.delegate = self
             cell.index = indexPath
             
-            cell.layer.borderColor = UIColor.black.cgColor
-            cell.layer.borderWidth = 1
-            cell.layer.cornerRadius = 8 // optional
+            // Create Cell Outline
+            let bottomLine = CALayer()
+            bottomLine.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 1.5)
+            bottomLine.backgroundColor = UIColor.darkGray.cgColor
+            cell.layer.addSublayer(bottomLine)
+            
             return cell
         }
         
@@ -333,9 +339,12 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             
             cell.mealIsNotComplete()
             
-            cell.layer.borderColor = UIColor.black.cgColor
-            cell.layer.borderWidth = 1
-            cell.layer.cornerRadius = 8 // optional
+            // Create Cell Outline
+            let bottomLine = CALayer()
+            bottomLine.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 1.5)
+            bottomLine.backgroundColor = UIColor.darkGray.cgColor
+            cell.layer.addSublayer(bottomLine)
+            
             return cell
         }
         
@@ -382,10 +391,12 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.delegate = self
             cell.index = indexPath
             //cell.btn1.tag = indexPath.row // set tag
-            
-            cell.layer.borderColor = UIColor.black.cgColor
-            cell.layer.borderWidth = 1
-            cell.layer.cornerRadius = 8 // optional
+           
+            // Create Cell Outline
+            let bottomLine = CALayer()
+            bottomLine.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 1.5)
+            bottomLine.backgroundColor = UIColor.darkGray.cgColor
+            cell.layer.addSublayer(bottomLine)
             return cell
         }
         
@@ -402,7 +413,10 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
                 cell.indicator.backgroundColor = UIColor.orange
             } else {
                 cell.indicator.backgroundColor = UIColor.systemGreen
+                cell.completeMealLabel.text = "Tap to View"
+                cell.leftoverImage.removeFromSuperview()
             }
+
             //print("\(String(describing: self.posts[indexPath.row].isPlateEmpty))")
             cell.EOMImage.downloadImage(from: self.posts[indexPath.row].pathToEOMImage)
             
@@ -429,10 +443,17 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.delegate = self
             cell.index = indexPath
             
-            cell.layer.borderColor = UIColor.black.cgColor
-            cell.layer.borderWidth = 1
-            cell.layer.cornerRadius = 8 // optional
             
+            //cell.layer.borderColor = UIColor.black.cgColor
+            //cell.layer.borderWidth = 1
+            //cell.layer.cornerRadius = 8 // optional
+            
+            // Create Cell Outline
+            let bottomLine = CALayer()
+            bottomLine.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 1.5)
+            bottomLine.backgroundColor = UIColor.darkGray.cgColor
+            cell.layer.addSublayer(bottomLine)
+
             return cell
         }
         
@@ -453,7 +474,11 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
                 return setUpEmptyPlateCell()//setUpInitialCell()        
             }
         } else {
-            return setUpEmptyPlateCell()
+            if self.posts[indexPath.row].isPlateEmpty == "false" {
+                return setUpEOMCell()
+            } else {
+                return setUpEmptyPlateCell()
+            }
         }
 
         
@@ -486,7 +511,8 @@ extension MealsViewController: EOMPostCellDelegate {
         //postVC.date = date! as NSDate
         postVC.userLabel.text = userText
         postVC.date = date
-        postVC.caloriesText.text = "Total Calories: \(calories ?? "pending")"
+        //postVC.caloriesText.text = "Total Calories: \(calories ?? "pending")"
+        postVC.calories = calories
         postVC.carbs = carbs
         postVC.protein = protein
         postVC.fat = fat
@@ -518,7 +544,8 @@ extension MealsViewController: CleanPostCellDelegate {
         //postVC.date = date! as NSDate
         postVC.userLabel.text = userText
         postVC.date = date
-        postVC.caloriesText.text = "Total Calories: \(calories ?? "pending")"
+        //postVC.caloriesText.text = "Total Calories: \(calories ?? "pending")"
+        postVC.calories = calories
         postVC.carbs = carbs
         postVC.protein = protein
         postVC.fat = fat
@@ -553,7 +580,8 @@ extension MealsViewController: PostCellDelegate {
         //postVC.date = date! as NSDate
         postVC.userLabel.text = userText
         postVC.date = date
-        postVC.caloriesText.text = "Total Calories: \(calories ?? "pending")"
+        //postVC.caloriesText.text = "Total Calories: \(calories ?? "pending")"
+        postVC.calories = calories
         postVC.carbs = carbs
         postVC.protein = protein
         postVC.fat = fat
