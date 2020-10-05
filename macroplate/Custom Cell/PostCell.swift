@@ -144,6 +144,18 @@ class PostCell: UICollectionViewCell {
         return dButton
     }()
     
+    var editButton: UIButton = {
+        let dButton = UIButton()
+        dButton.translatesAutoresizingMaskIntoConstraints = false
+        dButton.clipsToBounds = true
+        dButton.setTitleColor(.white, for: .normal)
+        let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .semibold, scale: .large)
+        let cImage = UIImage(systemName: "pencil", withConfiguration: config)?.withTintColor(UIColor.darkGray, renderingMode: .alwaysOriginal)
+        dButton.setImage(cImage, for: .normal)
+        dButton.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 20)
+        return dButton
+    }()
+    
     let cleanPlateButton : UIButton = {
         let cButton = UIButton(frame: CGRect(x: 100, y: 100, width: 70, height: 70))
         cButton.setTitle("I finished my plate.", for: .normal)
@@ -194,6 +206,7 @@ class PostCell: UICollectionViewCell {
             
         contentView.addSubview(deleteButton)
         deleteButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
+        
         contentView.addSubview(headerButton)
         
         contentView.addSubview(cleanPlateButton)
@@ -240,10 +253,15 @@ class PostCell: UICollectionViewCell {
             mealIsNotComplete()
         }
     }
+    
+    @IBAction func editPost() {
+        mealIsNotComplete()
+    }
 
     func mealIsNotComplete () {
         self.addSubview(mealLogText)
         completeMealLabel.removeFromSuperview()
+        editButton.removeFromSuperview()
 
         self.addSubview(afterButton)
         afterButton.addTarget(self, action: #selector(addAfterMeal), for: .touchUpInside)
@@ -268,8 +286,10 @@ class PostCell: UICollectionViewCell {
         mealLogText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:  imageWidth + padding).isActive = true
 
         //update Firebase
-        let plateIsEmpty = self.cleanPlateButton.isSelected.description
-        updateFirebaseSecondMeal(value: plateIsEmpty)
+        //let plateIsEmpty = self.cleanPlateButton.isSelected.description
+        //update post variable
+        isPlateEmpty = self.cleanPlateButton.isSelected.description
+        updateFirebaseSecondMeal(value: isPlateEmpty!)
     }
     
     func mealIsComplete () {
@@ -280,15 +300,21 @@ class PostCell: UICollectionViewCell {
         let cellWidth = contentView.frame.width
         let imageWidth = cellWidth*0.40
         
+        contentView.addSubview(editButton)
+        editButton.addTarget(self, action: #selector(editPost), for: .touchUpInside)
+        
         addSubview(completeMealLabel)
         completeMealLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight + padding).isActive = true
         completeMealLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding).isActive = true
         completeMealLabel.heightAnchor.constraint(equalToConstant: headerElementHeight*3).isActive = true
         completeMealLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:  cellWidth*0.50).isActive = true
         
-        //completeMealLabel.text = "Meal Log Complete"
-        //completeMealLabel.font = UIFont(name: "AvenirNext-Bold", size: 28)
-        
+        editButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight + padding).isActive = true
+        editButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding).isActive = true
+        editButton.heightAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
+        editButton.widthAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
+        //editButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:  cellWidth*0.50).isActive = true
+
         mealLogText.removeFromSuperview()
         leftoversButton.removeFromSuperview()
         cleanPlateButton.removeFromSuperview()
@@ -302,8 +328,9 @@ class PostCell: UICollectionViewCell {
         cleanPlateImage.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         //update Firebase
-        let plateIsEmpty = self.cleanPlateButton.isSelected.description
-        updateFirebaseSecondMeal(value: plateIsEmpty)
+        //let plateIsEmpty = self.cleanPlateButton.isSelected.description
+        isPlateEmpty = self.cleanPlateButton.isSelected.description
+        updateFirebaseSecondMeal(value: isPlateEmpty!)
     }
     
     func updateFirebaseSecondMeal(value: String) {

@@ -261,7 +261,8 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
                             if let err = err {
                                 print("Error adding document: \(err)")
                             } else {
-                                print("Document added with ID: \(docId)")
+                                print("Document added with ID at ImageVC: \(docId)")
+                               // self.transitionToConfirmation() for some reason, it adds two here
                             }
                         }
                     }

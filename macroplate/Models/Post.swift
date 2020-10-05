@@ -16,7 +16,9 @@ class Post: NSObject {
     var date : String!
     var timestamp : TimeInterval!
     var pathToImage : String!
+    //var pathToImageANNOTATED : String!
     var pathToEOMImage : String!
+    //var pathToEOMImageANNOTATED : String!
     var userId : String!
     var postId : String!
     var userTextInput : String!

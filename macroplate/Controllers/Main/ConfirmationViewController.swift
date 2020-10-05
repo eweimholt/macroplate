@@ -106,7 +106,8 @@ class ConfirmationViewController: UIViewController {
     }
     
     @IBAction func goToFeed(_ sender: Any) {
-        transitionToHome()
+        //transitionToHome()
+        transitionToFeed()
     }
     
     func transitionToImageVC() {
@@ -129,5 +130,15 @@ class ConfirmationViewController: UIViewController {
         
     }
     
+    func transitionToFeed() {
+        let mealsVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "MealsVC") as? MealsViewController
+        
+        //swap out root view controller for the home one, once the signup is successful
+        view.window?.rootViewController = mealsVC
+        view.window?.makeKeyAndVisible()
+        //refresh cells
+        mealsVC?.mealsCollectionView.reloadData()
+
+    }
     
 }

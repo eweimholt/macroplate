@@ -109,17 +109,17 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }()
     
     let transparentBackground : UIButton = {
-        let uButton = UIButton(frame: CGRect(x: 100, y: 100, width: 35, height: 40))
+        let uButton = UIButton()
         uButton.translatesAutoresizingMaskIntoConstraints = false
-        uButton.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.70)
+        uButton.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.60)
         uButton.clipsToBounds = true
         return uButton
     }()
     
     let transparentBackground2 : UIButton = {
-        let uButton = UIButton(frame: CGRect(x: 100, y: 100, width: 35, height: 40))
+        let uButton = UIButton() //frame: CGRect(x: 100, y: 100, width: 35, height: 40)
         uButton.translatesAutoresizingMaskIntoConstraints = false
-        uButton.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.70)
+        uButton.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.60)
         uButton.clipsToBounds = true
         return uButton
     }()
@@ -128,7 +128,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         super.viewDidLoad()
         //authenticateUser()
         picker.delegate = self //image picker will now listen to delegates. has method called when user is done selecting image
-
+        // cameraView.layer.backgroundColor = .init(red: 235/255, green: 64/255, blue: 2/255, alpha: 1)
         
         //add elements to view
         
@@ -170,7 +170,6 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
         uploadButton.setBackgroundImage(uploadImage, for: .normal)
         uploadButton.addTarget(self, action: #selector(uploadTapped), for: .touchUpInside)
-        //uploadButton.setTitle("Upload", for: .normal)
         self.view.addSubview(uploadButton)
 
         
@@ -187,13 +186,9 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                 captureSession = AVCaptureSession()
                 captureSession?.addInput(input)
                 videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
-                videoPreviewLayer?.frame = view.layer.bounds
+                videoPreviewLayer?.frame = CGRect(x: -100, y: 0, width: view.frame.width+200, height: view.frame.height) //view.layer.bounds
                 cameraView.layer.addSublayer(videoPreviewLayer!)
                 captureSession?.startRunning()
-                
-                //picker.delegate = self
-                
-                
             }
             catch {
                 
@@ -215,9 +210,10 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         let deviceHeight = self.view.frame.height
         let w = deviceWidth*0.50
         
-        cameraView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
-        cameraView.heightAnchor.constraint(equalToConstant: 700).isActive = true
-        //cameraView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100).isActive = true
+        cameraView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        //cameraView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
+        //cameraView.heightAnchor.constraint(equalToConstant: 700).isActive = true
+        cameraView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         cameraView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         cameraView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         
@@ -233,7 +229,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         
            
         cameraButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        cameraButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50).isActive = true
+        cameraButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         cameraButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
         cameraButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
@@ -243,23 +239,24 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         cameraText.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         flipButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        flipButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
+        //flipButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
+        flipButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
         flipButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
         flipButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
 
         
         userButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        userButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60).isActive = true
+        userButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
         userButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         userButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         galleryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        galleryButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60).isActive = true
+        galleryButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
         galleryButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
         galleryButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         uploadButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 80).isActive = true
-        uploadButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -70).isActive = true
+        uploadButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
         uploadButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
         uploadButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }

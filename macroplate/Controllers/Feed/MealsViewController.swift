@@ -21,9 +21,13 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     let backButton : UIButton = {
        let cButton = UIButton()
-        cButton.setTitle("Back", for: .normal)
+        //cButton.setTitle("Back", for: .normal)
+        //cButton.titleLabel?.font = UIFont(name: "AvenirNext", size: 18)
         cButton.setTitleColor(.darkGray, for: .normal) // You can change the TitleColor
         cButton.translatesAutoresizingMaskIntoConstraints = false
+        let config = UIImage.SymbolConfiguration(pointSize: 28, weight: .bold, scale: .large)
+        let cImage = UIImage(systemName: "arrow.left.circle", withConfiguration: config)?.withTintColor(UIColor.darkGray, renderingMode: .alwaysOriginal)
+        cButton.setImage(cImage, for: .normal)
        return cButton
     }()
 
@@ -50,7 +54,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         let label = UILabel()
         label.text = "Your Meals"
         label.font = UIFont.systemFont(ofSize: 40)
-        label.font = UIFont.init(name: "AvenirNext-Bold", size: 40)
+        label.font = UIFont.init(name: "AvenirNext-DemiBold", size: 40)
         //label.textColor = UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
         label.textColor = .darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -107,7 +111,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         mealLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
 
         backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15).isActive = true
-        backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
+        backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 35).isActive = true
         backButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
         backButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
@@ -132,6 +136,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
 
                         post.name = doc["name"] as? String
                         post.pathToImage = doc["urlToImage"] as? String
+                        //post.pathToImageANNOTATED = doc["urlToImageANNOTATED"] as? String
                         post.timestamp = doc["timestamp"] as? TimeInterval
                         post.postId = doc["key"] as? String
                         post.userId = doc["uid"] as? String
@@ -146,6 +151,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
                         
                         //End of Meal
                         post.pathToEOMImage = doc["urlToEOM"] as? String
+                        //post.pathToEOMImageANNOTATED = doc["urlToEOMANNOTATED"] as? String
                         //print("EOM string: \(post.pathToEOMImage)")
 
                         if post.timestamp != nil {
@@ -221,7 +227,14 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         func setUpInitialCell() -> PostCell {
             let cell = mealsCollectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! PostCell
             
-            cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
+            if self.posts[indexPath.row].pathToImage != nil {
+                cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
+            } else {
+                print("nil abort of pathToImage avoided")
+            }
+            
+            
+            
             cell.postButton.tag = indexPath.row // set tag
             
             //cell.indicator.setTitle(self.posts[indexPath.row].state, for: .normal)
@@ -263,7 +276,13 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         func setUpTrueCell() -> PostCell {
             let cell = mealsCollectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! PostCell
             
-            cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
+            if self.posts[indexPath.row].pathToImage != nil {
+                cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
+            } else {
+                print("nil abort of pathToImage avoided in TruePostCell")
+            }
+            
+            
             cell.postButton.tag = indexPath.row // set tag
             //cell.headerButton.setTitle(self.posts[indexPath.row].date, for: .normal)
             //cell.indicator.setTitle(self.posts[indexPath.row].state, for: .normal)
@@ -306,7 +325,9 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         func setUpFalseCell() -> PostCell {
             let cell = mealsCollectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! PostCell
             
-            cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
+            if self.posts[indexPath.row].pathToImage != nil {
+                cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
+            }
             cell.postButton.tag = indexPath.row // set tag
             cell.headerButton.setTitle(self.posts[indexPath.row].date, for: .normal)
             //cell.indicator.setTitle(self.posts[indexPath.row].state, for: .normal)
@@ -351,7 +372,13 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         func setUpEmptyPlateCell() -> CleanPostCell  {
             let cell = mealsCollectionView.dequeueReusableCell(withReuseIdentifier: cleanId, for: indexPath) as! CleanPostCell
             
-            cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
+            
+            if self.posts[indexPath.row].pathToImage != nil {
+                cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
+            } else {
+                print("nil abort of pathToImage avoided in CLeanCell")
+            }
+            
             //cell.postButton.setTitle(self.posts[indexPath.row].state, for: .normal) //self.posts[indexPath.row].userTextInput
             cell.postButton.tag = indexPath.row // set tag
             //cell.headerButton.setTitle(self.posts[indexPath.row].date, for: .normal)
@@ -403,7 +430,11 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         func setUpEOMCell() -> EOMPostCell  {
             let cell = mealsCollectionView.dequeueReusableCell(withReuseIdentifier: eomId, for: indexPath) as! EOMPostCell
             
-            cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
+            if self.posts[indexPath.row].pathToImage != nil {
+                cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
+            } else {
+                print("nil abort of pathToImage avoided in EOMCell")
+            }
             //cell.postButton.setTitle(self.posts[indexPath.row].state, for: .normal) //self.posts[indexPath.row].userTextInput
             cell.postButton.tag = indexPath.row // set tag
             //cell.headerButton.setTitle(self.posts[indexPath.row].date, for: .normal)
@@ -418,7 +449,11 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             }
 
             //print("\(String(describing: self.posts[indexPath.row].isPlateEmpty))")
-            cell.EOMImage.downloadImage(from: self.posts[indexPath.row].pathToEOMImage)
+            if self.posts[indexPath.row].pathToEOMImage != nil {
+                cell.EOMImage.downloadImage(from: self.posts[indexPath.row].pathToEOMImage)
+            } else {
+                print("EOMImage download is nil")
+            }
             
             cell.userTextInput = self.posts[indexPath.row].userTextInput
             cell.date = self.posts[indexPath.row].date
@@ -697,7 +732,6 @@ extension UIImageView {
         }
         
         task.resume()
-        
     }
     
     func downloadEOMImage(from imgURL: String!) {
