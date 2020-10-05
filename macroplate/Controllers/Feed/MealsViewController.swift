@@ -19,14 +19,17 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
     let eomId = "eom"
     let screenSize: CGRect = UIScreen.main.bounds
     
+    static let colorA = UIColor.init(displayP3Red: 125/255, green: 234/255, blue: 221/255, alpha: 1) //7deadd
+    static let colorB = UIColor.init(displayP3Red: 99/255, green: 197/255, blue: 188/255, alpha: 1) //primary //63c5bc
+    static let colorC = UIColor.init(displayP3Red: 50/255, green: 186/255, blue: 232/255, alpha: 1) //32bae8
+    static let colorD = UIColor.init(displayP3Red: 49/255, green: 128/255, blue: 194/255, alpha: 1) //3180c2
+    static let colorE = UIColor.darkGray //UIColor.init(displayP3Red: 36/255, green: 101/255, blue: 151/255, alpha: 1) //246597
+    
     let backButton : UIButton = {
        let cButton = UIButton()
-        //cButton.setTitle("Back", for: .normal)
-        //cButton.titleLabel?.font = UIFont(name: "AvenirNext", size: 18)
-        cButton.setTitleColor(.darkGray, for: .normal) // You can change the TitleColor
         cButton.translatesAutoresizingMaskIntoConstraints = false
         let config = UIImage.SymbolConfiguration(pointSize: 28, weight: .bold, scale: .large)
-        let cImage = UIImage(systemName: "arrow.left.circle", withConfiguration: config)?.withTintColor(UIColor.darkGray, renderingMode: .alwaysOriginal)
+        let cImage = UIImage(systemName: "arrow.left.circle", withConfiguration: config)?.withTintColor(colorE, renderingMode: .alwaysOriginal)
         cButton.setImage(cImage, for: .normal)
        return cButton
     }()
@@ -55,8 +58,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         label.text = "Your Meals"
         label.font = UIFont.systemFont(ofSize: 40)
         label.font = UIFont.init(name: "AvenirNext-DemiBold", size: 40)
-        //label.textColor = UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
-        label.textColor = .darkGray
+        label.textColor = colorE //.darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         //label.backgroundColor = .cyan
@@ -81,6 +83,8 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         super.viewDidLoad()
         
         view.backgroundColor = UIColor(displayP3Red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
+        //self.view.backgroundColor = UIColor(patternImage: UIImage(named: "background_gradient.png")!)
+        
         
         backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
         view.addSubview(backButton)
@@ -267,7 +271,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             // Create Cell Outline
             let bottomLine = CALayer()
             bottomLine.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 1.5)
-            bottomLine.backgroundColor = UIColor.darkGray.cgColor
+            bottomLine.backgroundColor = MealsViewController.colorE.cgColor //UIColor.darkGray.cgColor
             cell.layer.addSublayer(bottomLine)
             
             return cell
@@ -316,8 +320,10 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             // Create Cell Outline
             let bottomLine = CALayer()
             bottomLine.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 1.5)
-            bottomLine.backgroundColor = UIColor.darkGray.cgColor
+            bottomLine.backgroundColor = MealsViewController.colorE.cgColor //UIColor.darkGray.cgColor
             cell.layer.addSublayer(bottomLine)
+            
+            cell.mealIsComplete()
             
             return cell
         }
@@ -363,7 +369,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             // Create Cell Outline
             let bottomLine = CALayer()
             bottomLine.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 1.5)
-            bottomLine.backgroundColor = UIColor.darkGray.cgColor
+            bottomLine.backgroundColor = MealsViewController.colorE.cgColor //UIColor.darkGray.cgColor
             cell.layer.addSublayer(bottomLine)
             
             return cell
@@ -387,11 +393,10 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             // cell.EOMImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
             
             if self.posts[indexPath.row].state == "Pending" {
-                cell.indicator.backgroundColor = UIColor.orange
             } else {
-                cell.indicator.backgroundColor = UIColor.systemGreen
                 cell.completeMealLabel.text = "Tap to View"
                 cell.cleanPlateImage.removeFromSuperview()
+                cell.editButton.removeFromSuperview()
             }
             
             cell.userTextInput = self.posts[indexPath.row].userTextInput
@@ -422,7 +427,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             // Create Cell Outline
             let bottomLine = CALayer()
             bottomLine.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 1.5)
-            bottomLine.backgroundColor = UIColor.darkGray.cgColor
+            bottomLine.backgroundColor = MealsViewController.colorE.cgColor //UIColor.darkGray.cgColor
             cell.layer.addSublayer(bottomLine)
             return cell
         }
@@ -441,9 +446,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.indicator.setTitle(self.posts[indexPath.row].state, for: .normal)
             
             if self.posts[indexPath.row].state == "Pending" {
-                cell.indicator.backgroundColor = UIColor.orange
             } else {
-                cell.indicator.backgroundColor = UIColor.systemGreen
                 cell.completeMealLabel.text = "Tap to View"
                 cell.leftoverImage.removeFromSuperview()
             }
@@ -477,16 +480,11 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.backgroundColor = UIColor.white
             cell.delegate = self
             cell.index = indexPath
-            
-            
-            //cell.layer.borderColor = UIColor.black.cgColor
-            //cell.layer.borderWidth = 1
-            //cell.layer.cornerRadius = 8 // optional
-            
+    
             // Create Cell Outline
             let bottomLine = CALayer()
             bottomLine.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 1.5)
-            bottomLine.backgroundColor = UIColor.darkGray.cgColor
+            bottomLine.backgroundColor = MealsViewController.colorE.cgColor //UIColor.darkGray.cgColor
             cell.layer.addSublayer(bottomLine)
 
             return cell

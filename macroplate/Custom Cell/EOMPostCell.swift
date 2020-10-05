@@ -160,7 +160,7 @@ class EOMPostCell: UICollectionViewCell {
         //imageView.layer.borderWidth = 1.5
         //imageView.layer.borderColor = CGColor.init(gray: 1, alpha: 1)
         //imageView.layer.cornerRadius = 20
-        imageView.image =  UIImage(named: "leftovers")
+        imageView.image =  UIImage(named: "leftovers_blue")
         return imageView
     }()
     

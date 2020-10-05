@@ -17,6 +17,15 @@ import FirebaseAnalytics
 
 class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    //create color dictionaries
+    static let primaryBlue = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
+    
+    let colorA = UIColor.init(displayP3Red: 125/255, green: 234/255, blue: 221/255, alpha: 1) //7deadd
+    let colorB = UIColor.init(displayP3Red: 99/255, green: 197/255, blue: 188/255, alpha: 1) //primary //63c5bc
+    let colorC = UIColor.init(displayP3Red: 50/255, green: 186/255, blue: 232/255, alpha: 1) //32bae8
+    let colorD = UIColor.init(displayP3Red: 49/255, green: 128/255, blue: 194/255, alpha: 1) //3180c2
+    let colorE = UIColor.init(displayP3Red: 36/255, green: 101/255, blue: 151/255, alpha: 1) //246597
+    
     var captureSession: AVCaptureSession?
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
     var frontCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)
@@ -38,7 +47,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     //ultralight, thin, light, regular, medium, semibold, bold, heavy, black
     let circleImage : UIImage = {
         let config = UIImage.SymbolConfiguration(pointSize: 5, weight: .regular, scale: .large)
-        let cImage = UIImage(systemName: "circle", withConfiguration: config)?.withTintColor(UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1), renderingMode: .alwaysOriginal)
+        let cImage = UIImage(systemName: "circle", withConfiguration: config)?.withTintColor(primaryBlue, renderingMode: .alwaysOriginal)
         return cImage!
     }()
     
@@ -111,7 +120,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     let transparentBackground : UIButton = {
         let uButton = UIButton()
         uButton.translatesAutoresizingMaskIntoConstraints = false
-        uButton.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.60)
+        uButton.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.70)
         uButton.clipsToBounds = true
         return uButton
     }()
@@ -119,7 +128,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     let transparentBackground2 : UIButton = {
         let uButton = UIButton() //frame: CGRect(x: 100, y: 100, width: 35, height: 40)
         uButton.translatesAutoresizingMaskIntoConstraints = false
-        uButton.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.60)
+        uButton.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.70)
         uButton.clipsToBounds = true
         return uButton
     }()
@@ -211,8 +220,6 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         let w = deviceWidth*0.50
         
         cameraView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        //cameraView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
-        //cameraView.heightAnchor.constraint(equalToConstant: 700).isActive = true
         cameraView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         cameraView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         cameraView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
@@ -239,7 +246,6 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         cameraText.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         flipButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        //flipButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
         flipButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
         flipButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
         flipButton.heightAnchor.constraint(equalToConstant: 35).isActive = true

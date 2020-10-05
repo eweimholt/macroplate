@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key></key>
+	<string></string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -12,14 +14,10 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>$(PRODUCT_NAME)</string>
-	<key></key>
-	<string></string>
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
-	<key>CFBundleVersion</key>
-	<string>1.1.6</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -31,18 +29,20 @@
 			</array>
 		</dict>
 	</array>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>let&apos;s take a photo!</string>
+	<string>let's take a photo!</string>
 	<key>NSHealthShareUsageDescription</key>
-	<string>let&apos;s use your health data</string>
+	<string>let's use your health data</string>
 	<key>NSHealthUpdateUsageDescription</key>
-	<string>let&apos;s update your health data</string>
+	<string>let's update your health data</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>let&apos;s save your photo</string>
+	<string>let's save your photo</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>let&apos;s save to an album</string>
+	<string>let's save to an album</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

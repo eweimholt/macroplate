@@ -32,4 +32,10 @@ struct Constants {
     static let headerElementHeight = 30
     static let headerHeight = headerElementHeight + 5
     static let padding = 15
+    
+    //COLORS
+    struct UIColor {
+        //static let primaryColor = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
+    }
+    
 }

@@ -22,6 +22,12 @@ protocol PostCellDelegate {
 
 class PostCell: UICollectionViewCell {
     
+    static let colorA = UIColor.init(displayP3Red: 125/255, green: 234/255, blue: 221/255, alpha: 1) //7deadd
+    static let colorB = UIColor.init(displayP3Red: 99/255, green: 197/255, blue: 188/255, alpha: 1) //primary //63c5bc
+    static let colorC = UIColor.init(displayP3Red: 50/255, green: 186/255, blue: 232/255, alpha: 1) //32bae8
+    static let colorD = UIColor.init(displayP3Red: 49/255, green: 128/255, blue: 194/255, alpha: 1) //3180c2
+    static let colorE = UIColor.darkGray //UIColor.init(displayP3Red: 36/255, green: 101/255, blue: 151/255, alpha: 1) //246597
+    
     var delegate: PostCellDelegate?
     var index: IndexPath?
     var date: String?
@@ -64,42 +70,13 @@ class PostCell: UICollectionViewCell {
         return button
     }()
     
-    /*let indicator : UIButton = {
-        let cButton = UIButton()
-        cButton.setTitleColor(.darkGray, for: .normal) // You can change the TitleColor
-        cButton.setTitle("Complete your meal log:", for: .normal)
-        cButton.translatesAutoresizingMaskIntoConstraints = false
-        cButton.contentHorizontalAlignment = .center
-        //let cImage = UIImage(systemName: "seal")?.withTintColor(UIColor.white, renderingMode: .alwaysOriginal)
-        //cButton.setImage(cImage, for: .normal)
-        //cButton.backgroundColor = UIColor.orange
-        cButton.clipsToBounds = true
-        cButton.layer.cornerRadius = 15
-        return cButton
-    }()*/
-    
-    /*let completeMealLabel : UIButton = {
-        let cButton = UIButton()
-        cButton.setTitleColor(.darkGray, for: .normal) // You can change the TitleColor
-        cButton.setTitle("Complete your meal log:", for: .normal)
-        cButton.translatesAutoresizingMaskIntoConstraints = false
-        cButton.contentHorizontalAlignment = .center
-        //let cImage = UIImage(systemName: "seal")?.withTintColor(UIColor.white, renderingMode: .alwaysOriginal)
-        //cButton.setImage(cImage, for: .normal)
-        //cButton.backgroundColor = UIColor.orange
-        cButton.clipsToBounds = true
-        cButton.layer.cornerRadius = 15
-        return cButton
-    }()*/
-
-    
     var completeMealLabel = MealCompleteLabel()
     
     var mealLogText: UILabel = {
         let label = UILabel()
         label.text = "Complete your meal log:"
         label.font = UIFont(name: "AvenirNext", size: 18)
-        label.textColor = .darkGray
+        label.textColor = colorE
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         label.numberOfLines = 2
@@ -113,7 +90,7 @@ class PostCell: UICollectionViewCell {
         button.clipsToBounds = true
         //button.layer.cornerRadius = 15
         //button.backgroundColor = .cyan//UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.0)
-        button.setTitleColor(.darkGray, for: .normal)
+        button.setTitleColor(colorE, for: .normal)
         button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 18)
         button.contentHorizontalAlignment = .left
         return button
@@ -138,7 +115,7 @@ class PostCell: UICollectionViewCell {
         dButton.clipsToBounds = true
         dButton.setTitleColor(.white, for: .normal)
         let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .semibold, scale: .large)
-        let cImage = UIImage(systemName: "x.circle", withConfiguration: config)?.withTintColor(UIColor.darkGray, renderingMode: .alwaysOriginal)
+        let cImage = UIImage(systemName: "x.circle", withConfiguration: config)?.withTintColor(colorE, renderingMode: .alwaysOriginal)
         dButton.setImage(cImage, for: .normal)
         dButton.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 20)
         return dButton
@@ -148,9 +125,10 @@ class PostCell: UICollectionViewCell {
         let dButton = UIButton()
         dButton.translatesAutoresizingMaskIntoConstraints = false
         dButton.clipsToBounds = true
+        //dButton.backgroundColor = .orange
         dButton.setTitleColor(.white, for: .normal)
-        let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .semibold, scale: .large)
-        let cImage = UIImage(systemName: "pencil", withConfiguration: config)?.withTintColor(UIColor.darkGray, renderingMode: .alwaysOriginal)
+        let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold, scale: .large)
+        let cImage = UIImage(systemName: "pencil", withConfiguration: config)?.withTintColor(colorB, renderingMode: .alwaysOriginal)
         dButton.setImage(cImage, for: .normal)
         dButton.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 20)
         return dButton
@@ -159,22 +137,26 @@ class PostCell: UICollectionViewCell {
     let cleanPlateButton : UIButton = {
         let cButton = UIButton(frame: CGRect(x: 100, y: 100, width: 70, height: 70))
         cButton.setTitle("I finished my plate.", for: .normal)
-        cButton.setTitleColor(.black, for: .normal) // You can change the TitleColor
+        cButton.setTitleColor(.darkGray, for: .normal) // You can change the TitleColor
         cButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        //let config = UIImage.SymbolConfiguration(pointSize: 24, weight: .regular, scale: .large)
-        cButton.setImage(UIImage(systemName: "circle"), for: UIControl.State.normal)
-        cButton.setImage(UIImage(systemName: "checkmark.circle.fill"), for: UIControl.State.selected)
+        let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold, scale: .large)
+        let cImage = UIImage(systemName: "circle", withConfiguration: config)?.withTintColor(colorB, renderingMode: .alwaysOriginal)
+        let fillImage = UIImage(systemName: "checkmark.circle.fill", withConfiguration: config)?.withTintColor(colorB, renderingMode: .alwaysOriginal)
+        cButton.setImage(cImage, for: .normal)
+        cButton.setImage(fillImage, for: .selected)
         return cButton
     }()
 
     let leftoversButton : UIButton = {
         let cButton = UIButton(frame: CGRect(x: 100, y: 100, width: 70, height: 70))
         cButton.setTitle("I had leftovers.", for: .normal)
-        cButton.setTitleColor(.black, for: .normal) // You can change the TitleColor
+        cButton.setTitleColor(.darkGray, for: .normal) // You can change the TitleColor
         cButton.translatesAutoresizingMaskIntoConstraints = false
-        cButton.setImage(UIImage(systemName: "circle"), for: UIControl.State.normal)
-        cButton.setImage(UIImage(systemName: "checkmark.circle.fill"), for: UIControl.State.selected)
+        let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold, scale: .large)
+        let cImage = UIImage(systemName: "circle", withConfiguration: config)?.withTintColor(colorB, renderingMode: .alwaysOriginal)
+        let fillImage = UIImage(systemName: "checkmark.circle.fill", withConfiguration: config)?.withTintColor(colorB, renderingMode: .alwaysOriginal)
+        cButton.setImage(cImage, for: .normal)
+        cButton.setImage(fillImage, for: .selected)
         return cButton
     }()
 
@@ -183,22 +165,16 @@ class PostCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image =  UIImage(named: "cleanplate")
+        imageView.image =  UIImage(named: "plate_blue")
         return imageView
     }()
     
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-
-        //contentView.addSubview(afterButton)
-        //afterButton.addTarget(self, action: #selector(addAfterMeal), for: .touchUpInside)
-
+        
         contentView.addSubview(postImage)
-        
-        
 
-        //contentView.addSubview(completeMealLabel)
         contentView.addSubview(mealLogText)
         contentView.addSubview(postButton)
         postButton.addTarget(self, action: #selector(expandPost), for: .touchUpInside)
@@ -260,8 +236,12 @@ class PostCell: UICollectionViewCell {
 
     func mealIsNotComplete () {
         self.addSubview(mealLogText)
+        self.addSubview(leftoversButton)
+        self.addSubview(cleanPlateButton)
         completeMealLabel.removeFromSuperview()
         editButton.removeFromSuperview()
+        cleanPlateImage.removeFromSuperview()
+        
 
         self.addSubview(afterButton)
         afterButton.addTarget(self, action: #selector(addAfterMeal), for: .touchUpInside)
@@ -277,17 +257,22 @@ class PostCell: UICollectionViewCell {
         afterButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: cellWidth*0.50).isActive = true
         afterButton.trailingAnchor.constraint(equalTo: leftoversButton.trailingAnchor).isActive = true
         afterButton.bottomAnchor.constraint(equalTo: postImage.bottomAnchor).isActive = true
-        //afterButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        //afterButton.heightAnchor.constraint(equalToConstant: 100).isActive = true
         
         mealLogText.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight).isActive = true
         mealLogText.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding).isActive = true
         mealLogText.heightAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
         mealLogText.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:  imageWidth + padding).isActive = true
+        
+        cleanPlateButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight + headerElementHeight + 10).isActive = true
+        cleanPlateButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: imageWidth).isActive = true
+        cleanPlateButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        cleanPlateButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding).isActive = true
+        
+        leftoversButton.topAnchor.constraint(equalTo: cleanPlateButton.bottomAnchor).isActive = true
+        leftoversButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:  imageWidth - 32).isActive = true
+        leftoversButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        leftoversButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding).isActive = true
 
-        //update Firebase
-        //let plateIsEmpty = self.cleanPlateButton.isSelected.description
-        //update post variable
         isPlateEmpty = self.cleanPlateButton.isSelected.description
         updateFirebaseSecondMeal(value: isPlateEmpty!)
     }
@@ -300,19 +285,21 @@ class PostCell: UICollectionViewCell {
         let cellWidth = contentView.frame.width
         let imageWidth = cellWidth*0.40
         
-        contentView.addSubview(editButton)
+        addSubview(completeMealLabel)
+        addSubview(editButton)
         editButton.addTarget(self, action: #selector(editPost), for: .touchUpInside)
         
-        addSubview(completeMealLabel)
         completeMealLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight + padding).isActive = true
         completeMealLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding).isActive = true
         completeMealLabel.heightAnchor.constraint(equalToConstant: headerElementHeight*3).isActive = true
         completeMealLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:  cellWidth*0.50).isActive = true
         
-        editButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight + padding).isActive = true
-        editButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding).isActive = true
+        //editButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight + padding).isActive = true
+        editButton.bottomAnchor.constraint(equalTo: completeMealLabel.bottomAnchor, constant: -padding).isActive = true
+        editButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -11).isActive = true
         editButton.heightAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
         editButton.widthAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
+        
         //editButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:  cellWidth*0.50).isActive = true
 
         mealLogText.removeFromSuperview()

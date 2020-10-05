@@ -102,21 +102,18 @@ class CleanPostCell: UICollectionViewCell {
         return dButton
     }()
     
-    /*let completeMealLabel : UIButton = {
-        let cButton = UIButton()
-        cButton.setTitleColor(.gray, for: .normal) // You can change the TitleColor
-        cButton.setTitle("Meal Log Complete", for: .normal)
-        cButton.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 20)
-        //cButton.setFont(
-        cButton.translatesAutoresizingMaskIntoConstraints = false
-        cButton.contentHorizontalAlignment = .center
-        //let cImage = UIImage(systemName: "seal")?.withTintColor(UIColor.white, renderingMode: .alwaysOriginal)
-        //cButton.setImage(cImage, for: .normal)
-        //cButton.backgroundColor = UIColor.orange
-        cButton.clipsToBounds = true
-        cButton.layer.cornerRadius = 15
-        return cButton
-    }()*/
+    var editButton: UIButton = {
+        let dButton = UIButton()
+        dButton.translatesAutoresizingMaskIntoConstraints = false
+        dButton.clipsToBounds = true
+        dButton.backgroundColor = .orange
+        dButton.setTitleColor(.white, for: .normal)
+        let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold, scale: .large)
+        let cImage = UIImage(systemName: "pencil", withConfiguration: config)?.withTintColor(UIColor.lightGray, renderingMode: .alwaysOriginal)
+        dButton.setImage(cImage, for: .normal)
+        dButton.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 20)
+        return dButton
+    }()
     
     var completeMealLabel = MealCompleteLabel()
     
@@ -125,7 +122,7 @@ class CleanPostCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image =  UIImage(named: "cleanplate")
+        imageView.image =  UIImage(named: "plate_blue")
         return imageView
     }()
 
@@ -139,6 +136,9 @@ class CleanPostCell: UICollectionViewCell {
 
         //contentView.addSubview(indicator)
         contentView.addSubview(completeMealLabel)
+        //contentView.addSubview(editButton)
+        //editButton.addTarget(self, action: #selector(editPost), for: .touchUpInside)
+        
         contentView.addSubview(postImage)
         contentView.addSubview(cleanPlateImage)
             
@@ -216,18 +216,17 @@ extension CleanPostCell {
         headerButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding).isActive = true
         headerButton.heightAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
         headerButton.trailingAnchor.constraint(equalTo: deleteButton.leadingAnchor, constant: -padding).isActive = true
-        //headerButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        //headerButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,).isActive = true
-        
-        /*indicator.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        indicator.widthAnchor.constraint(equalToConstant: 105).isActive = true
-        indicator.heightAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
-        indicator.leadingAnchor.constraint(equalTo: headerButton.trailingAnchor, constant: 10).isActive = true*/
+    
         
         completeMealLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: headerHeight + padding).isActive = true
         completeMealLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding).isActive = true
         completeMealLabel.heightAnchor.constraint(equalToConstant: headerElementHeight*3).isActive = true
         completeMealLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant:  cellWidth*0.50).isActive = true
+        
+        /*editButton.bottomAnchor.constraint(equalTo: completeMealLabel.bottomAnchor, constant: -padding).isActive = true
+        editButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding).isActive = true
+        editButton.heightAnchor.constraint(equalToConstant: headerElementHeight).isActive = true
+        editButton.widthAnchor.constraint(equalToConstant: headerElementHeight).isActive = true*/
         
         cleanPlateImage.topAnchor.constraint(equalTo: completeMealLabel.bottomAnchor).isActive = true
         cleanPlateImage.centerXAnchor.constraint(equalTo: completeMealLabel.centerXAnchor).isActive = true

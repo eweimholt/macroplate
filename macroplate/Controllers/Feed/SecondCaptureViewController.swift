@@ -134,7 +134,7 @@ class SecondCaptureViewController: UIViewController, UINavigationControllerDeleg
                 captureSession = AVCaptureSession()
                 captureSession?.addInput(input)
                 videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
-                videoPreviewLayer?.frame = view.layer.bounds
+                videoPreviewLayer?.frame = CGRect(x: -100, y: 0, width: view.frame.width+200, height: view.frame.height)//view.layer.bounds
                 cameraView.layer.addSublayer(videoPreviewLayer!)
                 captureSession?.startRunning()
             }
@@ -157,30 +157,30 @@ class SecondCaptureViewController: UIViewController, UINavigationControllerDeleg
         let deviceHeight = self.view.frame.height
         let w = deviceWidth*0.50
 
-        cameraView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
-        cameraView.heightAnchor.constraint(equalToConstant: 700).isActive = true
+        cameraView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        cameraView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         cameraView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         cameraView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-
+        
+        backButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        backButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
+        backButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        
         cameraButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        cameraButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50).isActive = true
+        cameraButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         cameraButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
         cameraButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         cameraText.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         cameraText.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -110).isActive = true
-        cameraText.widthAnchor.constraint(equalToConstant: 400).isActive = true
+        cameraText.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
         cameraText.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         flipButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        flipButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
+        flipButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
         flipButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
         flipButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        
-        backButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
-        backButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        backButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
         transparentBackground.topAnchor.constraint(equalTo: cameraView.topAnchor).isActive = true
         transparentBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -232,7 +232,7 @@ class SecondCaptureViewController: UIViewController, UINavigationControllerDeleg
                 captureSession = AVCaptureSession()
                 captureSession?.addInput(input)
                 videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
-                videoPreviewLayer?.frame = view.layer.bounds
+                videoPreviewLayer?.frame = CGRect(x: -100, y: 0, width: view.frame.width+200, height: view.frame.height) //view.layer.bounds
                 cameraView.layer.addSublayer(videoPreviewLayer!)
                 captureSession?.startRunning()
                 capturePhotoOutput = AVCapturePhotoOutput()
