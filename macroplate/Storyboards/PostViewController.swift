@@ -15,6 +15,12 @@ import FirebaseFirestore
 
 class PostViewController: UIViewController {
     
+    static let colorA = UIColor.init(displayP3Red: 125/255, green: 234/255, blue: 221/255, alpha: 1) //7deadd
+    static let colorB = UIColor.init(displayP3Red: 99/255, green: 197/255, blue: 188/255, alpha: 1) //primary //63c5bc
+    static let colorC = UIColor.init(displayP3Red: 50/255, green: 186/255, blue: 232/255, alpha: 1) //32bae8
+    static let colorD = UIColor.init(displayP3Red: 49/255, green: 128/255, blue: 194/255, alpha: 1) //3180c2
+    static let colorE = UIColor.init(displayP3Red: 36/255, green: 101/255, blue: 151/255, alpha: 1) //246597
+    
     var secondPhoto:UIImage?
     
     // health kit
@@ -61,8 +67,8 @@ class PostViewController: UIViewController {
      let textView = UITextView()
      textView.isEditable = false
      textView.textAlignment = .left
-     textView.font    = UIFont(name: "AvenirNext-Bold", size: 28)
-     textView.textColor = .darkGray
+     textView.font    = UIFont(name: "AvenirNext-Bold", size: 24)
+     textView.textColor = colorB //.darkGray
      textView.backgroundColor = .white
      textView.translatesAutoresizingMaskIntoConstraints = false
      return textView
@@ -71,11 +77,12 @@ class PostViewController: UIViewController {
     var userLabel : UILabel = {
         let textView = UILabel()
         textView.textAlignment = .center
-        textView.font    = UIFont(name: "AvenirNext-Regular", size: 18)
-        textView.textColor = UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
+        textView.font    = UIFont(name: "AvenirNext-Regular", size: 16)
+        textView.textColor = .gray //UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.lineBreakMode = .byWordWrapping
         textView.numberOfLines = 0
+        //textView.backgroundColor = .red
         return textView
     }()
     
@@ -92,15 +99,16 @@ class PostViewController: UIViewController {
         label.textAlignment = .center
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 2
-        label.backgroundColor = UIColor(displayP3Red: 188/255, green: 188/255, blue: 188/255, alpha: 1)
+        //label.backgroundColor = UIColor(displayP3Red: 188/255, green: 188/255, blue: 188/255, alpha: 1)
         label.clipsToBounds = true
         label.layer.cornerRadius = 15
         return label
     }()
 
     let healthButton : UIButton = {
-        let button = UIButton(frame: CGRect(x: 70, y: 600, width: 300, height: 50))
+        let button = UIButton()
         button.setTitle("View in Apple Health", for: .normal)
+        button.titleLabel?.font = UIFont(name: "AvenirNext-Regular", size: 20)
         button.backgroundColor = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -134,7 +142,7 @@ class PostViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.isScrollEnabled = false
         tableView.clipsToBounds = true
-        tableView.layer.cornerRadius = 15
+        //tableView.layer.cornerRadius = 15
         tableView.isEditing = false
         //tableView.register(NutritionCell.self, forCellReuseIdentifier: "tablecell")
         return tableView
@@ -189,6 +197,7 @@ class PostViewController: UIViewController {
         view.addSubview(dateText)
         postImageView.image = postImage
         view.addSubview(postImageView)
+        //view.addSubview(userLabel)
         //TABLE VIEW
         view.addSubview(summaryTableView)
         summaryTableView.dataSource = self
@@ -200,13 +209,15 @@ class PostViewController: UIViewController {
         //setUpLayout
         let cellWidth = self.view.frame.width
         let padding = CGFloat(20)
-        let photoWidth = cellWidth - 6*padding
+        let photoWidth = cellWidth*0.7// - 6*padding
         let height = CGFloat(50)
    
         //CONSTRAINTS
-        dateText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding).isActive = true
+        //dateText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding).isActive = true
+        dateText.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: padding).isActive = true
+        dateText.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor).isActive = true
         dateText.topAnchor.constraint(equalTo: view.topAnchor, constant: padding).isActive = true
-        dateText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding).isActive = true
+        //dateText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding).isActive = true
         dateText.heightAnchor.constraint(equalToConstant: height).isActive = true
 
         postImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -214,15 +225,22 @@ class PostViewController: UIViewController {
         postImageView.widthAnchor.constraint(equalToConstant: photoWidth).isActive = true
         postImageView.heightAnchor.constraint(equalToConstant: photoWidth).isActive = true
         
-        summaryTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        summaryTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        summaryTableView.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: 40).isActive = true
-        //summaryTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
+        /*userLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        userLabel.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: padding-15).isActive = true
+        userLabel.widthAnchor.constraint(equalToConstant: photoWidth).isActive = true
+        userLabel.heightAnchor.constraint(equalToConstant: 80).isActive = true*/
+        
+        summaryTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
+        summaryTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40).isActive = true
+        //summaryTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        //summaryTableView.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: 40).isActive = true
+        summaryTableView.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: padding-10).isActive = true
+        //summaryTableView.widthAnchor.constraint(equalToConstant: photoWidth).isActive = true
         summaryTableView.heightAnchor.constraint(equalToConstant: 175).isActive = true
         
         healthButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40).isActive = true
         healthButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40).isActive = true
-        healthButton.topAnchor.constraint(equalTo: summaryTableView.bottomAnchor, constant: 40).isActive = true
+        healthButton.topAnchor.constraint(equalTo: summaryTableView.bottomAnchor, constant: 20).isActive = true
         //summaryTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
         healthButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
  
@@ -275,10 +293,9 @@ class PostViewController: UIViewController {
         EOMImageView.widthAnchor.constraint(equalToConstant: photoWidth).isActive = true
         EOMImageView.heightAnchor.constraint(equalToConstant: photoWidth).isActive = true
         
-        summaryTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        summaryTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        summaryTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         summaryTableView.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: 40).isActive = true
-        //summaryTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
+        summaryTableView.widthAnchor.constraint(equalToConstant: 2*photoWidth + padding).isActive = true
         summaryTableView.heightAnchor.constraint(equalToConstant: 175).isActive = true
         
         healthButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40).isActive = true
@@ -292,6 +309,8 @@ class PostViewController: UIViewController {
     
     func setUpInitial() {
         postImageView.image = postImage
+        
+        
         
         dateText.text = "\(weekday ?? ""), \(date ?? "no date")"
         
@@ -522,10 +541,27 @@ extension PostViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "tablecell", for: indexPath) as! NutritionCell
     let currentItem = nutrition[indexPath.row]
-    cell.backgroundColor = .gray
+    //cell.backgroundColor = .white
     //cell.textLabel?.font =
+    cell.textLabel?.textColor = UIColor.cyan
     cell.selectionStyle = .none
     cell.textLabel?.text = currentItem.nutritionTitle
+    cell.textLabel?.font    = UIFont(name: "AvenirNext-SemiBold", size: 16)
+    
+    switch currentItem.nutritionTitle {
+    case ("Carbs: \(carbs ?? "") g"):
+        cell.textLabel?.textColor = PostViewController.colorB
+    case ("Protein: \(protein ?? "") g"):
+        cell.textLabel?.textColor = PostViewController.colorC
+    case ("Fat: \(fat ?? "") g"):
+        cell.textLabel?.textColor = PostViewController.colorD
+    case ("Total Calories: \(calories ?? "")"):
+        cell.textLabel?.textColor = PostViewController.colorE
+        cell.textLabel?.font = UIFont(name: "AvenirNext-Bold", size: 17)
+    default:
+        cell.textLabel?.textColor = PostViewController.colorB
+    }
+    
     cell.nutritionNameLabel.text = currentItem.nutritionUnit
     cell.nutrition = currentItem
     return cell
@@ -539,10 +575,11 @@ extension PostViewController: UITableViewDataSource {
         /*if calories == nil {
             return calories = "10"
         }*/
-        nutrition.append(Nutrition(nutritionTitle: "Calories: \(calories ?? "")", nutritionValue: "10", nutritionUnit: "kJ"))
+        
         nutrition.append(Nutrition(nutritionTitle: "Carbs: \(carbs ?? "") g", nutritionValue: "10", nutritionUnit: "g"))
         nutrition.append(Nutrition(nutritionTitle: "Protein: \(protein ?? "") g", nutritionValue: "10", nutritionUnit: "g"))
         nutrition.append(Nutrition(nutritionTitle: "Fat: \(fat ?? "") g", nutritionValue: "10", nutritionUnit: "g"))
+        nutrition.append(Nutrition(nutritionTitle: "Total Calories: \(calories ?? "")", nutritionValue: "10", nutritionUnit: "kJ"))
     }
 }
 

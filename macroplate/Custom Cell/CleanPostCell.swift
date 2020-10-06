@@ -22,6 +22,13 @@ protocol CleanPostCellDelegate {
 
 class CleanPostCell: UICollectionViewCell {
     
+    static let colorA = UIColor.init(displayP3Red: 125/255, green: 234/255, blue: 221/255, alpha: 1) //7deadd
+    static let colorB = UIColor.init(displayP3Red: 99/255, green: 197/255, blue: 188/255, alpha: 1) //primary //63c5bc
+    static let colorC = UIColor.init(displayP3Red: 50/255, green: 186/255, blue: 232/255, alpha: 1) //32bae8
+    static let colorD = UIColor.init(displayP3Red: 49/255, green: 128/255, blue: 194/255, alpha: 1) //3180c2
+    static let colorE = UIColor.init(displayP3Red: 36/255, green: 101/255, blue: 151/255, alpha: 1) //246597
+    static let colorF = UIColor.darkGray
+    
     var delegate: CleanPostCellDelegate?
     var index: IndexPath?
     var date: String?
@@ -47,6 +54,7 @@ class CleanPostCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        //imageView.round(corners: UIRectCorner.bottomLeft, radius: 50)
         imageView.layer.cornerRadius = 20
         //imageView.isUserInteractionEnabled = true
         return imageView
@@ -72,7 +80,7 @@ class CleanPostCell: UICollectionViewCell {
         button.clipsToBounds = true
         //button.layer.cornerRadius = 15
         button.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.0)
-        button.setTitleColor(.darkGray, for: .normal)
+        button.setTitleColor(colorB, for: .normal)
         button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 18)
         button.contentHorizontalAlignment = .left
         return button
@@ -96,7 +104,7 @@ class CleanPostCell: UICollectionViewCell {
         dButton.clipsToBounds = true
         dButton.setTitleColor(.white, for: .normal)
         let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .semibold, scale: .large)
-        let cImage = UIImage(systemName: "x.circle", withConfiguration: config)?.withTintColor(UIColor.darkGray, renderingMode: .alwaysOriginal)
+        let cImage = UIImage(systemName: "x.circle", withConfiguration: config)?.withTintColor(colorB, renderingMode: .alwaysOriginal)
         dButton.setImage(cImage, for: .normal)
         dButton.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 20)
         return dButton
@@ -109,7 +117,7 @@ class CleanPostCell: UICollectionViewCell {
         dButton.backgroundColor = .orange
         dButton.setTitleColor(.white, for: .normal)
         let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold, scale: .large)
-        let cImage = UIImage(systemName: "pencil", withConfiguration: config)?.withTintColor(UIColor.lightGray, renderingMode: .alwaysOriginal)
+        let cImage = UIImage(systemName: "pencil", withConfiguration: config)?.withTintColor(colorB, renderingMode: .alwaysOriginal)
         dButton.setImage(cImage, for: .normal)
         dButton.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 20)
         return dButton
@@ -235,5 +243,45 @@ extension CleanPostCell {
         
         
     }
+}
+
+extension UIImageView {
+    /**
+     Rounds the given set of corners to the specified radius with a border
+     
+     - parameter corners:     Corners to round
+     - parameter radius:      Radius to round to
+     - parameter borderColor: The border color
+     - parameter borderWidth: The border width
+     */
+    func round(corners: UIRectCorner, radius: CGFloat) {
+        let mask = _round(corners: corners, radius: radius)
+        addBorder(mask: mask, borderColor: .cyan, borderWidth: 2)
+        
+    }
+}
+
+
+private extension UIImageView {
+    
+    
+    @discardableResult func _round(corners: UIRectCorner, radius: CGFloat) -> CAShapeLayer {
+        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        self.layer.mask = mask
+        return mask
+    }
+    
+    func addBorder(mask: CAShapeLayer, borderColor: UIColor, borderWidth: CGFloat) {
+        let borderLayer = CAShapeLayer()
+        borderLayer.path = mask.path
+        borderLayer.fillColor = UIColor.clear.cgColor
+        borderLayer.strokeColor = borderColor.cgColor
+        borderLayer.lineWidth = borderWidth
+        borderLayer.frame = bounds
+        layer.addSublayer(borderLayer)
+    }
+    
 }
 

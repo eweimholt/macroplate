@@ -292,6 +292,45 @@ class UserViewController: UIViewController {
         useBody.tintColor = UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
     }
     
+    /*func AddReminder() {
+
+     eventStore.requestAccess(to: EKEntityType.reminder, completion: {
+      granted, error in
+      if (granted) && (error == nil) {
+        print("granted \(granted)")
+
+
+        let reminder:EKReminder = EKReminder(eventStore: self.eventStore)
+        reminder.title = "Must do this!"
+        reminder.priority = 2
+
+        //  How to show completed
+        //reminder.completionDate = Date()
+
+        reminder.notes = "...this is a note"
+
+
+        let alarmTime = Date().addingTimeInterval(1*60*24*3)
+        let alarm = EKAlarm(absoluteDate: alarmTime)
+        reminder.addAlarm(alarm)
+
+        reminder.calendar = self.eventStore.defaultCalendarForNewReminders()
+
+
+        do {
+          try self.eventStore.save(reminder, commit: true)
+        } catch {
+          print("Cannot save")
+          return
+        }
+        print("Reminder saved")
+      }
+     })*/
+        
+        /*@IBAction func remindTapped() {
+            AddReminder()
+        }*/
+    
     @objc func switchStateDidChange(_ sender:UISwitch){
         //var switchState = ["permissionGranted" : "false"]  as [String : Any]
         var switchState:[String : Any]?

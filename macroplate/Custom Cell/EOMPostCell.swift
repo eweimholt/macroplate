@@ -19,6 +19,12 @@ protocol EOMPostCellDelegate {
 
 class EOMPostCell: UICollectionViewCell {
     
+    static let colorA = UIColor.init(displayP3Red: 125/255, green: 234/255, blue: 221/255, alpha: 1) //7deadd
+    static let colorB = UIColor.init(displayP3Red: 99/255, green: 197/255, blue: 188/255, alpha: 1) //primary //63c5bc
+    static let colorC = UIColor.init(displayP3Red: 50/255, green: 186/255, blue: 232/255, alpha: 1) //32bae8
+    static let colorD = UIColor.init(displayP3Red: 49/255, green: 128/255, blue: 194/255, alpha: 1) //3180c2
+    static let colorE = UIColor.init(displayP3Red: 36/255, green: 101/255, blue: 151/255, alpha: 1) //246597
+    
     var delegate: EOMPostCellDelegate?
     var index: IndexPath?
     var date: String?
@@ -91,7 +97,7 @@ class EOMPostCell: UICollectionViewCell {
         button.clipsToBounds = true
         //button.layer.cornerRadius = 15
         button.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.0)
-        button.setTitleColor(.darkGray, for: .normal)
+        button.setTitleColor(colorB, for: .normal)
         button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 18)
         button.contentHorizontalAlignment = .left
         return button
@@ -116,7 +122,7 @@ class EOMPostCell: UICollectionViewCell {
         dButton.clipsToBounds = true
         dButton.setTitleColor(.white, for: .normal)
         let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .semibold, scale: .large)
-        let cImage = UIImage(systemName: "x.circle", withConfiguration: config)?.withTintColor(UIColor.darkGray, renderingMode: .alwaysOriginal)
+        let cImage = UIImage(systemName: "x.circle", withConfiguration: config)?.withTintColor(colorB, renderingMode: .alwaysOriginal)
         dButton.setImage(cImage, for: .normal)
         dButton.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 20)
         return dButton

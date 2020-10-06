@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "Platemate_Deliverable_Landing-Page-iphone-8-7-6 Plus-Linear-Gradient.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -31,7 +31,7 @@ class MealCompleteLabel: UILabel{
     
     func setupLabel()  {
         text = "Meal Log Complete"
-        font = UIFont(name: "AvenirNext-Bold", size: 28)
+        font = UIFont(name: "AvenirNext-Bold", size: 24)
         textColor = UIColor.init(displayP3Red: 99/255, green: 197/255, blue: 188/255, alpha: 1)
         translatesAutoresizingMaskIntoConstraints = false
         textAlignment = .center
