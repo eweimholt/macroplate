@@ -15,7 +15,7 @@ import FirebaseDatabase
 import FirebaseAuth
 import FirebaseAnalytics
 
-class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVCaptureMetadataOutputObjectsDelegate {
     
     //create color dictionaries
     static let primaryBlue = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
@@ -32,7 +32,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     var backCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
     var capturePhotoOutput: AVCapturePhotoOutput?
     let picker = UIImagePickerController()
- 
+    
     
     let cameraView : UIView = {
         let camView = UIView()
@@ -41,7 +41,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         //camView.layer.cornerRadius = 10
         return camView
     }()
-   
+    
     // initialize symbols
     
     //ultralight, thin, light, regular, medium, semibold, bold, heavy, black
@@ -77,9 +77,9 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     //initialize buttons
     let cameraButton : UIButton = {
-       let cButton = UIButton(frame: CGRect(x: 100, y: 100, width: 70, height: 70))
+        let cButton = UIButton(frame: CGRect(x: 100, y: 100, width: 70, height: 70))
         cButton.translatesAutoresizingMaskIntoConstraints = false
-       return cButton
+        return cButton
     }()
     
     let flipButton : UIButton = {
@@ -105,7 +105,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         uButton.translatesAutoresizingMaskIntoConstraints = false
         return uButton
     }()
-
+    
     
     var cameraText : UILabel = {
         let textLabel = UILabel()
@@ -135,269 +135,301 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //authenticateUser()
-        picker.delegate = self //image picker will now listen to delegates. has method called when user is done selecting image
-        // cameraView.layer.backgroundColor = .init(red: 235/255, green: 64/255, blue: 2/255, alpha: 1)
-        
-        //add elements to view
-        
+        picker.delegate = self
         if Auth.auth().currentUser == nil {
             DispatchQueue.main.async {
                 let navController = UINavigationController(rootViewController: ViewController())
                 navController.navigationBar.barStyle = .black
-                //self.present(navController, animated: true, completion: nil)
-                
-                //swap out root view controller for the feed one
                 self.view.window?.rootViewController = ViewController()
                 self.view.window?.makeKeyAndVisible()
             }
         }
         else {
-        //set user id for analytics
-        let uid = Auth.auth().currentUser!.uid
-        Analytics.setUserID(uid)
-
-        self.view.addSubview(cameraView)
-        self.view.addSubview(transparentBackground)
-        self.view.addSubview(transparentBackground2)
-
-        cameraButton.setBackgroundImage(circleImage, for: .normal)
-        cameraButton.addTarget(self, action: #selector(imageCapture), for: .touchUpInside)
-        self.view.addSubview(cameraButton)
-   
-        flipButton.setBackgroundImage(flipImage, for: .normal)
-        flipButton.addTarget(self, action: #selector(rotateCamera), for: .touchUpInside)
-        self.view.addSubview(flipButton)
-        
-        userButton.setBackgroundImage(personImage, for: .normal)
-        userButton.addTarget(self, action: #selector(userTapped), for: .touchUpInside)
-        self.view.addSubview(userButton)
-        
-        galleryButton.setBackgroundImage(galleryImage, for: .normal)
-        galleryButton.addTarget(self, action: #selector(galleryTapped), for: .touchUpInside)
-        self.view.addSubview(galleryButton)
-        
-        uploadButton.setBackgroundImage(uploadImage, for: .normal)
-        uploadButton.addTarget(self, action: #selector(uploadTapped), for: .touchUpInside)
-        self.view.addSubview(uploadButton)
-
-        
-        self.view.addSubview(cameraText)
-        
-        setUpLayout()
-        
-        
-        if #available(iOS 10.2, *) {
-            let captureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
-            do {
-                
-                let input = try AVCaptureDeviceInput(device: captureDevice!)
-                captureSession = AVCaptureSession()
-                captureSession?.addInput(input)
-                videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
-                videoPreviewLayer?.frame = CGRect(x: -100, y: 0, width: view.frame.width+200, height: view.frame.height) //view.layer.bounds
-                cameraView.layer.addSublayer(videoPreviewLayer!)
-                captureSession?.startRunning()
-            }
-            catch {
-                
-                print("error setting capture device")
-            }
-        }
-        
-        capturePhotoOutput = AVCapturePhotoOutput()
-        capturePhotoOutput?.isHighResolutionCaptureEnabled = true
-        captureSession?.addOutput(capturePhotoOutput!)
-        }
-        
-    }
-    private func setUpLayout() {
-        
-        view.backgroundColor = .black
-        
-        let deviceWidth = self.view.frame.width
-        let deviceHeight = self.view.frame.height
-        let w = deviceWidth*0.50
-        
-        cameraView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        cameraView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        cameraView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        cameraView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        
-        transparentBackground.topAnchor.constraint(equalTo: cameraView.topAnchor).isActive = true
-        transparentBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        transparentBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        transparentBackground.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: -CGFloat(w*8/10)).isActive = true
-        
-        transparentBackground2.topAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(w*10/8)).isActive = true
-        transparentBackground2.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        transparentBackground2.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        transparentBackground2.bottomAnchor.constraint(equalTo: cameraView.bottomAnchor).isActive = true
-        
-           
-        cameraButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        cameraButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        cameraButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
-        cameraButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        
-        cameraText.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        cameraText.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -110).isActive = true
-        cameraText.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        cameraText.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        
-        flipButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        flipButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-        flipButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        flipButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
-
-        
-        userButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        userButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
-        userButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        userButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        
-        galleryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        galleryButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
-        galleryButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        galleryButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        
-        uploadButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 80).isActive = true
-        uploadButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
-        uploadButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
-        uploadButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-    }
-    
-    
-    @IBAction func imageCapture(_ sender: Any) {
-        
-        guard let capturePhotoOutput = self.capturePhotoOutput else { return}
-        let photoSettings = AVCapturePhotoSettings()
-        photoSettings.isHighResolutionPhotoEnabled = true
-        capturePhotoOutput.capturePhoto(with: photoSettings, delegate: self)
-        
-    }
-    
-    @IBAction func userTapped(_sender: Any) {
-        
-        //present to ProfileVC
-        let profileVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "ProfileVC") as! UserViewController
-        DispatchQueue.main.async {
-            self.present(profileVC, animated: true, completion: nil)
-        }
-        
-    }
-    
-    @IBAction func galleryTapped(_sender: Any) {
-        transitionToFeed()
-    }
-    
-    @IBAction func uploadTapped(_sender: Any) {
-        //picker.allowsEditing = true
-        picker.sourceType = .photoLibrary
-        
-        present(picker, animated: true, completion: nil)
-        
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            print("picker selected image!")
-            presentToImageVC(image)
+            //set user id for analytics
+            let uid = Auth.auth().currentUser!.uid
+            Analytics.setUserID(uid)
             
-        } // no editing allowed
-            // for edited image: info[UIImagePickerController.InfoKey.editedImage]
-        self.dismiss(animated: true, completion: nil)
+            self.view.addSubview(cameraView)
+            self.view.addSubview(transparentBackground)
+            self.view.addSubview(transparentBackground2)
             
-    }
-    
-    func switchToFrontCamera() {
-        if frontCamera?.isConnected == true {
-            captureSession?.stopRunning()
-            let captureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)
-            do {
-                let input = try AVCaptureDeviceInput(device: captureDevice!)
-                captureSession = AVCaptureSession()
-                captureSession?.addInput(input)
-                videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
-                videoPreviewLayer?.frame = view.layer.bounds
-                cameraView.layer.addSublayer(videoPreviewLayer!)
-                captureSession?.startRunning()
-                capturePhotoOutput = AVCapturePhotoOutput()
-                capturePhotoOutput?.isHighResolutionCaptureEnabled = true
-                captureSession?.addOutput(capturePhotoOutput!)
+            cameraButton.setBackgroundImage(circleImage, for: .normal)
+            cameraButton.addTarget(self, action: #selector(imageCapture), for: .touchUpInside)
+            self.view.addSubview(cameraButton)
+            
+            flipButton.setBackgroundImage(flipImage, for: .normal)
+            flipButton.addTarget(self, action: #selector(rotateCamera), for: .touchUpInside)
+            self.view.addSubview(flipButton)
+            
+            userButton.setBackgroundImage(personImage, for: .normal)
+            userButton.addTarget(self, action: #selector(userTapped), for: .touchUpInside)
+            self.view.addSubview(userButton)
+            
+            galleryButton.setBackgroundImage(galleryImage, for: .normal)
+            galleryButton.addTarget(self, action: #selector(galleryTapped), for: .touchUpInside)
+            self.view.addSubview(galleryButton)
+            
+            uploadButton.setBackgroundImage(uploadImage, for: .normal)
+            uploadButton.addTarget(self, action: #selector(uploadTapped), for: .touchUpInside)
+            self.view.addSubview(uploadButton)
+            
+            
+            self.view.addSubview(cameraText)
+            
+            setUpLayout()
+            
+            if #available(iOS 10.2, *) {
+                let captureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
+                do {
+                    
+                    let input = try AVCaptureDeviceInput(device: captureDevice!)
+                    captureSession = AVCaptureSession()
+                    captureSession?.addInput(input)
+                    videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
+                    videoPreviewLayer?.frame = CGRect(x: -100, y: 0, width: view.frame.width+200, height: view.frame.height) //view.layer.bounds
+                    cameraView.layer.addSublayer(videoPreviewLayer!)
+                    captureSession?.startRunning()
+                }
+                catch {
+                    print("error setting capture device")
+                }
             }
-            catch {
-                print("error switching to front cam")
-            }
+            //photo capture output
+            capturePhotoOutput = AVCapturePhotoOutput()
+            capturePhotoOutput?.isHighResolutionCaptureEnabled = true
+            captureSession?.addOutput(capturePhotoOutput!)
+            
+            //barcode scan output
+            let output = AVCaptureMetadataOutput()
+            captureSession?.addOutput(output)
+            output.setMetadataObjectsDelegate(self, queue: DispatchQueue.main) //AVCaptureMetadataOutputObjectsDelegate
+            output.metadataObjectTypes = [AVMetadataObject.ObjectType.ean13,AVMetadataObject.ObjectType.ean8,AVMetadataObject.ObjectType.upce]
         }
-    }
-    
-    func switchToBackCamera() {
-        if backCamera?.isConnected == true {
-            captureSession?.stopRunning()
-            let captureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
-            do {
-                let input = try AVCaptureDeviceInput(device: captureDevice!)
-                captureSession = AVCaptureSession()
-                captureSession?.addInput(input)
-                videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
-                videoPreviewLayer?.frame = view.layer.bounds
-                cameraView.layer.addSublayer(videoPreviewLayer!)
-                captureSession?.startRunning()
-                capturePhotoOutput = AVCapturePhotoOutput()
-                capturePhotoOutput?.isHighResolutionCaptureEnabled = true
-                captureSession?.addOutput(capturePhotoOutput!)
-            }
-            catch {
-                print("error switching to back cam")
-            }
-        }
-    }
-    
-    @IBAction func rotateCamera(_ sender: Any) {
         
-        guard let currentCameraInput:AVCaptureInput = captureSession?.inputs.first else {
-            return
-        }
-        if let input = currentCameraInput as? AVCaptureDeviceInput {
-            if input.device.position == .back {
-                switchToFrontCamera()
-            }
-            if input.device.position == .front {
-                switchToBackCamera()
-            }
-        }
-    }
-        
-    func presentToImageVC(_ image : UIImage) {
-        let imageVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: Constants.Storyboard.imageViewController) as! ImageViewController
-        imageVC.takenPhoto = image
-        
-        /*let feedVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: Constants.Storyboard.feedViewController) as! FeedViewController
-        feedVC.feedImage = image*/
-
-        DispatchQueue.main.async {
-            self.present(imageVC, animated: true, completion: nil)
-        }
     }
     
-    func transitionToFeed() {
+    func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+        if metadataObjects != nil && metadataObjects.count != 0
+        {
+            if let object = metadataObjects[0] as? AVMetadataMachineReadableCodeObject
+            {
+                if object.type == AVMetadataObject.ObjectType.ean13 || object.type == AVMetadataObject.ObjectType.ean8
+                {
+                    let alert = UIAlertController(title: "Bar Code", message: object.stringValue, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Retake", style: .default, handler: nil))
+                    alert.addAction(UIAlertAction(title: "Save", style: .default, handler: {(action) in //UIPasteboard.general.string = object.stringValue
+                        let Bar = object.stringValue!
+                        // Add a new document in collection "cities"
+                        let db = Firestore.firestore()
+                        db.collection("BarcodeNumber").addDocument(data: ["BarcodeNumber" : Bar,"AllData": "", "Calories" : "" , "Protein" : "", "Carbohydrates" : "", "Fats" : ""
+                        ]){ err in
+                            if let err = err {
+                                print("Error writing document: \(err)")
+                            } else {
+                                print("Document successfully written!")
+                            }
+                        }
+                        
+                    }))
+                    present(alert, animated: true, completion: nil)
+                    //let url = URL(string: "https://world.openfoodfacts//.org/api/v0/product///[object].json")!
+                    //print("\(url)")
+                    
+                    /*let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
+                     guard let data = data else { return }
+                     print(String(data: data, encoding: .utf8)!)*/
+                }
+            }
+        }
+    }
 
-        /*let mealVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "MealsVC") as! MealsViewController
-         DispatchQueue.main.async {
-             self.present(mealVC, animated: true, completion: nil)
-         }*/
+private func setUpLayout() {
+    
+    view.backgroundColor = .black
+    
+    let deviceWidth = self.view.frame.width
+    let deviceHeight = self.view.frame.height
+    let w = deviceWidth*0.50
+    
+    cameraView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+    cameraView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    cameraView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+    cameraView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+    
+    transparentBackground.topAnchor.constraint(equalTo: cameraView.topAnchor).isActive = true
+    transparentBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+    transparentBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+    transparentBackground.bottomAnchor.constraint(equalTo: view.centerYAnchor, constant: -CGFloat(w*8/10)).isActive = true
+    
+    transparentBackground2.topAnchor.constraint(equalTo: view.centerYAnchor, constant: CGFloat(w*10/8)).isActive = true
+    transparentBackground2.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+    transparentBackground2.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+    transparentBackground2.bottomAnchor.constraint(equalTo: cameraView.bottomAnchor).isActive = true
+    
+    
+    cameraButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    cameraButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+    cameraButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
+    cameraButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+    
+    cameraText.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    cameraText.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -110).isActive = true
+    cameraText.widthAnchor.constraint(equalToConstant: 300).isActive = true
+    cameraText.heightAnchor.constraint(equalToConstant: 30).isActive = true
+    
+    flipButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+    flipButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+    flipButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
+    flipButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
+    
+    
+    userButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+    userButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
+    userButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+    userButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+    
+    galleryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+    galleryButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
+    galleryButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
+    galleryButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+    
+    uploadButton.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 80).isActive = true
+    uploadButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
+    uploadButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
+    uploadButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+}
 
-        let mealsVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "MealsVC") as? MealsViewController
-        
-        //swap out root view controller for the home one, once the signup is successful
-        view.window?.rootViewController = mealsVC
-        view.window?.makeKeyAndVisible()
-        //refresh cells
-        mealsVC?.mealsCollectionView.reloadData()
 
+@IBAction func imageCapture(_ sender: Any) {
+    
+    guard let capturePhotoOutput = self.capturePhotoOutput else { return}
+    let photoSettings = AVCapturePhotoSettings()
+    photoSettings.isHighResolutionPhotoEnabled = true
+    capturePhotoOutput.capturePhoto(with: photoSettings, delegate: self)
+    
+}
+
+@IBAction func userTapped(_sender: Any) {
+    
+    //present to ProfileVC
+    let profileVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "ProfileVC") as! UserViewController
+    DispatchQueue.main.async {
+        self.present(profileVC, animated: true, completion: nil)
     }
     
+}
+
+@IBAction func galleryTapped(_sender: Any) {
+    transitionToFeed()
+}
+
+@IBAction func uploadTapped(_sender: Any) {
+    //picker.allowsEditing = true
+    picker.sourceType = .photoLibrary
+    
+    present(picker, animated: true, completion: nil)
+    
+}
+
+func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+        print("picker selected image!")
+        presentToImageVC(image)
+        
+    } // no editing allowed
+    // for edited image: info[UIImagePickerController.InfoKey.editedImage]
+    self.dismiss(animated: true, completion: nil)
+    
+}
+
+func switchToFrontCamera() {
+    if frontCamera?.isConnected == true {
+        captureSession?.stopRunning()
+        let captureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)
+        do {
+            let input = try AVCaptureDeviceInput(device: captureDevice!)
+            captureSession = AVCaptureSession()
+            captureSession?.addInput(input)
+            videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
+            videoPreviewLayer?.frame = view.layer.bounds
+            cameraView.layer.addSublayer(videoPreviewLayer!)
+            captureSession?.startRunning()
+            capturePhotoOutput = AVCapturePhotoOutput()
+            capturePhotoOutput?.isHighResolutionCaptureEnabled = true
+            captureSession?.addOutput(capturePhotoOutput!)
+        }
+        catch {
+            print("error switching to front cam")
+        }
+    }
+}
+
+func switchToBackCamera() {
+    if backCamera?.isConnected == true {
+        captureSession?.stopRunning()
+        let captureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
+        do {
+            let input = try AVCaptureDeviceInput(device: captureDevice!)
+            captureSession = AVCaptureSession()
+            captureSession?.addInput(input)
+            videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
+            videoPreviewLayer?.frame = view.layer.bounds
+            cameraView.layer.addSublayer(videoPreviewLayer!)
+            captureSession?.startRunning()
+            capturePhotoOutput = AVCapturePhotoOutput()
+            capturePhotoOutput?.isHighResolutionCaptureEnabled = true
+            captureSession?.addOutput(capturePhotoOutput!)
+        }
+        catch {
+            print("error switching to back cam")
+        }
+    }
+}
+
+@IBAction func rotateCamera(_ sender: Any) {
+    
+    guard let currentCameraInput:AVCaptureInput = captureSession?.inputs.first else {
+        return
+    }
+    if let input = currentCameraInput as? AVCaptureDeviceInput {
+        if input.device.position == .back {
+            switchToFrontCamera()
+        }
+        if input.device.position == .front {
+            switchToBackCamera()
+        }
+    }
+}
+
+func presentToImageVC(_ image : UIImage) {
+    let imageVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: Constants.Storyboard.imageViewController) as! ImageViewController
+    imageVC.takenPhoto = image
+    
+    /*let feedVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: Constants.Storyboard.feedViewController) as! FeedViewController
+     feedVC.feedImage = image*/
+    
+    DispatchQueue.main.async {
+        self.present(imageVC, animated: true, completion: nil)
+    }
+}
+
+func transitionToFeed() {
+    
+    /*let mealVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "MealsVC") as! MealsViewController
+     DispatchQueue.main.async {
+     self.present(mealVC, animated: true, completion: nil)
+     }*/
+    
+    let mealsVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "MealsVC") as? MealsViewController
+    
+    //swap out root view controller for the home one, once the signup is successful
+    view.window?.rootViewController = mealsVC
+    view.window?.makeKeyAndVisible()
+    //refresh cells
+    mealsVC?.mealsCollectionView.reloadData()
+    
+}
+
 }
 
 
@@ -406,9 +438,9 @@ extension HomeViewController: AVCapturePhotoCaptureDelegate {
     
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?, previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
         guard error == nil,
-            let photoSampleBuffer = photoSampleBuffer else {
-                print("error in extension guard")
-                return
+              let photoSampleBuffer = photoSampleBuffer else {
+            print("error in extension guard")
+            return
         }
         guard let imageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: photoSampleBuffer, previewPhotoSampleBuffer: previewPhotoSampleBuffer) else {
             return

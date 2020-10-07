@@ -30,7 +30,7 @@ class MealCompleteLabel: UILabel{
     static let colorE = UIColor.darkGray //UIColor.init(displayP3Red: 36/255, green: 101/255, blue: 151/255, alpha: 1) //246597
     
     func setupLabel()  {
-        text = "Meal Log Complete"
+        text = "Meal Log Submitted"
         font = UIFont(name: "AvenirNext-Bold", size: 24)
         textColor = UIColor.init(displayP3Red: 99/255, green: 197/255, blue: 188/255, alpha: 1)
         translatesAutoresizingMaskIntoConstraints = false

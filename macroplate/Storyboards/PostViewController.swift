@@ -545,6 +545,7 @@ extension PostViewController: UITableViewDataSource {
     //cell.textLabel?.font =
     cell.textLabel?.textColor = UIColor.cyan
     cell.selectionStyle = .none
+    cell.backgroundColor = .white
     cell.textLabel?.text = currentItem.nutritionTitle
     cell.textLabel?.font    = UIFont(name: "AvenirNext-SemiBold", size: 16)
     

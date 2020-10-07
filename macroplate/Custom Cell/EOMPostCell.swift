@@ -203,7 +203,7 @@ class EOMPostCell: UICollectionViewCell {
                 delegate?.didExpandEOMPost(image: postImage.image!, EOMImage: EOMImage.image!, date: date, timestamp: timestamp, userText: userTextInput, calories: calories, carbs: carbs, protein: protein, fat: fat, state : state, postId: postId, healthDataEvent: healthDataEvent, isPlateEmpty: isPlateEmpty)
             }
         } else {
-            print("nil abort avoided :) ")
+            print("nil abort avoided :) EOMPost")
         }
     }
     

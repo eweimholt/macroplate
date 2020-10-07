@@ -356,7 +356,7 @@ class PostCell: UICollectionViewCell {
                 delegate?.didExpandPost(image: postImage.image!, date: date, timestamp: timestamp, userText: userTextInput, calories: calories, carbs: carbs, protein: protein, fat: fat, state : state, postId: postId, healthDataEvent: healthDataEvent, isPlateEmpty: isPlateEmpty)
             }
         } else {
-            print("nil abort avoided :) ")
+            print("nil abort avoided :) expandPost ")
         }
     }
     
@@ -366,7 +366,7 @@ class PostCell: UICollectionViewCell {
             delegate?.addAfterMeal(index: index!.row, postId: postId)
         }
         else {
-            print("nil abort avoided")
+            print("nil abort avoided addAfterMeal")
         }
     }
     
