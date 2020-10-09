@@ -215,20 +215,35 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             {
                 if object.type == AVMetadataObject.ObjectType.ean13 || object.type == AVMetadataObject.ObjectType.ean8
                 {
-                    let alert = UIAlertController(title: "Bar Code", message: object.stringValue, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Retake", style: .default, handler: nil))
+                    let alert = UIAlertController(title: "Bar Code:", message: object.stringValue, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
                     alert.addAction(UIAlertAction(title: "Save", style: .default, handler: {(action) in //UIPasteboard.general.string = object.stringValue
                         let Bar = object.stringValue!
                         // Add a new document in collection "cities"
                         let db = Firestore.firestore()
-                        db.collection("BarcodeNumber").addDocument(data: ["BarcodeNumber" : Bar,"AllData": "", "Calories" : "" , "Protein" : "", "Carbohydrates" : "", "Fats" : ""
+                        
+                        let date = Date()//NSDate().timeIntervalSince1970 //
+                        let timestamp = NSDate().timeIntervalSince1970 //Timestamp(date: date)
+                        let uid = Auth.auth().currentUser!.uid
+                        
+                        db.collection("posts").addDocument(data: ["BarcodeNumber" : Bar, "timestamp": timestamp, "date": date, "uid" : uid
+                        ]) { err in
+                            if let err = err {
+                                print("Error adding document: \(err)")
+                            } else {
+                                print("Document added with Barcode: \(Bar)")
+                               // self.transitionToConfirmation() for some reason, it adds two here
+                            }
+                        }
+                        
+                        /*db.collection("BarcodeNumber").addDocument(data: ["BarcodeNumber" : Bar,"AllData": "", "Calories" : "" , "Protein" : "", "Carbohydrates" : "", "Fats" : ""
                         ]){ err in
                             if let err = err {
                                 print("Error writing document: \(err)")
                             } else {
                                 print("Document successfully written!")
                             }
-                        }
+                        }*/
                         
                     }))
                     present(alert, animated: true, completion: nil)

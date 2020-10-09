@@ -23,6 +23,8 @@
 		01380892248C6C6C003A9ECF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01380891248C6C6C003A9ECF /* LoginViewController.swift */; };
 		01380893248C6C6C003A9ECF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01380891248C6C6C003A9ECF /* LoginViewController.swift */; };
 		01380894248C6C6C003A9ECF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01380891248C6C6C003A9ECF /* LoginViewController.swift */; };
+		01451FC42530A2B700BAC4E6 /* Reminders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01451FC32530A2B700BAC4E6 /* Reminders.swift */; };
+		01451FC72530A8AC00BAC4E6 /* RemindersTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01451FC62530A8AC00BAC4E6 /* RemindersTableCell.swift */; };
 		015041CF24B28497005F4B15 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015041CE24B28497005F4B15 /* UserViewController.swift */; };
 		015041D024B28497005F4B15 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015041CE24B28497005F4B15 /* UserViewController.swift */; };
 		015041D124B28497005F4B15 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 015041CE24B28497005F4B15 /* UserViewController.swift */; };
@@ -108,12 +110,14 @@
 		01380889248C6C46003A9ECF /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		0138088D248C6C5D003A9ECF /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		01380891248C6C6C003A9ECF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		01451FC32530A2B700BAC4E6 /* Reminders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reminders.swift; sourceTree = "<group>"; };
+		01451FC62530A8AC00BAC4E6 /* RemindersTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersTableCell.swift; sourceTree = "<group>"; };
 		015041CE24B28497005F4B15 /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		015041D224B28D37005F4B15 /* standardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = standardButton.swift; sourceTree = "<group>"; };
 		015041D624B4CC5D005F4B15 /* UserButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserButton.swift; sourceTree = "<group>"; };
 		015DC2EA24D8D2FC003AF428 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0162B6C525257DD100778EA2 /* Nutrition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Nutrition.swift; path = macroplate/Controllers/Feed/Nutrition.swift; sourceTree = SOURCE_ROOT; };
-		0162B6CA252580D500778EA2 /* NutritionTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NutritionTableCell.swift; path = "macroplate/Custom Cell/NutritionTableCell.swift"; sourceTree = SOURCE_ROOT; };
+		0162B6CA252580D500778EA2 /* NutritionTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NutritionTableCell.swift; path = "macroplate/Table Cells/NutritionTableCell.swift"; sourceTree = SOURCE_ROOT; };
 		0162B6CF2525A2D500778EA2 /* MealCompleteLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCompleteLabel.swift; sourceTree = SOURCE_ROOT; };
 		01812DE524C0A38A00F92531 /* FakeFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeFeedViewController.swift; sourceTree = "<group>"; };
 		018D937324D089A700E0873C /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostViewController.swift; path = macroplate/Storyboards/PostViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -194,6 +198,15 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		01451FC52530A7B200BAC4E6 /* Table Cells */ = {
+			isa = PBXGroup;
+			children = (
+				0162B6CA252580D500778EA2 /* NutritionTableCell.swift */,
+				01451FC62530A8AC00BAC4E6 /* RemindersTableCell.swift */,
+			);
+			path = "Table Cells";
+			sourceTree = "<group>";
+		};
 		01983B4F24CB3E4600882883 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -205,6 +218,7 @@
 			isa = PBXGroup;
 			children = (
 				0162B6C525257DD100778EA2 /* Nutrition.swift */,
+				01451FC32530A2B700BAC4E6 /* Reminders.swift */,
 				01C25ACB24CCD5E100BBEF68 /* Post.swift */,
 			);
 			path = Models;
@@ -275,7 +289,6 @@
 			children = (
 				01D508CD2516B2BB00E29764 /* SecondImageViewController.swift */,
 				018D937324D089A700E0873C /* PostViewController.swift */,
-				0162B6CA252580D500778EA2 /* NutritionTableCell.swift */,
 				01FDDDA824CCD00C0032C23D /* MealsViewController.swift */,
 				01D508CB25154FA100E29764 /* SecondCaptureViewController.swift */,
 			);
@@ -317,6 +330,7 @@
 		01FE2A4B248C699E005D5750 /* macroplate */ = {
 			isa = PBXGroup;
 			children = (
+				01451FC52530A7B200BAC4E6 /* Table Cells */,
 				01FDDDAC24CCD3060032C23D /* Custom Cell */,
 				01983B5024CB3E5500882883 /* Models */,
 				01380895248C6C72003A9ECF /* Controllers */,
@@ -685,6 +699,7 @@
 				01C25ACC24CCD5E100BBEF68 /* Post.swift in Sources */,
 				01011F2C24BB81810077534B /* ConfirmationViewController.swift in Sources */,
 				01A4584924DB441C008502A9 /* NSAttributedString.swift in Sources */,
+				01451FC42530A2B700BAC4E6 /* Reminders.swift in Sources */,
 				01FE2A4F248C699E005D5750 /* SceneDelegate.swift in Sources */,
 				0138088A248C6C46003A9ECF /* HomeViewController.swift in Sources */,
 				015041D724B4CC5D005F4B15 /* UserButton.swift in Sources */,
@@ -693,6 +708,7 @@
 				01D508CC25154FA100E29764 /* SecondCaptureViewController.swift in Sources */,
 				01F55F97248C843F00104DAB /* Constants.swift in Sources */,
 				0162B6CB252580D500778EA2 /* NutritionTableCell.swift in Sources */,
+				01451FC72530A8AC00BAC4E6 /* RemindersTableCell.swift in Sources */,
 				01FDDDAE24CCD32B0032C23D /* PostCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

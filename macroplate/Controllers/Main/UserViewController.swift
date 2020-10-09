@@ -6,18 +6,20 @@
 //  Copyright © 2020 Elise Weimholt. All rights reserved.
 //
 
+import UserNotifications
+import UserNotificationsUI
 import UIKit
 import Firebase
 import FirebaseAuth
 import FirebaseFirestore
 
 class UserViewController: UIViewController {
-    
-    
+
     @IBOutlet weak var hyperlinkTextView: UITextView!
-    
+
     var docRef : DocumentReference!
-    
+    let remindersId = "remindersId"
+    var reminders = [Reminders]()
     
     let signOutButton : UIButton = {
         let uButton = UIButton(frame: CGRect(x: 100, y: 100, width: 35, height: 40))
@@ -41,34 +43,6 @@ class UserViewController: UIViewController {
         let uButton = UIButton(frame: CGRect(x: 100, y: 100, width: 70, height: 70))
         uButton.translatesAutoresizingMaskIntoConstraints = false
         return uButton
-    }()
-    
-    let aboutHeading : UILabel = {
-        let label = UILabel()
-        label.text = "About"
-        label.font = UIFont.systemFont(ofSize: 32)
-        label.textColor = UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .left
-        label.textColor = .white
-        return label
-    }()
-    
-    let aboutBody : UITextView = {
-        let label = UITextView()
-        label.isEditable = false
-        label.isSelectable = true
-        label.dataDetectorTypes = .link
-        label.text = """
-        Platemate is an automatic food tracker powered by Flowaste, a startup with a mission to reduce food waste. We develop deep learning models to recognize and track food.
-        """
-        label.font = UIFont.systemFont(ofSize: 18)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .left
-        label.textColor = .white
-        label.tintColor = .white
-        //label.numberOfLines = 7
-        return label
     }()
     
     let useHeading : UILabel = {
@@ -98,25 +72,22 @@ class UserViewController: UIViewController {
         label.tintColor = .white
         return label
     }()
-    
-    let switchLabel : UILabel = {
-        let label = UILabel()
-        label.text = """
-        Allow your photos to be used for promotional content: 
-        """
-        label.font = UIFont.systemFont(ofSize: 18)
-        label.textColor = UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .left
-        label.textColor = .white
-        label.numberOfLines = 2
-        return label
+
+    var remindersTableView : UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.isScrollEnabled = false
+        tableView.clipsToBounds = true
+        tableView.isEditing = false
+        tableView.register(RemindersCell.self, forCellReuseIdentifier: "remindersId")
+        return tableView
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         updateTextView()
-        
+
+        //set background
         UIGraphicsBeginImageContext(self.view.frame.size)
         UIImage(named: "background_gradient.png")?.draw(in: self.view.bounds)
         
@@ -128,24 +99,22 @@ class UserViewController: UIViewController {
             debugPrint("Image not available")
         }
         
+        //add elements to view
         self.view.addSubview(name)
         self.personButton.setBackgroundImage(personImage, for: .normal)
         self.view.addSubview(personButton)
-        self.view.addSubview(aboutHeading)
-        self.view.addSubview(aboutBody)
         self.view.addSubview(useHeading)
         self.view.addSubview(useBody)
-        
-        
         signOutButton.addTarget(self, action: #selector(handleSignOut), for: .touchUpInside)
         self.view.addSubview(signOutButton)
         
-        let switchOnOff = UISwitch(frame:CGRect(x: 300, y: 550, width: 0, height: 0))
-        switchOnOff.addTarget(self, action: #selector(UserViewController.switchStateDidChange(_:)), for: .valueChanged)
+        //SET UP TABLE VIEW
+        view.addSubview(remindersTableView)
+        remindersTableView.dataSource = self
+        remindersTableView.delegate = self
+        //remindersTableView.rowHeight = 50
+        createRemindersArray()
         
-        self.view.addSubview(switchOnOff)
-        self.view.addSubview(switchLabel)
-
         //get personalized user data
         let db = Firestore.firestore()
         
@@ -162,35 +131,23 @@ class UserViewController: UIViewController {
                     if let person = document.data() as? [String:Any] {
                         let userFirstName = person["firstname"] as! String
                         let userLastName = person["lastname"] as! String
-                        let healthFlag = person["permissionGranted"] as! String
+                        //let healthFlag = person["permissionGranted"] as! String
                         self.name.setTitle("\(userFirstName) \(userLastName)", for: .normal)
-                        
-                        
-                        // update switch animations
-                        if (healthFlag == "true"){
-                            print("healthFlag is \(healthFlag)")
-                            print("UISwitch state animated to on")
-                            switchOnOff.setOn(true, animated: true)
-                            //need to remember animation
-                        }
-                        else{
-                            print("healthFlag is \(healthFlag)")
-                            print("UISwitch state animated to off")
-                            switchOnOff.setOn(false, animated: true)
-                        }
                     }
                     
                 }
             }
         }
-
-
-        
         setUpLayout()
+       
         
     }
-    
-    
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
     @objc func handleSignOut() {
         let alertController = UIAlertController(title: nil, message: "Are you sure you want to sign out?", preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: "Sign Out", style: .destructive, handler: { (_) in
@@ -217,6 +174,8 @@ class UserViewController: UIViewController {
     }
     
     private func setUpLayout() {
+        let width = view.frame.width
+        let height = view.frame.height
         
         name.translatesAutoresizingMaskIntoConstraints = false
         name.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 100).isActive = true
@@ -230,21 +189,10 @@ class UserViewController: UIViewController {
         personButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         personButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
-        aboutHeading.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 55).isActive = true
-        aboutHeading.topAnchor.constraint(equalTo: view.topAnchor, constant: 110).isActive = true
-        aboutHeading.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        aboutHeading.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        aboutBody.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50).isActive = true
-        aboutBody.topAnchor.constraint(equalTo: view.topAnchor, constant: 165).isActive = true
-        aboutBody.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        aboutBody.heightAnchor.constraint(equalToConstant: 300).isActive = true
-        
         useHeading.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 55).isActive = true
         useHeading.topAnchor.constraint(equalTo: view.topAnchor, constant: 325).isActive = true
-        useHeading.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        useHeading.widthAnchor.constraint(equalToConstant: width - 80).isActive = true
         useHeading.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
         
         signOutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         signOutButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
@@ -253,84 +201,32 @@ class UserViewController: UIViewController {
         
         useBody.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50).isActive = true
         useBody.topAnchor.constraint(equalTo: view.topAnchor, constant: 375).isActive = true
-        useBody.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        useBody.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        useBody.widthAnchor.constraint(equalToConstant: width - 80).isActive = true
+        useBody.heightAnchor.constraint(equalToConstant: width).isActive = true
         
-        
-        switchLabel.translatesAutoresizingMaskIntoConstraints = false
-        switchLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50).isActive = true
-        switchLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 540).isActive = true
-        switchLabel.widthAnchor.constraint(equalToConstant: 250).isActive = true
-        switchLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        remindersTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        remindersTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        remindersTableView.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 20).isActive = true
+        remindersTableView.heightAnchor.constraint(equalToConstant: 200).isActive = true
 
     }
     
     func updateTextView() {
-        print("hyperlink tapped")
-        let path = "https://www.flowaste.com"
-        let text2 = aboutBody.text ?? ""
-        let font = aboutBody.font
-        let fontColor = aboutBody.textColor
-        let attributedString2 = NSAttributedString.makeHyperlink(for: path, in: text2, as: "Flowaste")
-        aboutBody.attributedText = attributedString2
+        let font = useBody.font
+        let fontColor = useBody.textColor
         
         let path2 = "https://www.platemate.io/demo"
         let text = useBody.text ?? ""
         let attributedString = NSAttributedString.makeHyperlink(for: path2, in: text, as: "here")
         useBody.attributedText = attributedString
-        
-        
-        
-        aboutBody.font = font
-        aboutBody.backgroundColor = .clear//background
-        aboutBody.textColor = fontColor
-        aboutBody.tintColor = UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
+
         
         useBody.font = font
         useBody.backgroundColor = .clear//background
         useBody.textColor = fontColor
         useBody.tintColor = UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
     }
-    
-    /*func AddReminder() {
 
-     eventStore.requestAccess(to: EKEntityType.reminder, completion: {
-      granted, error in
-      if (granted) && (error == nil) {
-        print("granted \(granted)")
-
-
-        let reminder:EKReminder = EKReminder(eventStore: self.eventStore)
-        reminder.title = "Must do this!"
-        reminder.priority = 2
-
-        //  How to show completed
-        //reminder.completionDate = Date()
-
-        reminder.notes = "...this is a note"
-
-
-        let alarmTime = Date().addingTimeInterval(1*60*24*3)
-        let alarm = EKAlarm(absoluteDate: alarmTime)
-        reminder.addAlarm(alarm)
-
-        reminder.calendar = self.eventStore.defaultCalendarForNewReminders()
-
-
-        do {
-          try self.eventStore.save(reminder, commit: true)
-        } catch {
-          print("Cannot save")
-          return
-        }
-        print("Reminder saved")
-      }
-     })*/
-        
-        /*@IBAction func remindTapped() {
-            AddReminder()
-        }*/
-    
     @objc func switchStateDidChange(_ sender:UISwitch){
         //var switchState = ["permissionGranted" : "false"]  as [String : Any]
         var switchState:[String : Any]?
@@ -377,3 +273,33 @@ class UserViewController: UIViewController {
     }
                 
 }
+
+extension UserViewController : UITableViewDataSource, UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return reminders.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50 //UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let currentItem = self.reminders[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: remindersId, for: indexPath) as! RemindersCell
+        cell.selectionStyle = .none
+        cell.reminders = currentItem //sets the model to the current Item
+        return cell
+    }
+    
+
+    func createRemindersArray() {
+     self.reminders.append(Reminders(mealTime: "Breakfast", date: "date1", isOn: "1"))
+     reminders.append(Reminders(mealTime: "Lunch", date: "date2", isOn: "2"))
+     reminders.append(Reminders(mealTime: "Dinner", date: "date3", isOn: "3"))
+     reminders.append(Reminders(mealTime: "Snack", date: "time4", isOn: "4"))
+     
+    }
+
+}
+
