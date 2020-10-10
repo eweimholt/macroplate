@@ -237,10 +237,15 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
     {
         //Get UI SCreen size
-       let screenWidth = screenSize.width
-              //let screenHeight = screenSize.height
-        return CGSize(width: screenWidth, height: screenWidth * 0.60) //0.54
+        let screenWidth = screenSize.width
+        let isPlateEmpty = self.posts[indexPath.row].isPlateEmpty
+        var screenHeight = screenWidth * 0.60
+        if isPlateEmpty == "initial" {
+            screenHeight = screenWidth
+        }
+        return CGSize(width: screenWidth, height: screenHeight) //0.54
         //print("cellWidth= ",screenWidth)
+        
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

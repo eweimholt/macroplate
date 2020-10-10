@@ -202,27 +202,16 @@ class PostCell: UICollectionViewCell {
     @IBAction func cleanButtonTapped(sender: UIButton) {
 
         if cleanPlateButton.isSelected == true {
-            /*cleanPlateButton.isSelected = false
-            leftoversButton.isSelected = true
-            mealIsNotComplete()*/
-            
         }
         else {
             cleanPlateButton.isSelected = true
             leftoversButton.isSelected = false
             mealIsComplete()
-            //delegate?.didSelectCleanPlate()
-            
         }
     }
     
     @IBAction func leftoversButtonTapped(sender: UIButton) {
         if leftoversButton.isSelected == true {
-            /*leftoversButton.isSelected = false
-            cleanPlateButton.isSelected = true
-            mealIsComplete()*/
-            //delegate?.didSelectCleanPlate()
-
         }
         else {
             leftoversButton.isSelected = true
@@ -242,7 +231,6 @@ class PostCell: UICollectionViewCell {
         completeMealLabel.removeFromSuperview()
         editButton.removeFromSuperview()
         cleanPlateImage.removeFromSuperview()
-        
 
         self.addSubview(afterButton)
         afterButton.addTarget(self, action: #selector(addAfterMeal), for: .touchUpInside)

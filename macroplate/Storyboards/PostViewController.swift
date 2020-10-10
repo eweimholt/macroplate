@@ -13,7 +13,7 @@ import FirebaseAuth
 import Firebase
 import FirebaseFirestore
 
-class PostViewController: UIViewController {
+class PostViewController: UIViewController, UITableViewDelegate {
     
     static let colorA = UIColor.init(displayP3Red: 125/255, green: 234/255, blue: 221/255, alpha: 1) //7deadd
     static let colorB = UIColor.init(displayP3Red: 99/255, green: 197/255, blue: 188/255, alpha: 1) //primary //63c5bc
@@ -38,6 +38,8 @@ class PostViewController: UIViewController {
     var timestamp: TimeInterval?
     var isPlateEmpty : String?
     var weekday : String?
+    
+    //TO DO: Pass In Meal Summary Food Object
     
     let postImageView : UIImageView = {
         let imageView = UIImageView() //frame: CGRect(x: 35, y: 15, width: 300, height: 300))
@@ -94,14 +96,60 @@ class PostViewController: UIViewController {
         """
         label.text = text
         label.font = UIFont(name: "AvenirNext-Regular", size: 18)
-        label.textColor = .darkGray//UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 2
-        //label.backgroundColor = UIColor(displayP3Red: 188/255, green: 188/255, blue: 188/255, alpha: 1)
         label.clipsToBounds = true
         label.layer.cornerRadius = 15
+        return label
+    }()
+    
+    let foodText : UILabel = {
+        let label = UILabel()
+        var text = "IDENTIFIED FOODS"
+        label.text = text
+        label.font = UIFont(name: "AvenirNext-Bold", size: 12)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .left
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 1
+        label.clipsToBounds = true
+        //label.backgroundColor = .cyan
+        label.textColor = colorB
+        //label.layer.cornerRadius = 15
+        return label
+    }()
+    
+    let qtyText : UILabel = {
+        let label = UILabel()
+        var text = "QTY"
+        label.text = text
+        label.font = UIFont(name: "AvenirNext-Bold", size: 12)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .left
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 1
+        label.clipsToBounds = true
+        //label.backgroundColor = .cyan
+        label.textColor = colorB
+        //label.layer.cornerRadius = 15
+        return label
+    }()
+    
+    let servingSizeText : UILabel = {
+        let label = UILabel()
+        var text = "SERVING"
+        label.text = text
+        label.font = UIFont(name: "AvenirNext-Bold", size: 12)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .left
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 1
+        label.clipsToBounds = true
+        //label.backgroundColor = .cyan
+        label.textColor = colorB
+        //label.layer.cornerRadius = 15
         return label
     }()
 
@@ -125,32 +173,22 @@ class PostViewController: UIViewController {
         button.titleLabel?.font = UIFont(name: "AvenirNext-Bold", size: 32)
         return button
     }()
-    
-    let stackView: UIStackView = {
-        let sView = UIStackView()
-        sView.axis  = NSLayoutConstraint.Axis.vertical
-        sView.distribution  = UIStackView.Distribution.fillProportionally
-        sView.alignment = UIStackView.Alignment.center
-        sView.spacing   = 5
-        sView.translatesAutoresizingMaskIntoConstraints = false
-        
-        return sView
-    }()
-    
+
     let summaryTableView : UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.isScrollEnabled = false
+        tableView.isScrollEnabled = true
         tableView.clipsToBounds = true
-        //tableView.layer.cornerRadius = 15
         tableView.isEditing = false
-        //tableView.register(NutritionCell.self, forCellReuseIdentifier: "tablecell")
+        tableView.backgroundColor = .lightGray
+        //tableView.estimatedRowHeight = 100
+        //tableView.spacing
         return tableView
     }()
     //TABLE VIEW DATA
-    var characters = ["Link", "Zelda", "Ganondorf", "Midna"]
-    
     var nutrition : [Nutrition] = [Nutrition]()
+    var food : [Food] = [Food]()
+    //var indivNutrition : IndivNutrition()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -185,7 +223,8 @@ class PostViewController: UIViewController {
     func setUpEmptyReady() {
         
         //NUTRITION DATA
-        createNutritionArray()
+        //createNutritionArray()
+        createFoodArray()
         summaryTableView.register(NutritionCell.self, forCellReuseIdentifier: "tablecell")
         
         //CALCULATIONS
@@ -197,11 +236,13 @@ class PostViewController: UIViewController {
         view.addSubview(dateText)
         postImageView.image = postImage
         view.addSubview(postImageView)
-        //view.addSubview(userLabel)
+        view.addSubview(foodText)
+        view.addSubview(qtyText)
+        view.addSubview(servingSizeText)
         //TABLE VIEW
         view.addSubview(summaryTableView)
         summaryTableView.dataSource = self
-        //summaryTableView.delegate = self
+        summaryTableView.delegate = self
         view.addSubview(healthButton)
         healthButton.addTarget(self, action: #selector(healthButtonTapped), for: .touchUpInside)
         Utilities.styleFilledButton(healthButton)
@@ -213,35 +254,39 @@ class PostViewController: UIViewController {
         let height = CGFloat(50)
    
         //CONSTRAINTS
-        //dateText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding).isActive = true
-        dateText.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: padding).isActive = true
+        dateText.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 10).isActive = true
         dateText.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor).isActive = true
-        dateText.topAnchor.constraint(equalTo: view.topAnchor, constant: padding).isActive = true
-        //dateText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding).isActive = true
+        dateText.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
         dateText.heightAnchor.constraint(equalToConstant: height).isActive = true
 
         postImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        postImageView.topAnchor.constraint(equalTo: dateText.bottomAnchor, constant: padding).isActive = true
+        postImageView.topAnchor.constraint(equalTo: dateText.bottomAnchor).isActive = true
         postImageView.widthAnchor.constraint(equalToConstant: photoWidth).isActive = true
         postImageView.heightAnchor.constraint(equalToConstant: photoWidth).isActive = true
         
-        /*userLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        userLabel.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: padding-15).isActive = true
-        userLabel.widthAnchor.constraint(equalToConstant: photoWidth).isActive = true
-        userLabel.heightAnchor.constraint(equalToConstant: 80).isActive = true*/
+        foodText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        foodText.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        foodText.bottomAnchor.constraint(equalTo: summaryTableView.topAnchor, constant: -5).isActive = true
+        foodText.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
-        summaryTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30).isActive = true
-        summaryTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40).isActive = true
-        //summaryTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        //summaryTableView.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: 40).isActive = true
-        summaryTableView.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: padding-10).isActive = true
-        //summaryTableView.widthAnchor.constraint(equalToConstant: photoWidth).isActive = true
-        summaryTableView.heightAnchor.constraint(equalToConstant: 175).isActive = true
+        qtyText.trailingAnchor.constraint(equalTo: servingSizeText.leadingAnchor, constant: -10).isActive = true
+        qtyText.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        qtyText.bottomAnchor.constraint(equalTo: summaryTableView.topAnchor, constant: -5).isActive = true
+        qtyText.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
+        servingSizeText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+        servingSizeText.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        servingSizeText.bottomAnchor.constraint(equalTo: summaryTableView.topAnchor, constant: -5).isActive = true
+        servingSizeText.heightAnchor.constraint(equalToConstant: 20).isActive = true
+
+        summaryTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        summaryTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        summaryTableView.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: padding+10).isActive = true
+        summaryTableView.bottomAnchor.constraint(equalTo: healthButton.topAnchor, constant: -20).isActive = true
+
         healthButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40).isActive = true
         healthButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40).isActive = true
-        healthButton.topAnchor.constraint(equalTo: summaryTableView.bottomAnchor, constant: 20).isActive = true
-        //summaryTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
+        healthButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
         healthButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
  
         checkHealthDataEvent()
@@ -250,7 +295,8 @@ class PostViewController: UIViewController {
     func setUpTwoPhotosReady() {
         
         //NUTRITION DATA
-        createNutritionArray()
+        //createNutritionArray()
+        createFoodArray()
         summaryTableView.register(NutritionCell.self, forCellReuseIdentifier: "tablecell")
         
         //CALCULATIONS
@@ -267,7 +313,7 @@ class PostViewController: UIViewController {
         //TABLE VIEW
         view.addSubview(summaryTableView)
         summaryTableView.dataSource = self
-        summaryTableView.rowHeight = 40
+        //summaryTableView.rowHeight = 40
         view.addSubview(healthButton)
         healthButton.addTarget(self, action: #selector(healthButtonTapped), for: .touchUpInside)
         Utilities.styleFilledButton(healthButton)
@@ -294,15 +340,14 @@ class PostViewController: UIViewController {
         EOMImageView.widthAnchor.constraint(equalToConstant: photoWidth).isActive = true
         EOMImageView.heightAnchor.constraint(equalToConstant: photoWidth).isActive = true
         
-        summaryTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        summaryTableView.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: 40).isActive = true
-        summaryTableView.widthAnchor.constraint(equalToConstant: 2*photoWidth + padding).isActive = true
-        summaryTableView.heightAnchor.constraint(equalToConstant: 180).isActive = true
-        
+        summaryTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        summaryTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        summaryTableView.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: padding).isActive = true
+        summaryTableView.bottomAnchor.constraint(equalTo: healthButton.topAnchor, constant: -20).isActive = true
+
         healthButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40).isActive = true
         healthButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40).isActive = true
-        healthButton.topAnchor.constraint(equalTo: summaryTableView.bottomAnchor, constant: 40).isActive = true
-        //summaryTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
+        healthButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
         healthButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
  
         checkHealthDataEvent()
@@ -310,9 +355,7 @@ class PostViewController: UIViewController {
     
     func setUpInitial() {
         postImageView.image = postImage
-        
-        
-        
+
         dateText.text = "\(weekday ?? ""), \(date ?? "no date")"
         
         view.addSubview(dateText)
@@ -493,15 +536,15 @@ class PostViewController: UIViewController {
         let carbs = Double(self.carbs!)!
         let protein = Double(self.protein!)!
         let fat = Double(self.fat!)!
-
+        
         //get date from post
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = Constants.dateFormatAs //"MMMM dd, yyyy HH:mm a"
         
         guard let today = dateFormatter.date(from: self.date!) else {
-           fatalError("ERROR: Date conversion failed due to mismatched format.")
+            fatalError("ERROR: Date conversion failed due to mismatched format.")
         }
-
+        
         if let type = HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates) {
             let quantity = HKQuantity(unit: HKUnit.gram(), doubleValue: Double(carbs))
             
@@ -528,58 +571,45 @@ class PostViewController: UIViewController {
                 print("Saved \(success), error \(String(describing: error ?? nil))")
             }
         }
-
+        
     }
 }
 
 extension PostViewController: UITableViewDataSource {
     
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 4
-    //return nutrition.count
-  }
-    
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "tablecell", for: indexPath) as! NutritionCell
-    let currentItem = nutrition[indexPath.row]
-    cell.textLabel?.textColor = UIColor.cyan
-    cell.selectionStyle = .none
-    cell.backgroundColor = .white
-    cell.textLabel?.text = currentItem.nutritionTitle
-    cell.textLabel?.font    = UIFont(name: "AvenirNext-SemiBold", size: 16)
-    
-    switch currentItem.nutritionTitle {
-    case ("Carbs: \(carbs ?? "") g"):
-        cell.textLabel?.textColor = PostViewController.colorB
-    case ("Protein: \(protein ?? "") g"):
-        cell.textLabel?.textColor = PostViewController.colorC
-    case ("Fat: \(fat ?? "") g"):
-        cell.textLabel?.textColor = PostViewController.colorD
-    case ("Total Calories: \(calories ?? "")"):
-        cell.textLabel?.textColor = PostViewController.colorE
-        cell.textLabel?.font = UIFont(name: "AvenirNext-Bold", size: 17)
-    default:
-        cell.textLabel?.textColor = PostViewController.colorB
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return food.count
     }
     
-    cell.nutritionNameLabel.text = currentItem.nutritionUnit
-    cell.nutrition = currentItem
-    return cell
-  }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "tablecell", for: indexPath) as! NutritionCell
+        //let currentItem = nutrition[indexPath.row]
+        let currentItem = food[indexPath.row]
+        cell.selectionStyle = .none//.default
+        cell.backgroundColor = .lightGray
+        cell.food = currentItem
+        
+
+        return cell
+    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-       return 100 //UITableView.automaticDimension
+        return 200
+
     }
-    
-    func createNutritionArray() {
-        /*if calories == nil {
-            return calories = "10"
-        }*/
+
+    func createFoodArray() {
+        //get Food Array from db using MealId
+        let newNutrition = IndivNutrition(carbs: "7", cals: "4", protein: "5", fat: "8")
+        let testing = "Hey Elise"
+        food.append(Food(name: "Kale, raw", servingSizeValue: "1", servingSizeUnit: "(50 g)", individualNutrition: newNutrition, test: testing))
+        food.append(Food(name: "Almonds", servingSizeValue: "0.5", servingSizeUnit: "(50 g)", individualNutrition: IndivNutrition(carbs: "5", cals: "5", protein: "5", fat: "5"), test: testing))
+        food.append(Food(name: "Chicken", servingSizeValue: "1", servingSizeUnit: "(50 g)", individualNutrition: IndivNutrition(carbs: "5", cals: "5", protein: "5", fat: "5"), test: testing))
+        food.append(Food(name: "Mixed greens", servingSizeValue: "2", servingSizeUnit: "(70 g)", individualNutrition: IndivNutrition(carbs: "5", cals: "5", protein: "5", fat: "5"), test: testing))
         
-        nutrition.append(Nutrition(nutritionTitle: "Carbs: \(carbs ?? "") g", nutritionValue: "10", nutritionUnit: "g"))
-        nutrition.append(Nutrition(nutritionTitle: "Protein: \(protein ?? "") g", nutritionValue: "10", nutritionUnit: "g"))
-        nutrition.append(Nutrition(nutritionTitle: "Fat: \(fat ?? "") g", nutritionValue: "10", nutritionUnit: "g"))
-        nutrition.append(Nutrition(nutritionTitle: "Total Calories: \(calories ?? "")", nutritionValue: "10", nutritionUnit: "kJ"))
+        //Summary Array 
+        food.append(Food(name: "Meal Summary", servingSizeValue: "", servingSizeUnit: "(560 g)", individualNutrition: IndivNutrition(carbs: "5", cals: "5", protein: "5", fat: "5"), test: testing))
     }
 }
 

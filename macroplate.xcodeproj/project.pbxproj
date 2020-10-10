@@ -11,6 +11,8 @@
 		01011F2C24BB81810077534B /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01011F2B24BB81810077534B /* ConfirmationViewController.swift */; };
 		01011F2D24BB81810077534B /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01011F2B24BB81810077534B /* ConfirmationViewController.swift */; };
 		01011F2E24BB81810077534B /* ConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01011F2B24BB81810077534B /* ConfirmationViewController.swift */; };
+		010C8A5525325B5800CA01F1 /* Food.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010C8A5425325B5800CA01F1 /* Food.swift */; };
+		010C8A572532646300CA01F1 /* IndivNutrition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010C8A562532646300CA01F1 /* IndivNutrition.swift */; };
 		011AEAA524C01F50008F7084 /* TapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011AEAA424C01F50008F7084 /* TapViewController.swift */; };
 		012E36A5251E49E600FE7D33 /* EOMPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012E36A4251E49E600FE7D33 /* EOMPostCell.swift */; };
 		013425F024A94127000CA6D2 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 013425EF24A94127000CA6D2 /* HealthKit.framework */; };
@@ -59,6 +61,7 @@
 		01C45CCF2512A7F2005BEFE4 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C45CCE2512A7F2005BEFE4 /* RadioButton.swift */; };
 		01D508CC25154FA100E29764 /* SecondCaptureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D508CB25154FA100E29764 /* SecondCaptureViewController.swift */; };
 		01D508CE2516B2BB00E29764 /* SecondImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D508CD2516B2BB00E29764 /* SecondImageViewController.swift */; };
+		01E0B6F1253214A000018CE9 /* SubNutritionTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E0B6F0253214A000018CE9 /* SubNutritionTableCell.swift */; };
 		01F55F97248C843F00104DAB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F55F96248C843F00104DAB /* Constants.swift */; };
 		01F55F98248C843F00104DAB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F55F96248C843F00104DAB /* Constants.swift */; };
 		01F55F99248C843F00104DAB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01F55F96248C843F00104DAB /* Constants.swift */; };
@@ -104,6 +107,8 @@
 /* Begin PBXFileReference section */
 		01011F2724BB80620077534B /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		01011F2B24BB81810077534B /* ConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationViewController.swift; sourceTree = "<group>"; };
+		010C8A5425325B5800CA01F1 /* Food.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Food.swift; sourceTree = "<group>"; };
+		010C8A562532646300CA01F1 /* IndivNutrition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndivNutrition.swift; sourceTree = "<group>"; };
 		011AEAA424C01F50008F7084 /* TapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TapViewController.swift; sourceTree = "<group>"; };
 		012E36A4251E49E600FE7D33 /* EOMPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EOMPostCell.swift; sourceTree = "<group>"; };
 		013425EE24A94127000CA6D2 /* macroplate.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macroplate.entitlements; sourceTree = "<group>"; };
@@ -133,6 +138,7 @@
 		01C45CCE2512A7F2005BEFE4 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		01D508CB25154FA100E29764 /* SecondCaptureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SecondCaptureViewController.swift; path = macroplate/Controllers/Feed/SecondCaptureViewController.swift; sourceTree = SOURCE_ROOT; };
 		01D508CD2516B2BB00E29764 /* SecondImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SecondImageViewController.swift; path = macroplate/Storyboards/SecondImageViewController.swift; sourceTree = SOURCE_ROOT; };
+		01E0B6F0253214A000018CE9 /* SubNutritionTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubNutritionTableCell.swift; sourceTree = "<group>"; };
 		01F55F96248C843F00104DAB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		01FDDD9E24CCCF440032C23D /* Feed.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Feed.storyboard; sourceTree = "<group>"; };
 		01FDDDA824CCD00C0032C23D /* MealsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsViewController.swift; sourceTree = "<group>"; };
@@ -204,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				0162B6CA252580D500778EA2 /* NutritionTableCell.swift */,
+				01E0B6F0253214A000018CE9 /* SubNutritionTableCell.swift */,
 				01451FC62530A8AC00BAC4E6 /* RemindersTableCell.swift */,
 			);
 			path = "Table Cells";
@@ -220,6 +227,8 @@
 			isa = PBXGroup;
 			children = (
 				0162B6C525257DD100778EA2 /* Nutrition.swift */,
+				010C8A562532646300CA01F1 /* IndivNutrition.swift */,
+				010C8A5425325B5800CA01F1 /* Food.swift */,
 				01451FC32530A2B700BAC4E6 /* Reminders.swift */,
 				01C25ACB24CCD5E100BBEF68 /* Post.swift */,
 			);
@@ -685,11 +694,13 @@
 				0162B6C625257DD100778EA2 /* Nutrition.swift in Sources */,
 				01FDDDA924CCD00C0032C23D /* MealsViewController.swift in Sources */,
 				0194EE922495222A00152EE0 /* customalbum.swift in Sources */,
+				010C8A5525325B5800CA01F1 /* Food.swift in Sources */,
 				015041CF24B28497005F4B15 /* UserViewController.swift in Sources */,
 				015041D324B28D37005F4B15 /* standardButton.swift in Sources */,
 				01FE2A51248C699E005D5750 /* ViewController.swift in Sources */,
 				01812DE624C0A38A00F92531 /* FakeFeedViewController.swift in Sources */,
 				011AEAA524C01F50008F7084 /* TapViewController.swift in Sources */,
+				010C8A572532646300CA01F1 /* IndivNutrition.swift in Sources */,
 				01C45CCF2512A7F2005BEFE4 /* RadioButton.swift in Sources */,
 				01011F2824BB80620077534B /* FeedViewController.swift in Sources */,
 				01C30CF8248C703500CD40F6 /* Utilities.swift in Sources */,
@@ -703,6 +714,7 @@
 				01C25ACC24CCD5E100BBEF68 /* Post.swift in Sources */,
 				01011F2C24BB81810077534B /* ConfirmationViewController.swift in Sources */,
 				01A4584924DB441C008502A9 /* NSAttributedString.swift in Sources */,
+				01E0B6F1253214A000018CE9 /* SubNutritionTableCell.swift in Sources */,
 				01451FC42530A2B700BAC4E6 /* Reminders.swift in Sources */,
 				01FE2A4F248C699E005D5750 /* SceneDelegate.swift in Sources */,
 				0138088A248C6C46003A9ECF /* HomeViewController.swift in Sources */,
