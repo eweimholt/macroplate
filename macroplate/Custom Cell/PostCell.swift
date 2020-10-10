@@ -48,8 +48,7 @@ class PostCell: UICollectionViewCell {
     var state : String?
     var healthDataEvent : String?
     var isPlateEmpty : String?
-    
-    
+
     let postImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -182,7 +181,6 @@ class PostCell: UICollectionViewCell {
         contentView.addSubview(postButton)
         postButton.addTarget(self, action: #selector(expandPost), for: .touchUpInside)
 
-            
         contentView.addSubview(deleteButton)
         deleteButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
         
@@ -432,43 +430,4 @@ extension PostCell {
         //headerButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
     }
 }
-
-/*extension UIView {
-    /**
-     Rounds the given set of corners to the specified radius with a border
-     
-     - parameter corners:     Corners to round
-     - parameter radius:      Radius to round to
-     - parameter borderColor: The border color
-     - parameter borderWidth: The border width
-     */
-    func round(corners: UIRectCorner, radius: CGFloat) {
-        let mask = _round(corners: corners, radius: radius)
-        addBorder(mask: mask, borderColor: .darkGray, borderWidth: 2)
-        
-    }
-}
-
-private extension UIView {
-    
-    
-    @discardableResult func _round(corners: UIRectCorner, radius: CGFloat) -> CAShapeLayer {
-        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        let mask = CAShapeLayer()
-        mask.path = path.cgPath
-        self.layer.mask = mask
-        return mask
-    }
-    
-    func addBorder(mask: CAShapeLayer, borderColor: UIColor, borderWidth: CGFloat) {
-        let borderLayer = CAShapeLayer()
-        borderLayer.path = mask.path
-        borderLayer.fillColor = UIColor.clear.cgColor
-        borderLayer.strokeColor = borderColor.cgColor
-        borderLayer.lineWidth = borderWidth
-        borderLayer.frame = bounds
-        layer.addSublayer(borderLayer)
-    }
-    
-}*/
 

@@ -19,9 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let gcmMessageIDKey = "gcm.message_id"
     
     var window: UIWindow?
-
     
-
     /*//26:00 https://www.youtube.com/watch?v=x_vny_M6iYs&t=952s if you feel like adding an activity indicator
     var window: UIWindow?
     var actIdc = UIActivityIndicatorView()

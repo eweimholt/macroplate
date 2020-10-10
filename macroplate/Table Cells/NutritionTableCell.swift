@@ -21,19 +21,23 @@ class NutritionCell : UITableViewCell {
     
     let nutritionNameLabel : UILabel = {
         let lbl = UILabel()
-        lbl.textColor = .black
+        lbl.textColor = .white
         lbl.font = UIFont.boldSystemFont(ofSize: 16)
         lbl.textAlignment = .left
+        //lbl.backgroundColor = .lightGray
+        lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
     
     
     let nutritionUnitLabel : UILabel = {
         let lbl = UILabel()
-        lbl.textColor = .white
+        lbl.textColor = .black
         lbl.font = UIFont.systemFont(ofSize: 16)
         lbl.textAlignment = .left
         lbl.numberOfLines = 0
+        //lbl.backgroundColor = .lightGray
+        lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
 
@@ -42,7 +46,9 @@ class NutritionCell : UITableViewCell {
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.textAlignment = .left
         label.text = "1"
-        label.textColor = .white
+        label.textColor = .black
+        //label.backgroundColor = .lightGray
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
         
     }()
@@ -50,12 +56,10 @@ class NutritionCell : UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         //addSubview(productImage)
-        addSubview(nutritionNameLabel)
-        addSubview(nutritionUnitLabel)
-        addSubview(nutritionQuantity)
+        contentView.addSubview(nutritionNameLabel)
+        contentView.addSubview(nutritionUnitLabel)
+        contentView.addSubview(nutritionQuantity)
 
-
-        
         nutritionNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
         nutritionNameLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
         nutritionNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true

@@ -267,6 +267,7 @@ class PostViewController: UIViewController {
         //TABLE VIEW
         view.addSubview(summaryTableView)
         summaryTableView.dataSource = self
+        summaryTableView.rowHeight = 40
         view.addSubview(healthButton)
         healthButton.addTarget(self, action: #selector(healthButtonTapped), for: .touchUpInside)
         Utilities.styleFilledButton(healthButton)
@@ -296,7 +297,7 @@ class PostViewController: UIViewController {
         summaryTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         summaryTableView.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: 40).isActive = true
         summaryTableView.widthAnchor.constraint(equalToConstant: 2*photoWidth + padding).isActive = true
-        summaryTableView.heightAnchor.constraint(equalToConstant: 175).isActive = true
+        summaryTableView.heightAnchor.constraint(equalToConstant: 180).isActive = true
         
         healthButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40).isActive = true
         healthButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40).isActive = true
@@ -415,7 +416,7 @@ class PostViewController: UIViewController {
         pendingText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         pendingText.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         pendingText.topAnchor.constraint(equalTo: postImageView.bottomAnchor, constant: 2*padding).isActive = true
-        pendingText.heightAnchor.constraint(equalToConstant: 175).isActive = true
+        pendingText.heightAnchor.constraint(equalToConstant: 160).isActive = true
 
     }
 
@@ -541,8 +542,6 @@ extension PostViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "tablecell", for: indexPath) as! NutritionCell
     let currentItem = nutrition[indexPath.row]
-    //cell.backgroundColor = .white
-    //cell.textLabel?.font =
     cell.textLabel?.textColor = UIColor.cyan
     cell.selectionStyle = .none
     cell.backgroundColor = .white

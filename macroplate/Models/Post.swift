@@ -34,4 +34,8 @@ class Post: NSObject {
     var state : String!
     var healthDataEvent : String!
     var isPlateEmpty : String!
+    
+    //Barcode
+    var servingSize : String!
+    var barcodeName : String!
 }

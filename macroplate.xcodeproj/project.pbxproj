@@ -40,6 +40,7 @@
 		0162B6C625257DD100778EA2 /* Nutrition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0162B6C525257DD100778EA2 /* Nutrition.swift */; };
 		0162B6CB252580D500778EA2 /* NutritionTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0162B6CA252580D500778EA2 /* NutritionTableCell.swift */; };
 		0162B6D02525A2D500778EA2 /* MealCompleteLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0162B6CF2525A2D500778EA2 /* MealCompleteLabel.swift */; };
+		017C86D1253116C6008FF66A /* BarcodeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 017C86D0253116C6008FF66A /* BarcodeCell.swift */; };
 		01812DE624C0A38A00F92531 /* FakeFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01812DE524C0A38A00F92531 /* FakeFeedViewController.swift */; };
 		018D937424D089A700E0873C /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018D937324D089A700E0873C /* PostViewController.swift */; };
 		0194EE922495222A00152EE0 /* customalbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0194EE912495222A00152EE0 /* customalbum.swift */; };
@@ -119,6 +120,7 @@
 		0162B6C525257DD100778EA2 /* Nutrition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Nutrition.swift; path = macroplate/Controllers/Feed/Nutrition.swift; sourceTree = SOURCE_ROOT; };
 		0162B6CA252580D500778EA2 /* NutritionTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NutritionTableCell.swift; path = "macroplate/Table Cells/NutritionTableCell.swift"; sourceTree = SOURCE_ROOT; };
 		0162B6CF2525A2D500778EA2 /* MealCompleteLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCompleteLabel.swift; sourceTree = SOURCE_ROOT; };
+		017C86D0253116C6008FF66A /* BarcodeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeCell.swift; sourceTree = "<group>"; };
 		01812DE524C0A38A00F92531 /* FakeFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeFeedViewController.swift; sourceTree = "<group>"; };
 		018D937324D089A700E0873C /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostViewController.swift; path = macroplate/Storyboards/PostViewController.swift; sourceTree = SOURCE_ROOT; };
 		0194EE912495222A00152EE0 /* customalbum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customalbum.swift; sourceTree = "<group>"; };
@@ -301,6 +303,7 @@
 				01FDDDAD24CCD32B0032C23D /* PostCell.swift */,
 				012E36A4251E49E600FE7D33 /* EOMPostCell.swift */,
 				01C45CCC25128E5D005BEFE4 /* CleanPostCell.swift */,
+				017C86D0253116C6008FF66A /* BarcodeCell.swift */,
 			);
 			path = "Custom Cell";
 			sourceTree = "<group>";
@@ -691,6 +694,7 @@
 				01011F2824BB80620077534B /* FeedViewController.swift in Sources */,
 				01C30CF8248C703500CD40F6 /* Utilities.swift in Sources */,
 				012E36A5251E49E600FE7D33 /* EOMPostCell.swift in Sources */,
+				017C86D1253116C6008FF66A /* BarcodeCell.swift in Sources */,
 				01C45CCD25128E5D005BEFE4 /* CleanPostCell.swift in Sources */,
 				018D937424D089A700E0873C /* PostViewController.swift in Sources */,
 				01983B4B24C0BDD900882883 /* ImageViewController.swift in Sources */,

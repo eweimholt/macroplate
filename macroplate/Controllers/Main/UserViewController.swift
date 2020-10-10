@@ -20,6 +20,8 @@ class UserViewController: UIViewController {
     var docRef : DocumentReference!
     let remindersId = "remindersId"
     var reminders = [Reminders]()
+    var notificationGranted = false
+
     
     let signOutButton : UIButton = {
         let uButton = UIButton(frame: CGRect(x: 100, y: 100, width: 35, height: 40))
@@ -79,9 +81,18 @@ class UserViewController: UIViewController {
         tableView.isScrollEnabled = false
         tableView.clipsToBounds = true
         tableView.isEditing = false
+        //tableView.largeContentTitle = "Reminders"
         tableView.register(RemindersCell.self, forCellReuseIdentifier: "remindersId")
         return tableView
     }()
+    
+    
+    func repeatNotification(){
+        let content = UNMutableNotificationContent()
+        content.title = "Pizza Time!!"
+        content.body = "Monday is Pizza Day"
+        content.categoryIdentifier = "pizza.reminder.category"
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -139,6 +150,17 @@ class UserViewController: UIViewController {
             }
         }
         setUpLayout()
+        
+        //get permission to send notifications
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: [.alert,.sound])
+            {
+                (granted, error) in
+                self.notificationGranted = granted
+                if let error = error {
+                    print("granted, but Error in notification permission:\(error.localizedDescription)")
+            }
+        }
        
         
     }

@@ -226,8 +226,16 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                         let timestamp = NSDate().timeIntervalSince1970 //Timestamp(date: date)
                         let uid = Auth.auth().currentUser!.uid
                         
-                        db.collection("posts").addDocument(data: ["BarcodeNumber" : Bar, "timestamp": timestamp, "date": date, "uid" : uid
-                        ]) { err in
+                        let barcodeData = ["BarcodeNumber" : Bar,
+                                           "timestamp": timestamp,
+                                           "date": date,
+                                           "uid" : uid,
+                                           "State" : "Pending",
+                                           "plateIsEmpty" : "barcode",
+                                           "healthDataEvent" : "false"
+                        ] as [String : Any]
+                        
+                        db.collection("posts").addDocument(data: barcodeData) { err in
                             if let err = err {
                                 print("Error adding document: \(err)")
                             } else {

@@ -17,6 +17,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
     let cellId = "cell"
     let cleanId = "clean"
     let eomId = "eom"
+    let barId = "bar"
     let screenSize: CGRect = UIScreen.main.bounds
     
     static let colorA = UIColor.init(displayP3Red: 125/255, green: 234/255, blue: 221/255, alpha: 1) //7deadd
@@ -47,6 +48,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
         cv.register(PostCell.self, forCellWithReuseIdentifier: "cell")
         cv.register(CleanPostCell.self, forCellWithReuseIdentifier: "clean")
         cv.register(EOMPostCell.self, forCellWithReuseIdentifier: "eom")
+        cv.register(BarcodePostCell.self, forCellWithReuseIdentifier: "bar")
         return cv
     }()
     
@@ -154,15 +156,16 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
 
                 } else {
                     for document in querySnapshot!.documents {
-                        //print("\(document.documentID) => \(document.data())")
                         let doc = document.data()
+                        let docId = document.documentID
                         let post = Post()
 
                         post.name = doc["name"] as? String
                         post.pathToImage = doc["urlToImage"] as? String
                         //post.pathToImageANNOTATED = doc["urlToImageANNOTATED"] as? String
                         post.timestamp = doc["timestamp"] as? TimeInterval
-                        post.postId = doc["key"] as? String
+                        //post.postId = doc["key"] as? String
+                        post.postId = docId as? String
                         post.userId = doc["uid"] as? String
                         post.userTextInput = doc["userTextInput"] as? String
                         post.carbs = doc["carbs"] as? String
@@ -198,6 +201,13 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
                             post.isPlateEmpty = "false"
                         }
                         
+                        if post.pathToImage == nil {
+                            //no image taken, this is a barcode
+                            //post.servingsize =
+                            post.isPlateEmpty = "barcode"
+                            post.barcodeName = doc["name"] as? String
+                            post.servingSize = doc["servingSize"] as? String
+                        }
                         self.posts.append(post)
                 
                     }
@@ -362,10 +372,8 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             }
             cell.postButton.tag = indexPath.row // set tag
             cell.headerButton.setTitle(self.posts[indexPath.row].date, for: .normal)
-            //cell.indicator.setTitle(self.posts[indexPath.row].state, for: .normal)
             cell.cleanPlateButton.isSelected = false
             cell.leftoversButton.isSelected = true
-
             cell.userTextInput = self.posts[indexPath.row].userTextInput
             cell.date = self.posts[indexPath.row].date
             cell.timestamp = self.posts[indexPath.row].timestamp
@@ -373,7 +381,6 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             let weekday = weekdayDate?.dayOfWeek()!
             let dateString = "\(weekday ?? ""), \(cell.date ?? "no date")"
             cell.headerButton.setTitle(dateString, for: .normal)
-            //print("\(String(describing: self.posts[indexPath.row].date))")
             
             //set nutritional data
             cell.calories = self.posts[indexPath.row].calories
@@ -399,6 +406,57 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.layer.addSublayer(bottomLine)
             
             return cell
+        }
+        
+        func setupBarcodeCell() -> BarcodePostCell  {
+            let cell = mealsCollectionView.dequeueReusableCell(withReuseIdentifier: barId, for: indexPath) as! BarcodePostCell
+            
+            
+            if self.posts[indexPath.row].pathToImage != nil {
+                cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
+            } else {
+                print("nil abort of pathToImage avoided in BarcodeCell")
+            }
+            
+
+            cell.completeMealLabel.text = "Barcode Scan"//self.posts[indexPath.row].
+            
+            if self.posts[indexPath.row].state == "Pending" {
+            } else {
+                cell.completeMealLabel.text = "Barcode"
+                cell.cleanPlateImage.removeFromSuperview()
+                cell.editButton.removeFromSuperview()
+            }
+            cell.date = self.posts[indexPath.row].date //need to add real timestamp
+            cell.timestamp = self.posts[indexPath.row].timestamp
+            let weekdayDate = cell.timestamp?.getDateFromTimeInterval()
+            let weekday = weekdayDate?.dayOfWeek()!
+            let dateString = "\(weekday ?? ""), \(cell.date ?? "no date")"
+            cell.headerButton.setTitle(dateString, for: .normal)
+            cell.nameButton.setTitle(self.posts[indexPath.row].barcodeName, for: .normal)
+
+            //set nutritional data
+            cell.calories = self.posts[indexPath.row].calories
+            cell.carbs = self.posts[indexPath.row].carbs
+            cell.protein = self.posts[indexPath.row].protein
+            cell.fat = self.posts[indexPath.row].fat
+            cell.state = self.posts[indexPath.row].state
+            cell.postId = self.posts[indexPath.row].postId
+            cell.healthDataEvent = self.posts[indexPath.row].healthDataEvent
+            cell.isPlateEmpty = self.posts[indexPath.row].isPlateEmpty
+            
+            cell.backgroundColor = UIColor.white
+            cell.delegate = self
+            cell.index = indexPath
+            //cell.btn1.tag = indexPath.row // set tag
+           
+            // Create Cell Outline
+            let bottomLine = CALayer()
+            bottomLine.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 1.5)
+            bottomLine.backgroundColor = MealsViewController.colorE.cgColor
+            cell.layer.addSublayer(bottomLine)
+            return cell
+
         }
         
         func setUpEmptyPlateCell() -> CleanPostCell  {
@@ -455,17 +513,8 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             bottomLine.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 1.5)
             bottomLine.backgroundColor = MealsViewController.colorE.cgColor
             cell.layer.addSublayer(bottomLine)
-            
-            //Create Cell Radius
-            /*cell.clipsToBounds = true
-            cell.layer.cornerRadius = 20
-            cell.layer.borderColor = UIColor.blue.cgColor
-            cell.layer.borderWidth = 2*/
-            
-            
             return cell
-            
-            
+
         }
         
         func setUpEOMCell() -> EOMPostCell  {
@@ -532,6 +581,8 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
                 return setUpInitialCell()
             case ("true"):
                 return setUpEmptyPlateCell()
+            //case ("barcode"):
+                //return setupBarcodeCell()
             case ("false"):
                 if self.posts[indexPath.row].pathToEOMImage == "DNE" {
                     return setUpFalseCell()
@@ -540,12 +591,17 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
                 }
             default:
                 print("default")
-                return setUpEmptyPlateCell()//setUpInitialCell()        
+                return setUpEmptyPlateCell()
             }
-        } else {
-            if self.posts[indexPath.row].isPlateEmpty == "false" {
+        } else { //State is Ready
+            switch self.posts[indexPath.row].isPlateEmpty {
+            case ("false"):
                 return setUpEOMCell()
-            } else {
+            case ("true"):
+                return setUpEmptyPlateCell()
+            case ("barcode"):
+                return setupBarcodeCell()
+            default:
                 return setUpEmptyPlateCell()
             }
         }
@@ -635,6 +691,31 @@ extension MealsViewController: CleanPostCellDelegate {
         
         
     }
+    
+}
+
+extension MealsViewController: BarcodeCellDelegate {
+    func didExpandCleanPost(date: String?, timestamp: TimeInterval?, calories: String?, carbs: String?, protein: String?, fat: String?, state: String?, postId: String?, healthDataEvent: String?, isPlateEmpty: String?) {
+        let postVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "PostVC") as! PostViewController
+        postVC.date = date
+        postVC.calories = calories
+        postVC.carbs = carbs
+        postVC.protein = protein
+        postVC.fat = fat
+        postVC.state = state
+        postVC.postId = postId
+        postVC.healthDataEvent = healthDataEvent
+        postVC.isPlateEmpty = isPlateEmpty
+        postVC.timestamp = timestamp
+        //postVC.EOMImageView.title
+   
+        print("barcode post tapped")
+        //present VC
+         DispatchQueue.main.async {
+             self.present(postVC, animated: true, completion: nil)
+         }
+    }
+    
     
 }
 
