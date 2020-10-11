@@ -14,8 +14,11 @@ class SubNutritionCell : UITableViewCell {
     var subNutrition : Nutrition? {
         didSet {
             subNutritionNameLabel.text = subNutrition?.nutritionTitle
+            subNutritionNameLabel.textColor = subNutrition?.nutritionColor
+            subNutritionQuantity.textColor = subNutrition?.nutritionColor
+            subNutritionUnitLabel.textColor = subNutrition?.nutritionColor
             subNutritionUnitLabel.text = subNutrition?.nutritionUnit
-            subNutritionQuantity.text = subNutrition?.nutritionValue
+            subNutritionQuantity.text = subNutrition?.nutritionValue.stringValue
         }
     }
 
@@ -69,7 +72,7 @@ class SubNutritionCell : UITableViewCell {
         subNutritionNameLabel.heightAnchor.constraint(equalToConstant: height).isActive = true
 
         subNutritionQuantity.leadingAnchor.constraint(equalTo: subNutritionNameLabel.trailingAnchor).isActive = true
-        subNutritionQuantity.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        subNutritionQuantity.widthAnchor.constraint(equalToConstant: 60).isActive = true
         subNutritionQuantity.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         subNutritionQuantity.heightAnchor.constraint(equalToConstant: height).isActive = true
 

@@ -11,7 +11,8 @@ import UIKit
 
 
 struct Nutrition {
- var nutritionTitle : String //carbs, cals, etc
- var nutritionValue : String
- var nutritionUnit : String
+    var nutritionTitle : String //carbs, cals, etc
+    var nutritionValue : NSNumber //String
+    var nutritionUnit : String
+    var nutritionColor : UIColor
 }

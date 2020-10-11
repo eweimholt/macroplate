@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import EventKit
 
 
 /*protocol RemindersCellDelegate {
@@ -106,12 +107,17 @@ class RemindersCell : UITableViewCell {
     
     func setReminder() {
         print("reminder is saved")
+        //get permission to send notifications
+
+
     }
     
     func unSetReminder() {
         print ("reminder is turned off")
         
     }
+    
+    
     
 }
 

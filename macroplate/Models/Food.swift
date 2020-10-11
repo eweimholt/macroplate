@@ -8,13 +8,15 @@
 
 import Foundation
 import UIKit
+import UIKit
+import FirebaseFirestore
+import Firebase
 
-
+//class Food: NSObject {
 struct Food {
-    var name : String //kale, raw
-    var servingSizeValue : String //userServingSize, should be Int
-    var servingSizeUnit : String //grams,
-    var individualNutrition : IndivNutrition
-    var test : String
+    var name : String? //kale, raw
+    var servingSizeValue : Int?//userServingSize, should be Int
+    var servingSizeUnit : String? //grams,
+    var individualNutrition : IndivNutrition?
 }
 

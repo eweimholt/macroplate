@@ -238,13 +238,9 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
     {
         //Get UI SCreen size
         let screenWidth = screenSize.width
-        let isPlateEmpty = self.posts[indexPath.row].isPlateEmpty
+        //let isPlateEmpty = self.posts[indexPath.row].isPlateEmpty
         var screenHeight = screenWidth * 0.60
-        if isPlateEmpty == "initial" {
-            screenHeight = screenWidth
-        }
         return CGSize(width: screenWidth, height: screenHeight) //0.54
-        //print("cellWidth= ",screenWidth)
         
     }
 

@@ -76,7 +76,7 @@ class Utilities {
         // Filled rounded corner style
         button.backgroundColor = primaryUIColor
             //UIColor.init(red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
-        button.layer.cornerRadius = 25.0
+        button.layer.cornerRadius = 20.0
         button.tintColor = UIColor.white
         //rgb(100, 196, 188) flowaste main color
     }

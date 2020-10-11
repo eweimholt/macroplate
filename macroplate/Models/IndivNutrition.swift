@@ -11,9 +11,9 @@ import UIKit
 
 
 struct IndivNutrition {
-    var carbs : String
-    var cals : String
-    var protein : String
-    var fat : String
+    var carbs : NSNumber
+    var cals : NSNumber
+    var protein : NSNumber
+    var fat : NSNumber
 }
 
