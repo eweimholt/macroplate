@@ -33,18 +33,18 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>let&apos;s take a photo!</string>
-	<key>NSHealthShareUsageDescription</key>
-	<string>let&apos;s use your health data</string>
-	<key>NSHealthUpdateUsageDescription</key>
-	<string>let&apos;s update your health data</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>let&apos;s save your photo</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>let&apos;s save to an album</string>
 	<key>NSCalendarsUsageDescription</key>
-	<string>let&apos;s save a reminder</string>
+	<string>let's save a reminder</string>
+	<key>NSCameraUsageDescription</key>
+	<string>let's take a photo!</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>let's use your health data</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>let's update your health data</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>let's save your photo</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>let's save to an album</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

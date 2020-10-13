@@ -24,7 +24,7 @@ class ConfirmationViewController: UIViewController {
     
     let messageLabel : UILabel = {
         let label = UILabel()
-        label.text = "Check back in a few days to see your results!"
+        label.text = "Check back in a few hours for results!"
         label.font = UIFont(name: "AvenirNext", size: 18)
         label.textColor = .darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
