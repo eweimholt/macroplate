@@ -12,7 +12,7 @@ import UIKit
 
 struct Reminders {
     var mealTime : String //breakfast, lunch, dinner, snack
-    var date : String //NSDate
-    var isOn : String
+    var date : Date //NSDate
+    var isOn : Bool
     //var identifier: String
 }

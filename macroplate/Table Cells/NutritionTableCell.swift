@@ -119,7 +119,7 @@ class NutritionCell : UITableViewCell, UITableViewDataSource, UITableViewDelegat
         foodLabel.heightAnchor.constraint(equalToConstant: height).isActive = true
         
         servingSizeUnitLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        servingSizeUnitLabel.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        servingSizeUnitLabel.widthAnchor.constraint(equalToConstant: 140).isActive = true
         servingSizeUnitLabel.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         servingSizeUnitLabel.heightAnchor.constraint(equalToConstant: height).isActive = true
         

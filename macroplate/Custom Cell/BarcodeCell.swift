@@ -13,7 +13,7 @@ import Firebase
 
 protocol BarcodeCellDelegate {
     //commands that we give to PostViewController
-    func didExpandCleanPost(date: String?, timestamp: TimeInterval?, calories: String?, carbs: String?, protein: String?, fat: String?,state : String?, postId : String?, healthDataEvent: String?, isPlateEmpty: String?)
+    func didExpandCleanPost(date: String?, timestamp: TimeInterval?, calories: String?, carbs: String?, protein: String?, fat: String?, state : String?, postId : String?, healthDataEvent: String?, isPlateEmpty: String?)
     
     func didDeletePost(index: Int)
     

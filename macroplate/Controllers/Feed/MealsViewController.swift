@@ -204,7 +204,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
                         if post.pathToImage == nil {
                             //no image taken, this is a barcode
                             //post.servingsize =
-                            post.isPlateEmpty = "barcode"
+                            //post.isPlateEmpty = "barcode"
                             post.barcodeName = doc["name"] as? String
                             post.servingSize = doc["servingSize"] as? String
                         }
@@ -420,11 +420,68 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             }
             
 
-            cell.completeMealLabel.text = "Barcode Scan"//self.posts[indexPath.row].
+            //cell.completeMealLabel.text = "Barcode Scan"//self.posts[indexPath.row].
+            
+            if self.posts[indexPath.row].isPlateEmpty == "barcodeDNE" {
+                cell.completeMealLabel.text = "Barcode Not Recognized"
+            } else {
+                cell.completeMealLabel.text = "Barcode"
+                print("heyyyyyyyy")
+            }
+            
+            cell.cleanPlateImage.removeFromSuperview()
+            cell.editButton.removeFromSuperview()
+            
+            cell.date = self.posts[indexPath.row].date //need to add real timestamp
+            cell.timestamp = self.posts[indexPath.row].timestamp
+            let weekdayDate = cell.timestamp?.getDateFromTimeInterval()
+            let weekday = weekdayDate?.dayOfWeek()!
+            let dateString = "\(weekday ?? ""), \(cell.date ?? "no date")"
+            cell.headerButton.setTitle(dateString, for: .normal)
+            cell.nameButton.setTitle(self.posts[indexPath.row].barcodeName, for: .normal)
+
+            //set nutritional data
+            cell.calories = self.posts[indexPath.row].calories
+            cell.carbs = self.posts[indexPath.row].carbs
+            cell.protein = self.posts[indexPath.row].protein
+            cell.fat = self.posts[indexPath.row].fat
+            cell.state = self.posts[indexPath.row].state
+            cell.postId = self.posts[indexPath.row].postId
+            cell.healthDataEvent = self.posts[indexPath.row].healthDataEvent
+            cell.isPlateEmpty = self.posts[indexPath.row].isPlateEmpty
+            
+            cell.backgroundColor = UIColor.white
+            cell.delegate = self
+            cell.index = indexPath
+            //cell.btn1.tag = indexPath.row // set tag
+           
+            // Create Cell Outline
+            let bottomLine = CALayer()
+            bottomLine.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 1.5)
+            bottomLine.backgroundColor = MealsViewController.colorE.cgColor
+            cell.layer.addSublayer(bottomLine)
+            return cell
+
+        }
+        
+        func setupPendingBarcodeCell() -> BarcodePostCell  {
+            let cell = mealsCollectionView.dequeueReusableCell(withReuseIdentifier: barId, for: indexPath) as! BarcodePostCell
+            
+            
+            if self.posts[indexPath.row].pathToImage != nil {
+                cell.postImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
+            } else {
+                print("nil abort of pathToImage avoided in BarcodeCell")
+            }
+            
+
+            cell.completeMealLabel.text = "Pending Barcode"//self.posts[indexPath.row].
+            //cell.completeMealLabel.font = UIFont(name: "AvenirNext-Bold", size: 18)
             
             if self.posts[indexPath.row].state == "Pending" {
             } else {
-                cell.completeMealLabel.text = "Barcode"
+                // cell.completeMealLabel.text = "Error - Barcode Not Found"
+                cell.completeMealLabel.font = UIFont(name: "AvenirNext-Regular", size: 18)
                 cell.cleanPlateImage.removeFromSuperview()
                 cell.editButton.removeFromSuperview()
             }
@@ -582,8 +639,8 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
                 return setUpInitialCell()
             case ("true"):
                 return setUpEmptyPlateCell()
-            //case ("barcode"):
-                //return setupBarcodeCell()
+            case ("barcode"):
+                return setupPendingBarcodeCell()
             case ("false"):
                 if self.posts[indexPath.row].pathToEOMImage == "DNE" {
                     return setUpFalseCell()
@@ -601,6 +658,8 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             case ("true"):
                 return setUpEmptyPlateCell()
             case ("barcode"):
+                return setupBarcodeCell()
+            case ("barcodeDNE"):
                 return setupBarcodeCell()
             default:
                 return setUpEmptyPlateCell()
@@ -917,13 +976,6 @@ extension Date
         dateFormatter.dateFormat = Constants.dateFormatAs
         return dateFormatter.string(from: self)
     }
-    
-    /*func dayOfWeek() -> String? {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "EEEE"
-            return dateFormatter.string(from: self).capitalized
-            // or use capitalized(with: locale) if you want
-    }*/
 
 }
 

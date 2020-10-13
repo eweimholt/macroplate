@@ -106,6 +106,15 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         return uButton
     }()
     
+    let barcodeButton : UIButton = {
+        let uButton = UIButton()
+        uButton.setTitle("BARCODE SCAN ENABLED", for: .normal)
+        //uButton.titleLabel?.textColor = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
+        uButton.titleLabel?.font = UIFont(name: "AvenirNext-Regular", size: 12)
+        //uButton.titleLabel?.tintColor = UIColor.init(displayP3Red: 100/255, green: 196/255, blue: 188/255, alpha: 1)
+        uButton.translatesAutoresizingMaskIntoConstraints = false
+        return uButton
+    }()
     
     var cameraText : UILabel = {
         let textLabel = UILabel()
@@ -152,6 +161,11 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             self.view.addSubview(cameraView)
             self.view.addSubview(transparentBackground)
             self.view.addSubview(transparentBackground2)
+            self.view.addSubview(barcodeButton)
+            //barcodeButton.titleLabel?.textColor = colorB
+            //barcodeButton.titleLabel?.tintColor = colorB
+            barcodeButton.setTitleColor(colorB, for: .normal)
+            //barcodeButton
             
             cameraButton.setBackgroundImage(circleImage, for: .normal)
             cameraButton.addTarget(self, action: #selector(imageCapture), for: .touchUpInside)
@@ -213,12 +227,16 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         {
             if let object = metadataObjects[0] as? AVMetadataMachineReadableCodeObject
             {
-                if object.type == AVMetadataObject.ObjectType.ean13 || object.type == AVMetadataObject.ObjectType.ean8
+                if object.type == AVMetadataObject.ObjectType.ean13 || object.type == AVMetadataObject.ObjectType.ean8 
                 {
-                    let alert = UIAlertController(title: "Bar Code:", message: object.stringValue, preferredStyle: .alert)
+                    let alert = UIAlertController(title: "Barcode Detected:", message: "Add to Meal Log?", preferredStyle: .alert) //object.stringValue
                     alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
                     alert.addAction(UIAlertAction(title: "Save", style: .default, handler: {(action) in //UIPasteboard.general.string = object.stringValue
                         let Bar = object.stringValue!
+                        //get results
+                        //let URL = "https://world.openfoodfacts.org/api/v0/product/\(Bar).json";
+                        //let data = URL.downloadURL
+                        //print(data)
                         // Add a new document in collection "cities"
                         let db = Firestore.firestore()
                         
@@ -243,24 +261,9 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                                // self.transitionToConfirmation() for some reason, it adds two here
                             }
                         }
-                        
-                        /*db.collection("BarcodeNumber").addDocument(data: ["BarcodeNumber" : Bar,"AllData": "", "Calories" : "" , "Protein" : "", "Carbohydrates" : "", "Fats" : ""
-                        ]){ err in
-                            if let err = err {
-                                print("Error writing document: \(err)")
-                            } else {
-                                print("Document successfully written!")
-                            }
-                        }*/
-                        
+
                     }))
                     present(alert, animated: true, completion: nil)
-                    //let url = URL(string: "https://world.openfoodfacts//.org/api/v0/product///[object].json")!
-                    //print("\(url)")
-                    
-                    /*let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
-                     guard let data = data else { return }
-                     print(String(data: data, encoding: .utf8)!)*/
                 }
             }
         }
@@ -289,7 +292,11 @@ private func setUpLayout() {
     transparentBackground2.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     transparentBackground2.bottomAnchor.constraint(equalTo: cameraView.bottomAnchor).isActive = true
     
-    
+    barcodeButton.topAnchor.constraint(equalTo: transparentBackground2.topAnchor).isActive = true
+    barcodeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+    barcodeButton.widthAnchor.constraint(equalToConstant: 175).isActive = true
+    barcodeButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
+
     cameraButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     cameraButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
     cameraButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
@@ -479,3 +486,25 @@ extension HomeViewController: AVCapturePhotoCaptureDelegate {
 }
 
 
+
+/*extension String {
+    func downloadURL(from imgURL: String!) ->  {
+        let url = URLRequest(url: URL(string: imgURL)!)
+        
+        let task = URLSession.shared.dataTask(with: url) { (data, reponse, error) in
+            if error != nil {
+                print(error!)
+                return
+            } else {
+                return data
+            }
+            
+            DispatchQueue.main.async {
+                //self.image = UIImage(data: data!)
+                print(data)
+            }
+        }
+        
+        task.resume()
+    }
+}*/

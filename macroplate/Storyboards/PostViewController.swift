@@ -697,6 +697,7 @@ extension PostViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 173
+        //return tableView.
 
     }
 
@@ -748,8 +749,8 @@ extension PostViewController: UITableViewDataSource {
                 let servingSizeUnit = doc?["servingSize"] as? String
                 let barCals = doc?["calories"] as? String
                 let barCarbs = doc?["carbs"] as? String
-                let barFat = doc?["protein"] as? String
-                let barProtein = doc?["fat"] as? String
+                let barProtein = doc?["protein"] as? String
+                let barFat = doc?["fat"] as? String
 
                 let newNutrition = IndivNutrition(carbs: NSNumber(value:Int(barCarbs!)!), cals: NSNumber(value:Int(barCals!)!), protein: NSNumber(value:Int(barProtein!)!), fat:  NSNumber(value:Int(barFat!)!))
                 //let newNutrition = IndivNutrition(carbs: NSNumber(value:barCarbs), cals: NSNumber(value:barCals), protein: NSNumber(value:barProtein), fat:  NSNumber(value:barFat))

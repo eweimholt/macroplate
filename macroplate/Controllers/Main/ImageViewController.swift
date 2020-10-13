@@ -205,7 +205,7 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
             //check that all fields are filled in
             if  inputField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
                 return """
-                Please add a label to aide the
+                Please add a label to aid the
                 training of the machine learning model.
                 """
             }

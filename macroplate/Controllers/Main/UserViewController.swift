@@ -22,8 +22,18 @@ class UserViewController: UIViewController {
     static let colorD = UIColor.init(displayP3Red: 49/255, green: 128/255, blue: 194/255, alpha: 1) //3180c2
     static let colorE = UIColor.init(displayP3Red: 36/255, green: 101/255, blue: 151/255, alpha: 1) //246597
     
-    var dateSchedule: String?
-
+    var dateOnPicker: Date?
+    
+    var breakfastDate : Date?
+    var lunchDate : Date?
+    var dinnerDate : Date?
+    var snackDate : Date?
+    
+    var breakfastSaved : Bool?
+    var lunchSaved : Bool?
+    var dinnerSaved : Bool?
+    var snackSaved : Bool? 
+    
     @IBOutlet weak var hyperlinkTextView: UITextView!
 
     var docRef : DocumentReference!
@@ -36,6 +46,7 @@ class UserViewController: UIViewController {
         let uButton = UIButton(frame: CGRect(x: 100, y: 100, width: 35, height: 40))
         uButton.translatesAutoresizingMaskIntoConstraints = false
         uButton.setTitle("Sign Out", for: .normal )
+        uButton.titleLabel?.font = UIFont(name: "AvenirNext-Regular", size: 16)
         return uButton
     }()
     
@@ -58,8 +69,8 @@ class UserViewController: UIViewController {
     
     let useHeading : UILabel = {
         let label = UILabel()
-        label.text = "How To Use"
-        label.font = UIFont.systemFont(ofSize: 32)
+        label.text = "HOW TO USE"
+        label.font = UIFont(name: "AvenirNext-Bold", size: 20)
         label.textColor = UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
@@ -75,12 +86,29 @@ class UserViewController: UIViewController {
         label.text = """
         Log your meal with one picture, taken from a bird's eye view above your plate. Check back later for a complete nutritional breakdown, synced to Apple Health. Watch a demo here.
         """
-        label.font = UIFont.systemFont(ofSize: 18)
+        label.font = UIFont(name: "AvenirNext-Regular", size: 18)
         label.textColor = UIColor(displayP3Red: 0/255, green: 32/255, blue: 61/255, alpha: 1)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
         label.textColor = .white
         label.tintColor = .white
+        return label
+    }()
+    
+    let remindersText : UILabel = {
+        let label = UILabel()
+        var text = "SET A REMINDER"
+        label.text = text
+        label.font = UIFont(name: "AvenirNext-Bold", size: 20)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .left
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 1
+        label.clipsToBounds = true
+        label.textColor = .white
+        //label.backgroundColor = .cyan
+        //label.textColor = colorB
+        //label.layer.cornerRadius = 15
         return label
     }()
 
@@ -94,27 +122,6 @@ class UserViewController: UIViewController {
         tableView.register(RemindersCell.self, forCellReuseIdentifier: "remindersId")
         return tableView
     }()
-    
-    var saveButton : UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        let config = UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold, scale: .large)
-        let cImage = UIImage(systemName: "circle", withConfiguration: config)?.withTintColor(.white, renderingMode: .alwaysOriginal)
-        let fillImage = UIImage(systemName: "checkmark.circle.fill", withConfiguration: config)?.withTintColor(.white, renderingMode: .alwaysOriginal)
-        button.setImage(cImage, for: .normal)
-        button.setImage(fillImage, for: .selected)
-        return button
-        
-    }()
-    
-    var timePicker = UIDatePicker()
-    
-    func repeatNotification(){
-        let content = UNMutableNotificationContent()
-        content.title = "Pizza Time!!"
-        content.body = "Monday is Pizza Day"
-        content.categoryIdentifier = "pizza.reminder.category"
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -138,27 +145,19 @@ class UserViewController: UIViewController {
         self.view.addSubview(personButton)
         self.view.addSubview(useHeading)
         self.view.addSubview(useBody)
-        signOutButton.addTarget(self, action: #selector(handleSignOut), for: .touchUpInside)
-        self.view.addSubview(saveButton)
-        saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         self.view.addSubview(signOutButton)
-        
-        //Set Up Picker
-        timePicker.datePickerMode = .time
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat =  "HH:mm"
-        let date = dateFormatter.date(from: "12:00")
-        //self.dateSchedule = date
-        timePicker.setDate(date!, animated: true) //= date!
-        //timePicker
-        //timePicker.datePickerStyle.wheel
-        view.addSubview(timePicker)
-        
+        self.view.addSubview(remindersText)
+        signOutButton.addTarget(self, action: #selector(handleSignOut), for: .touchUpInside)
+
         //SET UP TABLE VIEW
-        /*view.addSubview(remindersTableView)
+        view.addSubview(remindersTableView)
         remindersTableView.dataSource = self
         remindersTableView.delegate = self
-        //remindersTableView.rowHeight = 50*/
+        remindersTableView.isOpaque = false
+        remindersTableView.backgroundView?.isOpaque = false
+        remindersTableView.backgroundColor = .clear
+        remindersTableView.rowHeight = 50
+        
         createRemindersArray()
         
         //get personalized user data
@@ -172,7 +171,7 @@ class UserViewController: UIViewController {
                 print("Error getting documents: \(err)")
             } else {
                 for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
+                    //print("\(document.documentID) => \(document.data())")
                     
                     if let person = document.data() as? [String:Any] {
                         let userFirstName = person["firstname"] as! String
@@ -190,53 +189,44 @@ class UserViewController: UIViewController {
     
     private func setUpLayout() {
         let width = view.frame.width
-        let height = view.frame.height
+        //let height = view.frame.height
         
         name.translatesAutoresizingMaskIntoConstraints = false
-        name.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 100).isActive = true
-        name.topAnchor.constraint(equalTo: view.topAnchor, constant: 55).isActive = true
+        name.leadingAnchor.constraint(equalTo: personButton.trailingAnchor, constant: 20).isActive = true
+        name.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
         name.widthAnchor.constraint(equalToConstant: 300).isActive = true
         name.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         personButton.translatesAutoresizingMaskIntoConstraints = false
-        personButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 55).isActive = true
-        personButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 55).isActive = true
+        personButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        personButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
         personButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         personButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
-        useHeading.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 55).isActive = true
-        useHeading.topAnchor.constraint(equalTo: view.topAnchor, constant: 325).isActive = true
+        useHeading.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        useHeading.topAnchor.constraint(equalTo: remindersTableView.bottomAnchor, constant: 40).isActive = true
         useHeading.widthAnchor.constraint(equalToConstant: width - 80).isActive = true
-        useHeading.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        useHeading.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         signOutButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         signOutButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
         signOutButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
         signOutButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
-        useBody.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50).isActive = true
-        useBody.topAnchor.constraint(equalTo: view.topAnchor, constant: 375).isActive = true
-        useBody.widthAnchor.constraint(equalToConstant: width - 80).isActive = true
+        useBody.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        useBody.topAnchor.constraint(equalTo: useHeading.bottomAnchor).isActive = true
+        useBody.widthAnchor.constraint(equalToConstant: width - 40).isActive = true
         useBody.heightAnchor.constraint(equalToConstant: width).isActive = true
+
+        remindersText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        remindersText.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        remindersText.bottomAnchor.constraint(equalTo: remindersTableView.topAnchor, constant: -10).isActive = true
+        remindersText.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
-        saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        saveButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        saveButton.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        saveButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 150).isActive = true
-        //saveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
-        
-        timePicker.translatesAutoresizingMaskIntoConstraints = false
-        //timePicker.leadingAnchor.constraint(equalTo: view.trailingAnchor, constant: -170).isActive = true
-        timePicker.trailingAnchor.constraint(equalTo: saveButton.leadingAnchor, constant: -20).isActive = true
-        timePicker.topAnchor.constraint(equalTo: view.topAnchor, constant: 150).isActive = true
-        timePicker.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        timePicker.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        //timePicker.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -padding).isActive = true
-        
-        /*remindersTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        remindersTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         remindersTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        remindersTableView.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 20).isActive = true
-        remindersTableView.heightAnchor.constraint(equalToConstant: 200).isActive = true*/
+        remindersTableView.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 60).isActive = true
+        remindersTableView.heightAnchor.constraint(equalToConstant: 200).isActive = true
 
     }
 
@@ -269,22 +259,11 @@ class UserViewController: UIViewController {
             print("Failed to sign out with error..", error)
         }
     }
-    
-    @objc func saveButtonTapped() {
-        if saveButton.isSelected == true {
-            saveButton.isSelected = false
-            unSetReminder()
-        }
-        else {
-            saveButton.isSelected = true
-            setReminder()
-        }
-    }
-    
-    func setReminder() {
+
+    func setReminder(timeString: String?) {
         print("reminder is saved")
-        //get permission to send notifications
         
+        //get permission to send notifications
         let eventStore = EKEventStore()
                 eventStore.requestAccess(
                     to: EKEntityType.event, completion: {(granted, error) in
@@ -298,14 +277,21 @@ class UserViewController: UIViewController {
                 })
         //make reminder
         let content = UNMutableNotificationContent()
-        content.title = "Feed the cat"
-        content.subtitle = "It looks hungry"
+        content.title = "Meal Log Reminder"
+        content.subtitle = "Snap a photo of your plate! #PhoneEatsFirst"
         content.sound = UNNotificationSound.default
 
-        // show this notification five seconds from now
-        //self.dateSchedule = "10:00"
-        //let trigger = UNCalendarNotificationTrigger(dateMatching: self.dateSchedule, repeats: true)
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 60, repeats: true)
+        // *** Create date ***
+        //let date = Date()
+        let date = self.dateOnPicker
+
+        // *** create calendar object ***
+        let calendar = Calendar.current
+        //.year, .month, .day,
+        let timeComponent = calendar.dateComponents([.hour, .minute], from: date! as Date)
+        print("timeComponent is", timeComponent)
+
+        let trigger = UNCalendarNotificationTrigger(dateMatching: timeComponent, repeats: true)
 
         // choose a random identifier
         let request = UNNotificationRequest(identifier:"test", content: content, trigger: trigger) // UUID().uuidString
@@ -314,14 +300,12 @@ class UserViewController: UIViewController {
         UNUserNotificationCenter.current().add(request)
         
         // Create the alert controller
-        let alertController = UIAlertController(title: "Reminder Added!", message: "You set a reminder for 9 AM", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Reminder Added!", message: "You set a reminder for \(timeString ?? "")", preferredStyle: .alert)
 
         // Create the actions
         let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) {
             UIAlertAction in
             NSLog("OK Pressed")
-            //reminder.text = ""
-            //self.activityIndicator.stopAnimating()
         }
 
         // Add the actions
@@ -372,15 +356,131 @@ extension UserViewController : UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: remindersId, for: indexPath) as! RemindersCell
         cell.selectionStyle = .none
         cell.reminders = currentItem //sets the model to the current Item
+        cell.isOpaque = false
+        cell.backgroundView = nil
+        cell.backgroundView?.isOpaque = false
+        cell.backgroundColor = .clear
+        //cell.saveButton.isSelected = isOn
+        
+        switch currentItem.mealTime {
+        case ("Breakfast"):
+            cell.saveButton.isSelected = currentItem.isOn
+            print ("Breakfast saveButton set to: ", breakfastSaved ?? false)
+        case ("Lunch"):
+            cell.saveButton.isSelected = currentItem.isOn
+            print ("Lunch saveButton set to: ", lunchSaved ?? false)
+        case ("Dinner"):
+            cell.saveButton.isSelected = currentItem.isOn
+            print ("DInner saveButton set to: ", breakfastSaved ?? false)
+        case ("Snack"):
+            cell.saveButton.isSelected = currentItem.isOn
+            print ("Snack saveButton set to: ", breakfastSaved ?? false)
+        default:
+            cell.saveButton.isSelected = false
+            print ("default set to false ")
+        }
         return cell
     }
-    
 
     func createRemindersArray() {
-     self.reminders.append(Reminders(mealTime: "Breakfast", date: "date1", isOn: "1"))
-     reminders.append(Reminders(mealTime: "Lunch", date: "date2", isOn: "2"))
-     reminders.append(Reminders(mealTime: "Dinner", date: "date3", isOn: "3"))
-     reminders.append(Reminders(mealTime: "Snack", date: "time4", isOn: "4"))
+        
+        if let savedTime = UserDefaults.standard.object(forKey: "Breakfast") as? String {
+            print("saved Initial Time is", savedTime, "Breakfast" )
+            let formatter4 = DateFormatter()
+            formatter4.timeStyle = DateFormatter.Style.short
+            breakfastDate = formatter4.date(from: savedTime)
+            //breakfastSaved = true
+        } else {
+            let breakfastTime = "8:00 AM"
+            let formatter4 = DateFormatter()
+            formatter4.timeStyle = DateFormatter.Style.short
+            breakfastDate = formatter4.date(from: breakfastTime)
+        }
+        
+        if let savedTime = UserDefaults.standard.object(forKey: "Lunch") as? String {
+            print("saved Initial Time is", savedTime, "Lunch" )
+            let formatter4 = DateFormatter()
+            formatter4.timeStyle = DateFormatter.Style.short
+            lunchDate = formatter4.date(from: savedTime)
+            //lunchSaved = true
+        } else {
+            let lunchTime = "12:00 PM"
+            let formatter4 = DateFormatter()
+            formatter4.timeStyle = DateFormatter.Style.short
+            lunchDate = formatter4.date(from: lunchTime)
+        }
+        
+        if let savedTime = UserDefaults.standard.object(forKey: "Lunch") as? String {
+            print("saved Initial Time is", savedTime, "Lunch" )
+            let formatter4 = DateFormatter()
+            formatter4.timeStyle = DateFormatter.Style.short
+            lunchDate = formatter4.date(from: savedTime)
+            //lunchSaved = true
+        } else {
+            let lunchTime = "12:00 PM"
+            let formatter4 = DateFormatter()
+            formatter4.timeStyle = DateFormatter.Style.short
+            lunchDate = formatter4.date(from: lunchTime)
+        }
+        
+        if let savedTime = UserDefaults.standard.object(forKey: "Dinner") as? String {
+            print("saved Initial Time is", savedTime, "Dinner" )
+            let formatter4 = DateFormatter()
+            formatter4.timeStyle = DateFormatter.Style.short
+            dinnerDate = formatter4.date(from: savedTime)
+            //lunchSaved = true
+        } else {
+            let dinnerTime = "6:00 PM"
+            let formatter4 = DateFormatter()
+            formatter4.timeStyle = DateFormatter.Style.short
+            dinnerDate = formatter4.date(from: dinnerTime)
+        }
+        
+        if let savedTime = UserDefaults.standard.object(forKey: "Snack") as? String {
+            print("saved Initial Time is", savedTime, "Snack" )
+            let formatter4 = DateFormatter()
+            formatter4.timeStyle = DateFormatter.Style.short
+            snackDate = formatter4.date(from: savedTime)
+            //lunchSaved = true
+        } else {
+            let snackTime = "3:00 PM"
+            let formatter4 = DateFormatter()
+            formatter4.timeStyle = DateFormatter.Style.short
+            snackDate = formatter4.date(from: snackTime)
+        }
+        
+        if let savedState = UserDefaults.standard.object(forKey: "SnackSTATE") as? Bool {
+            print("SavedSTATE", savedState, "Snack" )
+            snackSaved = savedState
+        } else {
+            snackSaved = false
+        }
+        
+        if let savedState = UserDefaults.standard.object(forKey: "BreakfastSTATE") as? Bool {
+            print("SavedSTATE", savedState, "Breakfast" )
+            breakfastSaved = savedState
+        } else {
+            breakfastSaved = false
+        }
+        
+        if let savedState = UserDefaults.standard.object(forKey: "LunchSTATE") as? Bool {
+            print("SavedSTATE", savedState, "Lunch" )
+            lunchSaved = savedState
+        } else {
+            lunchSaved = false
+        }
+        
+        if let savedState = UserDefaults.standard.object(forKey: "DinnerSTATE") as? Bool {
+            print("SavedSTATE", savedState, "Dinner" )
+            dinnerSaved = savedState
+        } else {
+            dinnerSaved = false
+        }
+        
+        self.reminders.append(Reminders(mealTime: "Breakfast", date: breakfastDate!, isOn: breakfastSaved!))
+        reminders.append(Reminders(mealTime: "Lunch", date: lunchDate!, isOn: lunchSaved!))
+        reminders.append(Reminders(mealTime: "Dinner", date: dinnerDate!, isOn: dinnerSaved!))
+        reminders.append(Reminders(mealTime: "Snack", date: snackDate!, isOn: snackSaved!))
      
     }
 
