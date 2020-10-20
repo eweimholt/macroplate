@@ -106,7 +106,6 @@ class ConfirmationViewController: UIViewController {
     }
     
     @IBAction func goToFeed(_ sender: Any) {
-        //transitionToHome()
         transitionToFeed()
     }
     

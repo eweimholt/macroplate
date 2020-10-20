@@ -10,11 +10,6 @@ import UIKit
 //import FBSDKLoginKit
 
 class ViewController: UIViewController {
-
-    //@IBOutlet weak var signUpButton: UIButton!
-    
-    //@IBOutlet weak var loginButton: UIButton!
-    
     let loginButton : UIButton = {
         let uButton = UIButton(frame: CGRect(x: 60, y: 550, width: 300, height: 50))
         uButton.translatesAutoresizingMaskIntoConstraints = false
@@ -30,10 +25,9 @@ class ViewController: UIViewController {
     }()
     
     let logoView : UIImageView = {
-        let lView = UIImageView() //frame: CGRect(x: 35, y: 35, width: 300, height: 300))
+        let lView = UIImageView()
         lView.translatesAutoresizingMaskIntoConstraints = false
         lView.clipsToBounds = true
-        //camView.layer.cornerRadius = 10
         return lView
     }()
 
@@ -120,7 +114,6 @@ class ViewController: UIViewController {
         let signupVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "signupVC") as! SignUpViewController
         DispatchQueue.main.async {
             self.present(signupVC, animated: true, completion: nil)
-            //self.navigationController?.pushViewController(signupVC, animated: true)
             print("signup presented")
         }
         
@@ -138,7 +131,6 @@ class ViewController: UIViewController {
         DispatchQueue.main.async {
             print("login presented")
             self.present(loginVC, animated: true, completion: nil)
-            //self.navigationController?.pushViewController(loginVC, animated: true)
         }
         
     }

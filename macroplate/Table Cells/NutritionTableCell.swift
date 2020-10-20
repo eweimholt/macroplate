@@ -47,7 +47,7 @@ class NutritionCell : UITableViewCell, UITableViewDataSource, UITableViewDelegat
             if food?.servingSizeValue == 0 {
                 servingSizeQuantity.text = ""
             } else {
-                servingSizeQuantity.text = String((food?.servingSizeValue)!)
+                servingSizeQuantity.text = food?.servingSizeValue?.stringValue
             }
             
             self.cals = food?.individualNutrition?.cals
@@ -63,6 +63,7 @@ class NutritionCell : UITableViewCell, UITableViewDataSource, UITableViewDelegat
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont(name: "AvenirNext-Regular", size: 15)
         button.contentHorizontalAlignment = .left
+        button.titleLabel?.numberOfLines = 0
         return button
     }()
     
@@ -111,20 +112,20 @@ class NutritionCell : UITableViewCell, UITableViewDataSource, UITableViewDelegat
         subNutritionTableView.dataSource = self
         subNutritionTableView.delegate = self
         //subNutritionTableView.backgroundColor = .lightGray
-        let height = CGFloat(35)
+        let height = CGFloat(50)
 
         foodLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
-        foodLabel.widthAnchor.constraint(equalToConstant: 250).isActive = true
+        foodLabel.widthAnchor.constraint(equalToConstant: 230).isActive = true
         foodLabel.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         foodLabel.heightAnchor.constraint(equalToConstant: height).isActive = true
         
         servingSizeUnitLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-        servingSizeUnitLabel.widthAnchor.constraint(equalToConstant: 140).isActive = true
+        servingSizeUnitLabel.widthAnchor.constraint(equalToConstant: 120).isActive = true
         servingSizeUnitLabel.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         servingSizeUnitLabel.heightAnchor.constraint(equalToConstant: height).isActive = true
         
         servingSizeQuantity.trailingAnchor.constraint(equalTo: servingSizeUnitLabel.leadingAnchor).isActive = true
-        servingSizeQuantity.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        servingSizeQuantity.widthAnchor.constraint(equalToConstant: 50).isActive = true
         servingSizeQuantity.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         servingSizeQuantity.heightAnchor.constraint(equalToConstant: height).isActive = true
 
@@ -132,7 +133,6 @@ class NutritionCell : UITableViewCell, UITableViewDataSource, UITableViewDelegat
         subNutritionTableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
         subNutritionTableView.topAnchor.constraint(equalTo: foodLabel.bottomAnchor).isActive = true
         subNutritionTableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-
 
     }
     

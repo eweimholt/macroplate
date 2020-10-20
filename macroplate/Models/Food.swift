@@ -15,7 +15,7 @@ import Firebase
 //class Food: NSObject {
 struct Food {
     var name : String? //kale, raw
-    var servingSizeValue : Int?//userServingSize, should be Int
+    var servingSizeValue : NSNumber?//userServingSize, should be Int
     var servingSizeUnit : String? //grams,
     var individualNutrition : IndivNutrition?
 }

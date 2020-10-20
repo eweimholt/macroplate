@@ -44,8 +44,6 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             debugPrint("Image not available")
          }
         
-        // Do any additional setup after loading the view.
-
         setUpElements()
     }
 
@@ -117,8 +115,6 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
                 }
                 else {
                     //user was created successfully, store in database
-                    
-                    //update user namefield 37:00 at https://www.youtube.com/watch?v=AsSZulMc7sk
                     let changeRequest = Auth.auth().currentUser!.createProfileChangeRequest()
                     changeRequest.displayName = self.firstNameTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
                     changeRequest.commitChanges(completion: nil)
@@ -166,7 +162,6 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         //explained at 1:11:00 on https://www.youtube.com/watch?v=1HN7usMROt8&t=94s
         let homeViewController = storyboard?.instantiateViewController(identifier: Constants.Storyboard.homeViewController) as? HomeViewController
         
-        //swap out root view controller for the home one, once the signup is successful
         view.window?.rootViewController = homeViewController
         view.window?.makeKeyAndVisible()
         

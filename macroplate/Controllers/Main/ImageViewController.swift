@@ -194,12 +194,9 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func sendButtonTapped(_ sender: Any) {
-        //get the timestamp of when image is sent
         let date = Date()//NSDate().timeIntervalSince1970 //
         let timestamp = NSDate().timeIntervalSince1970 //Timestamp(date: date)
-        //print("date set to: \(date)")
-        //print("timestamp set to: \(timestamp)")
-        
+
         func validateFields() -> String? {
             
             //check that all fields are filled in
@@ -223,7 +220,6 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
             print("error - invalidated field")
             
         } else{
-            
             if let user = Auth.auth().currentUser {
                 let db = Firestore.firestore()
                 let ref = db.collection("posts")
@@ -262,7 +258,6 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
                                 print("Error adding document: \(err)")
                             } else {
                                 print("Document added with ID at ImageVC: \(docId)")
-                               // self.transitionToConfirmation() for some reason, it adds two here
                             }
                         }
                     }
@@ -275,8 +270,7 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
             transitionToConfirmation()
         }
     }
-    
-    
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
         return false
@@ -316,10 +310,7 @@ class ImageViewController: UIViewController, UITextFieldDelegate {
         imageInputErrorLabel.alpha = 1
         
     }
-    
-    
-    
-    
+
 }
 
 extension ImageViewController {

@@ -231,13 +231,8 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                 {
                     let alert = UIAlertController(title: "Barcode Detected:", message: "Add to Meal Log?", preferredStyle: .alert) //object.stringValue
                     alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
-                    alert.addAction(UIAlertAction(title: "Save", style: .default, handler: {(action) in //UIPasteboard.general.string = object.stringValue
+                    alert.addAction(UIAlertAction(title: "Save", style: .default, handler: {(action) in
                         let Bar = object.stringValue!
-                        //get results
-                        //let URL = "https://world.openfoodfacts.org/api/v0/product/\(Bar).json";
-                        //let data = URL.downloadURL
-                        //print(data)
-                        // Add a new document in collection "cities"
                         let db = Firestore.firestore()
                         
                         let date = Date()//NSDate().timeIntervalSince1970 //
@@ -261,9 +256,28 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                                // self.transitionToConfirmation() for some reason, it adds two here
                             }
                         }
-
+                        self.transitionToFeed()
+                        
                     }))
-                    present(alert, animated: true, completion: nil)
+                    
+                    let alertCheck = self.presentedViewController;
+                    
+                    if (alertCheck !== nil)
+                    {
+                        //do nothing
+                        print("Alert is already presented")
+                    }
+                    else
+                    {
+                        // UIAlertController is not presented OR visible.
+                        print("No alert, presenting new alert in 1 second")
+                        self.present(alert, animated: true, completion: nil)
+                        /*DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // Change `2.0` to the desired number of seconds.
+                           // Code you want to be delayed
+                            print("alert presenting")
+                        }*/
+                    }
+                    
                 }
             }
         }
@@ -434,22 +448,13 @@ func switchToBackCamera() {
 func presentToImageVC(_ image : UIImage) {
     let imageVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: Constants.Storyboard.imageViewController) as! ImageViewController
     imageVC.takenPhoto = image
-    
-    /*let feedVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: Constants.Storyboard.feedViewController) as! FeedViewController
-     feedVC.feedImage = image*/
-    
+
     DispatchQueue.main.async {
         self.present(imageVC, animated: true, completion: nil)
     }
 }
 
 func transitionToFeed() {
-    
-    /*let mealVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "MealsVC") as! MealsViewController
-     DispatchQueue.main.async {
-     self.present(mealVC, animated: true, completion: nil)
-     }*/
-    
     let mealsVC = UIStoryboard(name: "Feed", bundle: nil).instantiateViewController(identifier: "MealsVC") as? MealsViewController
     
     //swap out root view controller for the home one, once the signup is successful
@@ -484,27 +489,3 @@ extension HomeViewController: AVCapturePhotoCaptureDelegate {
     }
     
 }
-
-
-
-/*extension String {
-    func downloadURL(from imgURL: String!) ->  {
-        let url = URLRequest(url: URL(string: imgURL)!)
-        
-        let task = URLSession.shared.dataTask(with: url) { (data, reponse, error) in
-            if error != nil {
-                print(error!)
-                return
-            } else {
-                return data
-            }
-            
-            DispatchQueue.main.async {
-                //self.image = UIImage(data: data!)
-                print(data)
-            }
-        }
-        
-        task.resume()
-    }
-}*/

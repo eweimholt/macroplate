@@ -201,6 +201,7 @@ class EOMPostCell: UICollectionViewCell {
                 print("Timestamp is likely nil")
             } else {
                 delegate?.didExpandEOMPost(image: postImage.image!, EOMImage: EOMImage.image!, date: date, timestamp: timestamp, userText: userTextInput, calories: calories, carbs: carbs, protein: protein, fat: fat, state : state, postId: postId, healthDataEvent: healthDataEvent, isPlateEmpty: isPlateEmpty)
+                print("Time/date are all good in EOMPost")
             }
         } else {
             print("nil abort avoided :) EOMPost")

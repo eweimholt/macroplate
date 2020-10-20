@@ -12,8 +12,8 @@ import EventKit
 
 
 /*protocol RemindersCellDelegate {
-    func didSaveReminder()
-}*/
+ func didSaveReminder()
+ }*/
 
 class RemindersCell : UITableViewCell {
     
@@ -68,7 +68,7 @@ class RemindersCell : UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-    
+        
         contentView.addSubview(mealTimeLabel)
         contentView.addSubview(saveButton)
         //saveButton.isSelected = isOn!
@@ -77,7 +77,8 @@ class RemindersCell : UITableViewCell {
         timePicker.datePickerMode = .time
         timePicker.tintColor = .white
         contentView.addSubview(timePicker)
-
+        print("reminder id is: ", reminderId)
+        
         //CONSTRAINTS
         let padding = CGFloat(5)
         
@@ -92,16 +93,11 @@ class RemindersCell : UITableViewCell {
         saveButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -padding).isActive = true
         
         timePicker.translatesAutoresizingMaskIntoConstraints = false
-        timePicker.leadingAnchor.constraint(equalTo: mealTimeLabel.trailingAnchor, constant: padding).isActive = true
+        //timePicker.leadingAnchor.constraint(equalTo: mealTimeLabel.trailingAnchor, constant: padding).isActive = true
         timePicker.trailingAnchor.constraint(equalTo: saveButton.leadingAnchor, constant: -padding).isActive = true
+        timePicker.widthAnchor.constraint(equalToConstant: 125).isActive = true
         timePicker.topAnchor.constraint(equalTo: contentView.topAnchor, constant: padding).isActive = true
         timePicker.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -padding).isActive = true
-        
-        //getDefaultTimes()
-    }
-    
-    func getDefaultTimes() {
-        print("reminderId is: \(reminderId ?? "DNEEEEEEEEE")")
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -124,9 +120,9 @@ class RemindersCell : UITableViewCell {
             let timeAsString = dateFormatter.string(from: timePicked!)
             //print("RemindersTableCell timeAsString: ", timeAsString)
             
-            UserDefaults.standard.set(timeAsString, forKey: reminderId!)
+            UserDefaults.standard.set(timePicked, forKey: reminderId!)
             UserDefaults.standard.set(true, forKey: "\(reminderId!)STATE" )
-            print("UserId set to true: \(reminderId!)STATE")
+            //print("UserId set to true: \(reminderId!)STATE")
             
             setReminder(timeString: timeAsString)
         }
@@ -135,30 +131,32 @@ class RemindersCell : UITableViewCell {
     
     func setReminder(timeString: String?) {
         print("reminder is saved")
+        
         //get permission to send notifications
-        let eventStore = EKEventStore()
-        eventStore.requestAccess(
-            to: EKEntityType.event, completion: {(granted, error) in
-                if !granted {
-                    print("Access to store not granted")
-                } else {
-                    print("Access granted")
-                    //self.createReminder(in: eventStore)
-                }
-            })
+         let eventStore = EKEventStore()
+         eventStore.requestAccess(
+         to: EKEntityType.event, completion: {(granted, error) in
+            if !granted {
+                print("Access to store not granted")
+            } else {
+                print("Access granted")
+                //self.createReminder(in: eventStore)
+            }
+         })
         
         //make reminder
         let content = UNMutableNotificationContent()
         content.title = "Meal Log Reminder"
         content.subtitle = "Snap a photo of your \(reminderId!) plate! #PhoneEatsFirst"
         content.sound = UNNotificationSound.default
-
+        
         // *** Create date ***
         //let date = Date()
         let date = self.timePicked
         
         // *** create calendar object ***
         let calendar = Calendar.current
+        print("Calendar is : ", calendar)
         //.year, .month, .day,
         let timeComponent = calendar.dateComponents([.hour, .minute], from: date! as Date)
         
@@ -167,22 +165,19 @@ class RemindersCell : UITableViewCell {
         // choose a random identifier
         
         let request = UNNotificationRequest(identifier: self.reminderId!, content: content, trigger: trigger) // UUID().uuidString
-        //print("request saved for:", timeComponent.hour, reminderId ?? "didn't work")
+        print("request saved for:", timeComponent.hour, reminderId ?? "didn't work")
         
         // add our notification request
         UNUserNotificationCenter.current().add(request)
-        
-        
     }
-    
     func unSetReminder() {
         print ("reminder is turned off")
         let center = UNUserNotificationCenter.current()
         center.removeAllDeliveredNotifications() // To remove all delivered notifications
         center.removeAllPendingNotificationRequests()
         UserDefaults.standard.set(false, forKey: "\(reminderId!)STATE" )
-        print("UserId set to false: \(reminderId!)STATE")
-
+        //print("UserId set to false: \(reminderId!)STATE")
+        
     }
     
     

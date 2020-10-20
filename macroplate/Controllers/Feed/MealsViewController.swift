@@ -93,14 +93,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //view.backgroundColor = UIColor(displayP3Red: 200/255, green: 200/255, blue: 200/255, alpha: 1)
-        //self.view.backgroundColor = UIColor(patternImage: UIImage(named: "background_gradient.png")!)
-        
-        //let gradientImage = UIImage(named: "background_gradient.png")
-        
-        
-        
+
         view.addSubview(gradientView)
         
         view.addSubview(mealsCollectionView)
@@ -267,14 +260,8 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             } else {
                 print("nil abort of pathToImage avoided")
             }
-            
-            
-            
             cell.postButton.tag = indexPath.row // set tag
-            
-            //cell.indicator.setTitle(self.posts[indexPath.row].state, for: .normal)
-            
-            
+ 
             cell.userTextInput = self.posts[indexPath.row].userTextInput
             cell.date = self.posts[indexPath.row].date
             cell.timestamp = self.posts[indexPath.row].timestamp
@@ -347,19 +334,6 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.backgroundColor = UIColor.white
             cell.delegate = self
             cell.index = indexPath
-            
-            //Create Cell Radius
-            /*cell.clipsToBounds = true
-            cell.layer.cornerRadius = 20
-            cell.layer.borderColor = ColorE //UIColor.blue.cgColor
-            cell.layer.borderWidth = 2*/
-            //cell.layer.bounds =
-            // Create Cell Outline
-            /*let bottomLine = CALayer()
-            bottomLine.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 1.5)
-            bottomLine.backgroundColor = MealsViewController.colorE.cgColor
-            cell.layer.addSublayer(bottomLine)*/
-            
             cell.mealIsComplete()
             
             return cell
@@ -423,7 +397,8 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             //cell.completeMealLabel.text = "Barcode Scan"//self.posts[indexPath.row].
             
             if self.posts[indexPath.row].isPlateEmpty == "barcodeDNE" {
-                cell.completeMealLabel.text = "Barcode Not Recognized"
+                cell.completeMealLabel.text = "Sorry, barcode not found in our database"
+                cell.completeMealLabel.font = UIFont(name: "AvenirNext-Regular", size: 16)
             } else {
                 cell.completeMealLabel.text = "Barcode"
                 print("heyyyyyyyy")
@@ -481,7 +456,7 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             if self.posts[indexPath.row].state == "Pending" {
             } else {
                 // cell.completeMealLabel.text = "Error - Barcode Not Found"
-                cell.completeMealLabel.font = UIFont(name: "AvenirNext-Regular", size: 18)
+               // cell.completeMealLabel.font = UIFont(name: "AvenirNext-Regular", size: 18)
                 cell.cleanPlateImage.removeFromSuperview()
                 cell.editButton.removeFromSuperview()
             }
@@ -526,13 +501,8 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             } else {
                 print("nil abort of pathToImage avoided in CLeanCell")
             }
-            
-            //cell.postButton.setTitle(self.posts[indexPath.row].state, for: .normal) //self.posts[indexPath.row].userTextInput
             cell.postButton.tag = indexPath.row // set tag
-            //cell.headerButton.setTitle(self.posts[indexPath.row].date, for: .normal)
             cell.indicator.setTitle(self.posts[indexPath.row].state, for: .normal)
-            //this is just filler to conform to PostCellDelegate
-            // cell.EOMImage.downloadImage(from: self.posts[indexPath.row].pathToImage)
             
             if self.posts[indexPath.row].state == "Pending" {
             } else {
@@ -548,8 +518,6 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             let weekday = weekdayDate?.dayOfWeek()!
             let dateString = "\(weekday ?? ""), \(cell.date ?? "no date")"
             cell.headerButton.setTitle(dateString, for: .normal)
-            //print("\(String(describing: self.posts[indexPath.row].date))")
-            //print(self.posts[indexPath.row].date.dayOfWeek()!) // Wednesday
             
             //set nutritional data
             cell.calories = self.posts[indexPath.row].calories
@@ -564,7 +532,6 @@ class MealsViewController: UIViewController, UICollectionViewDelegate, UICollect
             cell.backgroundColor = UIColor.white
             cell.delegate = self
             cell.index = indexPath
-            //cell.btn1.tag = indexPath.row // set tag
            
             // Create Cell Outline
             let bottomLine = CALayer()

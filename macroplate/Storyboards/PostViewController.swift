@@ -187,7 +187,7 @@ class PostViewController: UIViewController, UITableViewDelegate {
         tableView.isScrollEnabled = true
         tableView.clipsToBounds = true
         tableView.isEditing = false
-        //tableView.estimatedRowHeight = 100
+        tableView.estimatedRowHeight = 100
         //tableView.spacing
         return tableView
     }()
@@ -640,11 +640,15 @@ class PostViewController: UIViewController, UITableViewDelegate {
         
         //get date from post
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = Constants.dateFormatAs //"MMMM dd, yyyy HH:mm a"
+        dateFormatter.dateFormat = "MMMM dd, yyyy HH:mm" //"MMMM dd, yyyy HH:mm a" // Constants.dateFormatAs
         
-        guard let today = dateFormatter.date(from: self.date!) else {
-            fatalError("ERROR: Date conversion failed due to mismatched format.")
+        guard let today = self.timestamp?.getDateFromTimeInterval() else {
+            fatalError("Guard date in writeToKit() failed")
         }
+        
+       /* guard let today = dateFormatter.date(from: self.date!) else {
+            fatalError("ERROR: Date conversion failed due to mismatched format.")
+        }*/
         
         if let type = HKSampleType.quantityType(forIdentifier: HKQuantityTypeIdentifier.dietaryCarbohydrates) {
             let quantity = HKQuantity(unit: HKUnit.gram(), doubleValue: Double(carbs))
@@ -696,7 +700,8 @@ extension PostViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 173
+        //return UITableView.automaticDimension
+        return 188
         //return tableView.
 
     }
@@ -713,7 +718,7 @@ extension PostViewController: UITableViewDataSource {
                         let doc = document.data()
                         
                         let foodName = doc["name"] as? String
-                        let foodServingSizeValue = doc["userServingCount"] as? Int ?? 1 //need to change this to NsNumber
+                        let foodServingSizeValue = doc["userServingCount"] as? NSNumber ?? 1 //need to change this to NsNumber
                         var multiple = doc["servingSize_100g"] as? Int ?? 1
                         multiple = multiple * 100
                         let foodServingSizeUnit = "(\(multiple) g)"

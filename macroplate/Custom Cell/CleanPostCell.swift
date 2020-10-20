@@ -14,7 +14,7 @@ import Firebase
 protocol CleanPostCellDelegate {
     //commands that we give to PostViewController
     func didExpandCleanPost(image: UIImage, date: String?, timestamp: TimeInterval?, userText: String?, calories: String?, carbs: String?, protein: String?, fat: String?,state : String?, postId : String?, healthDataEvent: String?, isPlateEmpty: String?)
-    
+
     func didDeletePost(index: Int)
     
     func addAfterMeal(index: Int, postId : String?)
@@ -171,6 +171,7 @@ class CleanPostCell: UICollectionViewCell {
         if let userTextInput = userTextInput, let _ = postImage.image, let calories = calories, let carbs = carbs, let protein = protein, let fat = fat, let state = state, let postId = postId, let healthDataEvent = healthDataEvent, let isPlateEmpty = isPlateEmpty, let timestamp = timestamp {
             if date == nil {
                 delegate?.didExpandCleanPost(image: postImage.image!, date: "", timestamp: timestamp, userText: userTextInput, calories: calories, carbs: carbs, protein: protein, fat: fat, state : state, postId: postId, healthDataEvent: healthDataEvent, isPlateEmpty: isPlateEmpty)
+                print("date was nil in didExpandCleanPost ")
             } else {
                 delegate?.didExpandCleanPost(image: postImage.image!, date: date, timestamp: timestamp, userText: userTextInput, calories: calories, carbs: carbs, protein: protein, fat: fat, state : state, postId: postId, healthDataEvent: healthDataEvent, isPlateEmpty: isPlateEmpty)
             }
@@ -245,7 +246,7 @@ extension CleanPostCell {
     }
 }
 
-extension UIImageView {
+/*extension UIImageView {
     /**
      Rounds the given set of corners to the specified radius with a border
      
@@ -283,5 +284,5 @@ private extension UIImageView {
         layer.addSublayer(borderLayer)
     }
     
-}
+}*/
 

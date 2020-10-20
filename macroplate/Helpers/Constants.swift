@@ -26,7 +26,7 @@ struct Constants {
         static let currentUser = "currentUser"
     }
     
-    static let dateFormatAs = "MMM dd, h a"//"MM/dd/yy, HH:mm"
+    static let dateFormatAs = "MMM dd, h a" //"MM/dd/yy, HH:mm"
     
    
     

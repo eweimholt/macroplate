@@ -35,12 +35,12 @@ class UserViewController: UIViewController {
     var snackSaved : Bool? 
     
     @IBOutlet weak var hyperlinkTextView: UITextView!
-
+    
     var docRef : DocumentReference!
     let remindersId = "remindersId"
     var reminders = [Reminders]()
     var notificationGranted = false
-
+    
     
     let signOutButton : UIButton = {
         let uButton = UIButton(frame: CGRect(x: 100, y: 100, width: 35, height: 40))
@@ -106,12 +106,9 @@ class UserViewController: UIViewController {
         label.numberOfLines = 1
         label.clipsToBounds = true
         label.textColor = .white
-        //label.backgroundColor = .cyan
-        //label.textColor = colorB
-        //label.layer.cornerRadius = 15
         return label
     }()
-
+    
     var remindersTableView : UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -122,11 +119,11 @@ class UserViewController: UIViewController {
         tableView.register(RemindersCell.self, forCellReuseIdentifier: "remindersId")
         return tableView
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         updateTextView()
-
+        
         //set background
         UIGraphicsBeginImageContext(self.view.frame.size)
         UIImage(named: "background_gradient.png")?.draw(in: self.view.bounds)
@@ -148,7 +145,7 @@ class UserViewController: UIViewController {
         self.view.addSubview(signOutButton)
         self.view.addSubview(remindersText)
         signOutButton.addTarget(self, action: #selector(handleSignOut), for: .touchUpInside)
-
+        
         //SET UP TABLE VIEW
         view.addSubview(remindersTableView)
         remindersTableView.dataSource = self
@@ -176,7 +173,6 @@ class UserViewController: UIViewController {
                     if let person = document.data() as? [String:Any] {
                         let userFirstName = person["firstname"] as! String
                         let userLastName = person["lastname"] as! String
-                        //let healthFlag = person["permissionGranted"] as! String
                         self.name.setTitle("\(userFirstName) \(userLastName)", for: .normal)
                     }
                     
@@ -184,12 +180,11 @@ class UserViewController: UIViewController {
             }
         }
         setUpLayout()
-    
+        
     }
     
     private func setUpLayout() {
         let width = view.frame.width
-        //let height = view.frame.height
         
         name.translatesAutoresizingMaskIntoConstraints = false
         name.leadingAnchor.constraint(equalTo: personButton.trailingAnchor, constant: 20).isActive = true
@@ -204,7 +199,7 @@ class UserViewController: UIViewController {
         personButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         useHeading.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        useHeading.topAnchor.constraint(equalTo: remindersTableView.bottomAnchor, constant: 40).isActive = true
+        useHeading.topAnchor.constraint(equalTo: remindersTableView.bottomAnchor, constant: 10).isActive = true
         useHeading.widthAnchor.constraint(equalToConstant: width - 80).isActive = true
         useHeading.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
@@ -217,7 +212,7 @@ class UserViewController: UIViewController {
         useBody.topAnchor.constraint(equalTo: useHeading.bottomAnchor).isActive = true
         useBody.widthAnchor.constraint(equalToConstant: width - 40).isActive = true
         useBody.heightAnchor.constraint(equalToConstant: width).isActive = true
-
+        
         remindersText.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         remindersText.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         remindersText.bottomAnchor.constraint(equalTo: remindersTableView.topAnchor, constant: -10).isActive = true
@@ -227,14 +222,13 @@ class UserViewController: UIViewController {
         remindersTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         remindersTableView.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 60).isActive = true
         remindersTableView.heightAnchor.constraint(equalToConstant: 200).isActive = true
-
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-
+    
     @objc func handleSignOut() {
         let alertController = UIAlertController(title: nil, message: "Are you sure you want to sign out?", preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: "Sign Out", style: .destructive, handler: { (_) in
@@ -254,86 +248,20 @@ class UserViewController: UIViewController {
             //swap out root view controller for the feed one
             self.view.window?.rootViewController = ViewController()
             self.view.window?.makeKeyAndVisible()
-
+            
         } catch let error {
             print("Failed to sign out with error..", error)
         }
     }
-
-    func setReminder(timeString: String?) {
-        print("reminder is saved")
-        
-        //get permission to send notifications
-        let eventStore = EKEventStore()
-                eventStore.requestAccess(
-                    to: EKEntityType.event, completion: {(granted, error) in
-                        if !granted {
-                            print("Access to store not granted")
-                            print(error!.localizedDescription)
-                        } else {
-                            print("Access granted")
-                            //self.createReminder(in: eventStore)
-                        }
-                })
-        //make reminder
-        let content = UNMutableNotificationContent()
-        content.title = "Meal Log Reminder"
-        content.subtitle = "Snap a photo of your plate! #PhoneEatsFirst"
-        content.sound = UNNotificationSound.default
-
-        // *** Create date ***
-        //let date = Date()
-        let date = self.dateOnPicker
-
-        // *** create calendar object ***
-        let calendar = Calendar.current
-        //.year, .month, .day,
-        let timeComponent = calendar.dateComponents([.hour, .minute], from: date! as Date)
-        print("timeComponent is", timeComponent)
-
-        let trigger = UNCalendarNotificationTrigger(dateMatching: timeComponent, repeats: true)
-
-        // choose a random identifier
-        let request = UNNotificationRequest(identifier:"test", content: content, trigger: trigger) // UUID().uuidString
-
-        // add our notification request
-        UNUserNotificationCenter.current().add(request)
-        
-        // Create the alert controller
-        let alertController = UIAlertController(title: "Reminder Added!", message: "You set a reminder for \(timeString ?? "")", preferredStyle: .alert)
-
-        // Create the actions
-        let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) {
-            UIAlertAction in
-            NSLog("OK Pressed")
-        }
-
-        // Add the actions
-        alertController.addAction(okAction)
-
-        // Present the controller
-        self.present(alertController, animated: true, completion: nil)
-
-    }
     
-    func unSetReminder() {
-        print ("reminder is turned off")
-        let center = UNUserNotificationCenter.current()
-        center.removeAllDeliveredNotifications() // To remove all delivered notifications
-        center.removeAllPendingNotificationRequests()
-
-    }
-
-
     func updateTextView() {
         let font = useBody.font
         let fontColor = useBody.textColor
-        
         let path2 = "https://www.platemate.io/demo"
         let text = useBody.text ?? ""
         let attributedString = NSAttributedString.makeHyperlink(for: path2, in: text, as: "here")
         useBody.attributedText = attributedString
-
+        
         useBody.font = font
         useBody.backgroundColor = .clear//background
         useBody.textColor = fontColor
@@ -360,7 +288,6 @@ extension UserViewController : UITableViewDataSource, UITableViewDelegate {
         cell.backgroundView = nil
         cell.backgroundView?.isOpaque = false
         cell.backgroundColor = .clear
-        //cell.saveButton.isSelected = isOn
         
         switch currentItem.mealTime {
         case ("Breakfast"):
@@ -381,154 +308,63 @@ extension UserViewController : UITableViewDataSource, UITableViewDelegate {
         }
         return cell
     }
-
+    
     func createRemindersArray() {
         
-        if let savedTime = UserDefaults.standard.object(forKey: "Breakfast") as? String {
-            print("saved Initial Time is", savedTime, "Breakfast" )
-            let formatter4 = DateFormatter()
-            formatter4.timeStyle = DateFormatter.Style.short
-            breakfastDate = formatter4.date(from: savedTime)
-            //breakfastSaved = true
+        if let savedTime = UserDefaults.standard.object(forKey: "Breakfast") as? Date {
+            breakfastDate = savedTime
         } else {
-            let breakfastTime = "8:00 AM"
-            let formatter4 = DateFormatter()
-            formatter4.timeStyle = DateFormatter.Style.short
-            breakfastDate = formatter4.date(from: breakfastTime)
+            breakfastDate = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: Date())
         }
         
-        if let savedTime = UserDefaults.standard.object(forKey: "Lunch") as? String {
-            print("saved Initial Time is", savedTime, "Lunch" )
-            let formatter4 = DateFormatter()
-            formatter4.timeStyle = DateFormatter.Style.short
-            lunchDate = formatter4.date(from: savedTime)
-            //lunchSaved = true
+        if let savedTime = UserDefaults.standard.object(forKey: "Lunch") as? Date {
+            lunchDate = savedTime
         } else {
-            let lunchTime = "12:00 PM"
-            let formatter4 = DateFormatter()
-            formatter4.timeStyle = DateFormatter.Style.short
-            lunchDate = formatter4.date(from: lunchTime)
+            lunchDate = Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: Date())
         }
         
-        if let savedTime = UserDefaults.standard.object(forKey: "Lunch") as? String {
-            print("saved Initial Time is", savedTime, "Lunch" )
-            let formatter4 = DateFormatter()
-            formatter4.timeStyle = DateFormatter.Style.short
-            lunchDate = formatter4.date(from: savedTime)
-            //lunchSaved = true
+        if let savedTime = UserDefaults.standard.object(forKey: "Dinner") as? Date {
+            dinnerDate = savedTime
         } else {
-            let lunchTime = "12:00 PM"
-            let formatter4 = DateFormatter()
-            formatter4.timeStyle = DateFormatter.Style.short
-            lunchDate = formatter4.date(from: lunchTime)
+            dinnerDate = Calendar.current.date(bySettingHour: 18, minute: 0, second: 0, of: Date())
         }
         
-        if let savedTime = UserDefaults.standard.object(forKey: "Dinner") as? String {
-            print("saved Initial Time is", savedTime, "Dinner" )
-            let formatter4 = DateFormatter()
-            formatter4.timeStyle = DateFormatter.Style.short
-            dinnerDate = formatter4.date(from: savedTime)
-            //lunchSaved = true
+        if let savedTime = UserDefaults.standard.object(forKey: "Snack") as? Date {
+            snackDate =  savedTime
         } else {
-            let dinnerTime = "6:00 PM"
-            let formatter4 = DateFormatter()
-            formatter4.timeStyle = DateFormatter.Style.short
-            dinnerDate = formatter4.date(from: dinnerTime)
-        }
-        
-        if let savedTime = UserDefaults.standard.object(forKey: "Snack") as? String {
-            print("saved Initial Time is", savedTime, "Snack" )
-            let formatter4 = DateFormatter()
-            formatter4.timeStyle = DateFormatter.Style.short
-            snackDate = formatter4.date(from: savedTime)
-            //lunchSaved = true
-        } else {
-            let snackTime = "3:00 PM"
-            let formatter4 = DateFormatter()
-            formatter4.timeStyle = DateFormatter.Style.short
-            snackDate = formatter4.date(from: snackTime)
+            snackDate = Calendar.current.date(bySettingHour: 15, minute: 0, second: 0, of: Date())
         }
         
         if let savedState = UserDefaults.standard.object(forKey: "SnackSTATE") as? Bool {
-            print("SavedSTATE", savedState, "Snack" )
             snackSaved = savedState
         } else {
             snackSaved = false
         }
         
         if let savedState = UserDefaults.standard.object(forKey: "BreakfastSTATE") as? Bool {
-            print("SavedSTATE", savedState, "Breakfast" )
             breakfastSaved = savedState
         } else {
             breakfastSaved = false
         }
         
         if let savedState = UserDefaults.standard.object(forKey: "LunchSTATE") as? Bool {
-            print("SavedSTATE", savedState, "Lunch" )
             lunchSaved = savedState
         } else {
             lunchSaved = false
         }
         
         if let savedState = UserDefaults.standard.object(forKey: "DinnerSTATE") as? Bool {
-            print("SavedSTATE", savedState, "Dinner" )
             dinnerSaved = savedState
         } else {
             dinnerSaved = false
         }
         
-        self.reminders.append(Reminders(mealTime: "Breakfast", date: breakfastDate!, isOn: breakfastSaved!))
+        reminders.append(Reminders(mealTime: "Breakfast", date: breakfastDate!, isOn: breakfastSaved!))
         reminders.append(Reminders(mealTime: "Lunch", date: lunchDate!, isOn: lunchSaved!))
         reminders.append(Reminders(mealTime: "Dinner", date: dinnerDate!, isOn: dinnerSaved!))
         reminders.append(Reminders(mealTime: "Snack", date: snackDate!, isOn: snackSaved!))
-     
+        
     }
-
+    
 }
 
-
-/**
- @objc func switchStateDidChange(_ sender:UISwitch){
-     //var switchState = ["permissionGranted" : "false"]  as [String : Any]
-     var switchState:[String : Any]?
-     
-     let db = Firestore.firestore()
-     let uid = Auth.auth().currentUser!.uid
-     var docId : String?
-     // get docid from a query looking at the uid
-     db.collection("users").whereField("uid", isEqualTo: uid)
-         .getDocuments() { (querySnapshot, err) in
-             if let err = err {
-                 print("Error getting documents: \(err)")
-                 
-             } else {
-                 for document in querySnapshot!.documents {
-                     let doc = document.data()
-                     docId = doc["did"] as? String
-                 }
-                 
-                 
-                 if (sender.isOn == true){
-                     print("UISwitch state is now ON")
-                     switchState = ["permissionGranted" : "true"]
-                     sender.setOn(true, animated: true)
-                     //need to remember animation
-                 }
-                 else{
-                     print("UISwitch state is now Off")
-                     switchState = ["permissionGranted" : "false"]
-                     sender.setOn(false, animated: true)
-                 }
-                 
-                 //set the data with the docid
-                 db.collection("users").document(docId!).updateData(switchState!)  { err in
-                     if let err = err {
-                         print("Error adding document: \(err)")
-                     } else {
-                         print("Document added with ID: \(String(describing: docId))")
-                     }
-                 }
-             }     //return sender state
-     }
- }
- */
