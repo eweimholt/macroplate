@@ -113,11 +113,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         
         
-        // Your code
-        window = UIWindow()
-        window?.makeKeyAndVisible()
-        let navController = UINavigationController(rootViewController: HomeViewController())
-        window?.rootViewController = navController
+        // Old App Entry Point
+//        window = UIWindow()
+//        window?.makeKeyAndVisible()
+//        let navController = UINavigationController(rootViewController: HomeViewController())
+//        window?.rootViewController = navController
         
 
  

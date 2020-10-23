@@ -83,6 +83,11 @@
 		01FE2A64248C699F005D5750 /* macroplateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FE2A63248C699F005D5750 /* macroplateTests.swift */; };
 		01FE2A6F248C699F005D5750 /* macroplateUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FE2A6E248C699F005D5750 /* macroplateUITests.swift */; };
 		AA4684D88EB0D3976D629026 /* Pods_macroplateTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C658F026DFF565AF835E262A /* Pods_macroplateTests.framework */; };
+		AF52986E25437DAD00E1956B /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF52986D25437DAD00E1956B /* HomeView.swift */; };
+		AF52987625437DC700E1956B /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF52987525437DC700E1956B /* HomeViewModel.swift */; };
+		AF5298C92543831C00E1956B /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5298C82543831C00E1956B /* CameraView.swift */; };
+		AF5298CE254393FD00E1956B /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5298CD254393FD00E1956B /* NotificationName.swift */; };
+		AF5298D42543972C00E1956B /* PhotoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF5298D32543972C00E1956B /* PhotoCapture.swift */; };
 		CA3503B7B2C2A7ABC7439817 /* Pods_macroplate_macroplateUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22B9E8A15607F08A41A54DED /* Pods_macroplate_macroplateUITests.framework */; };
 		F6CBD2F4E8866EE5426B27D8 /* Pods_macroplate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D29576AF6F0A262C3730D5D5 /* Pods_macroplate.framework */; };
 /* End PBXBuildFile section */
@@ -163,6 +168,11 @@
 		330D06C81FEF543C69D9D200 /* Pods-macroplate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-macroplate.release.xcconfig"; path = "Target Support Files/Pods-macroplate/Pods-macroplate.release.xcconfig"; sourceTree = "<group>"; };
 		4AF6AEB394C1C314C5F39736 /* Pods-macroplate-macroplateUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-macroplate-macroplateUITests.release.xcconfig"; path = "Target Support Files/Pods-macroplate-macroplateUITests/Pods-macroplate-macroplateUITests.release.xcconfig"; sourceTree = "<group>"; };
 		7AD35AA160AB061B00E69646 /* Pods-macroplate-macroplateUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-macroplate-macroplateUITests.debug.xcconfig"; path = "Target Support Files/Pods-macroplate-macroplateUITests/Pods-macroplate-macroplateUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		AF52986D25437DAD00E1956B /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		AF52987525437DC700E1956B /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		AF5298C82543831C00E1956B /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		AF5298CD254393FD00E1956B /* NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationName.swift; sourceTree = "<group>"; };
+		AF5298D32543972C00E1956B /* PhotoCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCapture.swift; sourceTree = "<group>"; };
 		C658F026DFF565AF835E262A /* Pods_macroplateTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_macroplateTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D29576AF6F0A262C3730D5D5 /* Pods_macroplate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_macroplate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F475E2B296230FCE243441E9 /* Pods-macroplate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-macroplate.debug.xcconfig"; path = "Target Support Files/Pods-macroplate/Pods-macroplate.debug.xcconfig"; sourceTree = "<group>"; };
@@ -342,6 +352,10 @@
 		01FE2A4B248C699E005D5750 /* macroplate */ = {
 			isa = PBXGroup;
 			children = (
+				01FE2A4C248C699E005D5750 /* AppDelegate.swift */,
+				01FE2A4E248C699E005D5750 /* SceneDelegate.swift */,
+				01FE2A5A248C699F005D5750 /* Info.plist */,
+				AF52986925437D8200E1956B /* REFACTOR */,
 				01451FC52530A7B200BAC4E6 /* Table Cells */,
 				01FDDDAC24CCD3060032C23D /* Custom Cell */,
 				01983B5024CB3E5500882883 /* Models */,
@@ -359,9 +373,6 @@
 				013425EE24A94127000CA6D2 /* macroplate.entitlements */,
 				0194EE912495222A00152EE0 /* customalbum.swift */,
 				015DC2EA24D8D2FC003AF428 /* GoogleService-Info.plist */,
-				01FE2A4C248C699E005D5750 /* AppDelegate.swift */,
-				01FE2A5A248C699F005D5750 /* Info.plist */,
-				01FE2A4E248C699E005D5750 /* SceneDelegate.swift */,
 			);
 			path = macroplate;
 			sourceTree = "<group>";
@@ -395,6 +406,66 @@
 				29473639E1F6C642D4A8CFB4 /* Pods-macroplateTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		AF52986925437D8200E1956B /* REFACTOR */ = {
+			isa = PBXGroup;
+			children = (
+				AF52986B25437D8E00E1956B /* ViewModel */,
+				AF52986A25437D8900E1956B /* View */,
+				AF52986C25437D9600E1956B /* Model */,
+			);
+			path = REFACTOR;
+			sourceTree = "<group>";
+		};
+		AF52986A25437D8900E1956B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				AF5298C3254382F800E1956B /* Main Views */,
+				AF5298C42543830000E1956B /* Components */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		AF52986B25437D8E00E1956B /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				AF52987525437DC700E1956B /* HomeViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		AF52986C25437D9600E1956B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AF5298CD254393FD00E1956B /* NotificationName.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		AF5298C3254382F800E1956B /* Main Views */ = {
+			isa = PBXGroup;
+			children = (
+				AF52986D25437DAD00E1956B /* HomeView.swift */,
+			);
+			path = "Main Views";
+			sourceTree = "<group>";
+		};
+		AF5298C42543830000E1956B /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				AF5298D22543971700E1956B /* Camera View */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		AF5298D22543971700E1956B /* Camera View */ = {
+			isa = PBXGroup;
+			children = (
+				AF5298C82543831C00E1956B /* CameraView.swift */,
+				AF5298D32543972C00E1956B /* PhotoCapture.swift */,
+			);
+			path = "Camera View";
 			sourceTree = "<group>";
 		};
 		FC423EC58E8B396EDA3DE880 /* Frameworks */ = {
@@ -712,20 +783,25 @@
 				01FE2A4D248C699E005D5750 /* AppDelegate.swift in Sources */,
 				0162B6D02525A2D500778EA2 /* MealCompleteLabel.swift in Sources */,
 				01C25ACC24CCD5E100BBEF68 /* Post.swift in Sources */,
+				AF5298C92543831C00E1956B /* CameraView.swift in Sources */,
 				01011F2C24BB81810077534B /* ConfirmationViewController.swift in Sources */,
 				01A4584924DB441C008502A9 /* NSAttributedString.swift in Sources */,
 				01E0B6F1253214A000018CE9 /* SubNutritionTableCell.swift in Sources */,
 				01451FC42530A2B700BAC4E6 /* Reminders.swift in Sources */,
 				01FE2A4F248C699E005D5750 /* SceneDelegate.swift in Sources */,
+				AF5298CE254393FD00E1956B /* NotificationName.swift in Sources */,
 				0138088A248C6C46003A9ECF /* HomeViewController.swift in Sources */,
 				015041D724B4CC5D005F4B15 /* UserButton.swift in Sources */,
 				0138088E248C6C5D003A9ECF /* SignUpViewController.swift in Sources */,
 				01D508CE2516B2BB00E29764 /* SecondImageViewController.swift in Sources */,
 				01D508CC25154FA100E29764 /* SecondCaptureViewController.swift in Sources */,
+				AF5298D42543972C00E1956B /* PhotoCapture.swift in Sources */,
 				01F55F97248C843F00104DAB /* Constants.swift in Sources */,
+				AF52987625437DC700E1956B /* HomeViewModel.swift in Sources */,
 				0162B6CB252580D500778EA2 /* NutritionTableCell.swift in Sources */,
 				01451FC72530A8AC00BAC4E6 /* RemindersTableCell.swift in Sources */,
 				01FDDDAE24CCD32B0032C23D /* PostCell.swift in Sources */,
+				AF52986E25437DAD00E1956B /* HomeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
